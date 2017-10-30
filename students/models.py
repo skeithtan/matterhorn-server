@@ -41,3 +41,11 @@ class Student:
     email = EmailField(max_length=256)
     civil_status = CharField(max_length=2, choices=CIVIL_STATUS_TYPES)
 
+class ResidencyAddressHistory:
+    student = ForeignKey(Student)
+    effective_from = DateField()
+    contact_person_name = CharField(max_length=256)
+    contact_person_number = CharField(max_length=64)
+    address = CharField(max_length=256)
+    residence_type = CharField(max_length=64)
+
