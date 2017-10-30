@@ -5,17 +5,57 @@ from django.db.models import (
     Model,
     CASCADE,
     CharField,
+    EmailField,
     ForeignKey,
     DateTimeField,
     PositiveIntegerField,
 )
 
-class Country(Model):
-    name = CharField(max_length=64,null=False)
-    continent = CharField(max_length=64, null=False)
-
-class Continent(Model):
-    name = CharField(max_length=64,null=False)
+class Institution(Model):
+    name = CharField(max_length=64, null=False)
+    country = ForeignKey(Country)
+    email = EmailField(max_length=256)
+    address = CharField(max_length=256)
+    website = CharField(max_length=256)
 
     def __str__(self):
-        return f"Continent {self.name} "
+        return self.name
+
+class Memorandum(Model):
+    MEMORANDUM_TYPES = (
+        ('MOA', 'Memorandum of Agreement'),
+        ('MOU', 'Memorandum of Understanding')
+    )
+
+    COLLEGES = (
+        ('CCS', 'College of Computer Science'),
+        ('RVRCOB', 'Ramon V del Rosario College of Business'),
+        ('CLA', 'College of Liberal Arts'),
+        ('SOE', 'School of Economics'),
+        ('GCOE', 'Gokongwei College of Engineering'),
+        ('COL', 'College of Law'),
+        ('BAGCED', 'Brother Andrew Gonzales College of Education')
+    )
+
+    AGREEMENT = (
+        ('Bilateral')
+        ('Multilateral')
+    )
+
+    institution = ForeignKey(Institution)
+    type = CharField(max_length=3, choices=MEMORANDUM_TYPES)
+    date_effective = DateField()
+    date_expiration = DateField(null=True)
+    college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
+    agreement_type = CharField(max_length=64, null=False)
+
+class Country(Model):
+    name = CharField(max_length=64, null=False)
+    continent = CharField(max_length=64, null=False)
+
+
+class Continent(Model):
+    name = CharField(max_length=64, null=False)
+
+    def __str__(self):
+        return "Continent {self.name} "
