@@ -6,6 +6,7 @@ from django.db.models import (
     ForeignKey,
 )
 
+from core.models import COLLEGES
 
 class Continent(Model):
     name = CharField(max_length=64, null=False)
@@ -37,16 +38,6 @@ class Memorandum(Model):
     MEMORANDUM_TYPES = (
         ('MOA', 'Memorandum of Agreement'),
         ('MOU', 'Memorandum of Understanding')
-    )
-
-    COLLEGES = (
-        ('CCS', 'College of Computer Science'),
-        ('RVRCOB', 'Ramon V del Rosario College of Business'),
-        ('CLA', 'College of Liberal Arts'),
-        ('SOE', 'School of Economics'),
-        ('GCOE', 'Gokongwei College of Engineering'),
-        ('COL', 'College of Law'),
-        ('BAGCED', 'Brother Andrew Gonzales College of Education')
     )
 
     AGREEMENT_TYPES = (
