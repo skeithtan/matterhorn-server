@@ -1,16 +1,11 @@
-from django.db import models
-
-# Create your models here.
 from django.db.models import (
     Model,
-    CASCADE,
     CharField,
     EmailField,
     DateField,
     ForeignKey,
-    DateTimeField,
-    PositiveIntegerField,
 )
+
 
 class Continent(Model):
     name = CharField(max_length=64, null=False)
@@ -18,11 +13,14 @@ class Continent(Model):
     def __str__(self):
         return self.name
 
+
 class Country(Model):
-    name = CharField(max_length=64,null=False)
+    name = CharField(max_length=64, null=False)
     continent = ForeignKey(Continent)
+
     def __str__(self):
         return f"{self.name} - {self.continent.name} "
+
 
 class Institution(Model):
     name = CharField(max_length=64, null=False)
@@ -33,6 +31,7 @@ class Institution(Model):
 
     def __str__(self):
         return self.name
+
 
 class Memorandum(Model):
     MEMORANDUM_TYPES = (
@@ -50,9 +49,9 @@ class Memorandum(Model):
         ('BAGCED', 'Brother Andrew Gonzales College of Education')
     )
 
-    AGREEMENT = (
-        ('Bilateral'),
-        ('Multilateral')
+    AGREEMENT_TYPES = (
+        ('B','Bilateral'),
+        ('M','Multilateral')
     )
 
     institution = ForeignKey(Institution)
@@ -60,9 +59,6 @@ class Memorandum(Model):
     date_effective = DateField()
     date_expiration = DateField(null=True)
     college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
-    agreement_type = CharField(max_length=64, null=False)
+    agreement_type = CharField(max_length=64, choices=AGREEMENT_TYPES)
 
-
-
-
-
+# TODO: Memorandum Version
