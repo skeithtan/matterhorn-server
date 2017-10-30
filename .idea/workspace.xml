@@ -2,11 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="963af9c5-d44f-4b20-9e17-bcfb78bd7d68" name="Default" comment="">
+<<<<<<< HEAD
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/institutions/models.py" afterPath="$PROJECT_DIR$/institutions/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eriosys/settings.py" afterPath="$PROJECT_DIR$/Eriosys/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/institutions/models.py" afterPath="$PROJECT_DIR$/institutions/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/institutions/test.py" afterPath="$PROJECT_DIR$/institutions/test.py" />
+>>>>>>> fb187d0ee8b46cbd173e09257238570290bc297b
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -59,6 +65,31 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Eriosys/urls.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+=======
+            <state relative-caret-position="350">
+              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
+>>>>>>> fb187d0ee8b46cbd173e09257238570290bc297b
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="685">
+              <caret line="67" column="9" lean-forward="false" selection-start-line="67" selection-start-column="9" selection-end-line="67" selection-end-column="9" />
+=======
+      <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/institutions/tests.py">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
@@ -66,11 +97,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file leaf-file-name="test.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/institutions/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="685">
-              <caret line="67" column="9" lean-forward="false" selection-start-line="67" selection-start-column="9" selection-end-line="67" selection-end-column="9" />
+            <state relative-caret-position="290">
+              <caret line="342" column="61" lean-forward="false" selection-start-line="342" selection-start-column="61" selection-end-line="342" selection-end-column="61" />
+>>>>>>> fb187d0ee8b46cbd173e09257238570290bc297b
               <folding />
             </state>
           </provider>
@@ -108,6 +140,7 @@
         <option value="$PROJECT_DIR$/Eriosys/test.py" />
         <option value="$PROJECT_DIR$/Eriosys/settings.py" />
         <option value="$PROJECT_DIR$/institutions/models.py" />
+        <option value="$PROJECT_DIR$/institutions/test.py" />
       </list>
     </option>
   </component>
@@ -630,6 +663,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="685">
@@ -639,6 +673,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Eriosys/urls.py">
+=======
+    <entry file="file://$PROJECT_DIR$/institutions/tests.py">
+>>>>>>> fb187d0ee8b46cbd173e09257238570290bc297b
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -646,6 +683,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Eriosys/test.py" />
     <entry file="file://$PROJECT_DIR$/Eriosys/models.py" />
     <entry file="file://$PROJECT_DIR$/Eriosys/settings.py">
@@ -676,6 +714,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="735">
           <caret line="49" column="57" lean-forward="false" selection-start-line="49" selection-start-column="57" selection-end-line="49" selection-end-column="57" />
+=======
+    <entry file="file://$PROJECT_DIR$/institutions/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+>>>>>>> fb187d0ee8b46cbd173e09257238570290bc297b
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -684,8 +728,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/institutions/test.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="-2170">
           <caret line="170" column="46" lean-forward="true" selection-start-line="170" selection-start-column="46" selection-end-line="170" selection-end-column="46" />
+=======
+        <state relative-caret-position="290">
+          <caret line="342" column="61" lean-forward="false" selection-start-line="342" selection-start-column="61" selection-end-line="342" selection-end-column="61" />
+          <folding />
+>>>>>>> fb187d0ee8b46cbd173e09257238570290bc297b
         </state>
       </provider>
     </entry>

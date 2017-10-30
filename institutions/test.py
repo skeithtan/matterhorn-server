@@ -1,3 +1,5 @@
+from institutions.models import Country,Continent
+
 def add_countries():
 
     countries = [
@@ -335,4 +337,10 @@ def add_countries():
         {'timezones': ['Europe/London'], 'code': 'GB', 'continent': 'Europe', 'name': 'United Kingdom',
          'capital': 'London'},
     ]
+    for country in countries:
+        continent = Continent.objects.get(name=country["continent"])
+        country_name = country["name"]
+        Country.objects.create(name=country["name"],continent=continent)
+
+
 
