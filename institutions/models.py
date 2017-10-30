@@ -10,12 +10,15 @@ from django.db.models import (
     PositiveIntegerField,
 )
 
-class Country(Model):
-    name = CharField(max_length=64,null=False)
-    continent = CharField(max_length=64, null=False)
-
 class Continent(Model):
     name = CharField(max_length=64,null=False)
 
     def __str__(self):
-        return f"Continent {self.name} "
+        return self.name
+
+class Country(Model):
+    name = CharField(max_length=64,null=False)
+    continent = ForeignKey(Continent)
+    def __str__(self):
+        return f"{self.name} - {self.continent.name} "
+
