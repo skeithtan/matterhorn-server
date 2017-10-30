@@ -62,11 +62,34 @@ class Memorandum(Model):
     agreement_type = CharField(max_length=64, choices=AGREEMENT_TYPES)
 
 
-# TODO: Memorandum Version
-
 class MemorandumVersion:
     memorandum = ForeignKey(Memorandum)
     initial_review_file =  CharField(max_length=512)
     final_revision_file = CharField(max_length=512, null=True)
     memorandum_file = CharField(max_length=512)
     version_date = DateField()
+
+class Linkage:
+
+    LINKAGE_TYPES = (
+        ('S', 'Scholarship'),
+        ('OI', 'OJT/Internship'),
+        ('FE', 'Faculty Exchange'),
+        ('SE','Student Exchange'),
+        ('RE', 'Researcher / Expert Exchange'),
+        ('SP', 'Support for Projects Exchange'),
+        ('RP', 'Research and Publication'),
+        ('AP', 'Academic Program'),
+        ('PF', 'Project Funding'),
+        ('EMPI', 'Exchange of Materials, Publications and Information'),
+        ('CE', 'Cultural Exchange'),
+        ('SAMC', 'Seminars and Academic Meetings / Conferences'),
+        ('TAP', 'Technical or Adminstrative Programs'),
+        ('O', 'Established Office'),
+        ('ASE', 'Administrative and Staff Exchange'),
+        ('EM', 'Executive Meetings')
+    )
+
+    memorandum = ForeignKey(Memorandum)
+    type = CharField(max_length=4, choices=LINKAGE_TYPES)
+
