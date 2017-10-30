@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'core',
     'students',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'programs',
+
 ]
 
 MIDDLEWARE = [

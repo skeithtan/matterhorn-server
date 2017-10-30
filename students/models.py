@@ -1,4 +1,4 @@
-from django.db.models import ForeignKey, CharField, DateField, EmailField, PositiveIntegerField
+from django.db.models import ForeignKey, CharField, DateField, EmailField, PositiveIntegerField,Model
 from core.models import COLLEGES
 from programs.models import Program
 
@@ -6,7 +6,7 @@ from programs.models import Program
 
 
 
-class Student:
+class Student(Model):
     GENDER_TYPES = (
         ('F', 'Female'),
         ('M', 'Male')
@@ -42,7 +42,7 @@ class Student:
     email = EmailField(max_length=256)
     civil_status = CharField(max_length=2, choices=CIVIL_STATUS_TYPES)
 
-class ResidencyAddressHistory:
+class ResidencyAddressHistory(Model):
     student = ForeignKey(Student)
     effective_from = DateField()
     contact_person_name = CharField(max_length=256)
@@ -50,7 +50,7 @@ class ResidencyAddressHistory:
     address = CharField(max_length=256)
     residence_type = CharField(max_length=64)
 
-class StudentProgram:
+class StudentProgram(Model):
     student = ForeignKey(Student)
     program = ForeignKey(Program)
     total_units_enrolled = PositiveIntegerField()

@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from core.urls import urls as core_urls
 from core.views import SignInView
+from institutions.urls import urls as institutions_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -24,3 +25,4 @@ urlpatterns = [
 ]
 
 urlpatterns += core_urls
+urlpatterns += institutions_urls
