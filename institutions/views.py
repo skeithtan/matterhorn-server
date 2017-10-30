@@ -17,10 +17,7 @@ class InstitutionOverview(APIView):
         institutions = Institution.objects.all()
         institutions_serializer = InstitutionSerializer(institutions, many=True).data
 
-        data = {
-            "institutions": institutions_serializer
-        }
-        return Response(data=data, status=200)
+        return Response(data=institutions_serializer, status=200)
 
 
 class InstitutionView(APIView):
@@ -37,3 +34,11 @@ class InstitutionView(APIView):
 
         else:
             return Response(data=institution_serializer.errors, status=400)
+
+class InstitutionDetail(APIView):
+    @staticmethod
+    def get(request,institution_id):
+        institution = Institution.objects.get(id=institution_id)
+        institution_serializer = InstitutionSerializer(institution).data
+
+        return Response(data=institution_serializer, status=200)
