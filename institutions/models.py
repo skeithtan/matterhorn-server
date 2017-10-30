@@ -50,8 +50,8 @@ class Memorandum(Model):
     )
 
     AGREEMENT_TYPES = (
-        ('B','Bilateral'),
-        ('M','Multilateral')
+        ('B', 'Bilateral'),
+        ('M', 'Multilateral')
     )
 
     institution = ForeignKey(Institution)
@@ -61,4 +61,12 @@ class Memorandum(Model):
     college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
     agreement_type = CharField(max_length=64, choices=AGREEMENT_TYPES)
 
+
 # TODO: Memorandum Version
+
+class MemorandumVersion:
+    memorandum = ForeignKey(Memorandum)
+    initial_review_file =  CharField(max_length=512)
+    final_revision_file = CharField(max_length=512, null=True)
+    memorandum_file = CharField(max_length=512)
+    version_date = DateField()
