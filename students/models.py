@@ -1,5 +1,6 @@
-from django.db.models import ForeignKey, CharField, DateField, EmailField
+from django.db.models import ForeignKey, CharField, DateField, EmailField, PositiveIntegerField
 from core.models import COLLEGES
+from programs.models import Program
 
 # Create your models here.
 
@@ -49,3 +50,8 @@ class ResidencyAddressHistory:
     address = CharField(max_length=256)
     residence_type = CharField(max_length=64)
 
+class StudentProgram:
+    student = ForeignKey(Student)
+    program = ForeignKey(Program)
+    total_units_enrolled = PositiveIntegerField()
+    date_expected_return = DateField()
