@@ -24,11 +24,13 @@ class Country(Model):
 
 
 class Institution(Model):
-    name = CharField(max_length=64, null=False)
+    name = CharField(max_length=64)
     country = ForeignKey(Country)
-    email = EmailField(max_length=256)
+    email = EmailField(max_length=256, null=True)
     address = CharField(max_length=256)
     website = CharField(max_length=256)
+    contact_person_name = CharField(max_length=256, null=True)
+    contact_person_number = CharField(max_length=64, null=True)
 
     def __str__(self):
         return self.name
