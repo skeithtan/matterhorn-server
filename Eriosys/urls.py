@@ -27,3 +27,4 @@ urlpatterns = [
 ]
 
 urlpatterns += core_urls
+

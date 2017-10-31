@@ -20,7 +20,7 @@ class InstitutionView(APIView):
             institution_serializer.create(institution_serializer.validated_data)
 
             return Response(data={
-                "response": "created institution"
+                "response": institution_serializer.data
             }, status=200)
 
         else:

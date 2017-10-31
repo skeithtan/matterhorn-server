@@ -1,0 +1,7 @@
+Requirement already satisfied: graphene in /Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages
+Requirement already satisfied: graphql-core>=2.0 in /Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages (from graphene)
+Requirement already satisfied: six>=1.10.0 in /Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages (from graphene)
+Requirement already satisfied: graphql-relay>=0.4.5 in /Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages (from graphene)
+Requirement already satisfied: promise>=2.1 in /Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages (from graphene)
+Requirement already satisfied: rx>=1.6.0 in /Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages (from graphql-core>=2.0->graphene)
+Requirement already satisfied: typing in /Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages (from promise>=2.1->graphene)
