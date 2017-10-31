@@ -1,17 +1,10 @@
-from django.shortcuts import render
-from rest_framework.views import APIView
-from django.contrib.auth import authenticate
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
 from institutions.serializers import InstitutionSerializer
 from institutions.models import *
 
 
-# Create your views here.
-
-class InstitutionOverview(APIView):
+class InstitutionView(APIView):
     @staticmethod
     def get(request):
         institutions = Institution.objects.all()
@@ -19,8 +12,6 @@ class InstitutionOverview(APIView):
 
         return Response(data=institutions_serializer, status=200)
 
-
-class InstitutionView(APIView):
     @staticmethod
     def post(request):
         institution_serializer = InstitutionSerializer(data=request.data)
@@ -35,10 +26,10 @@ class InstitutionView(APIView):
         else:
             return Response(data=institution_serializer.errors, status=400)
 
+
 class InstitutionDetail(APIView):
     @staticmethod
-    def get(request,institution_id):
+    def get(request, institution_id):
         institution = Institution.objects.get(id=institution_id)
-        institution_serializer = InstitutionSerializer(institution).data
-
-        return Response(data=institution_serializer, status=200)
+        institution_serializer = InstitutionSerializer(institution)
+        return Response(data=institution_serializer.data, status=200)
