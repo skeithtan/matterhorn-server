@@ -1,17 +1,27 @@
+import rest_framework
 from django.contrib.auth import authenticate
-from rest_framework.decorators import api_view
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from graphene_django.views import GraphQLView
 
 
-@api_view(['GET'])
-def private_graph_ql_view(request):
-    if request.user.is_authenticated:
-        return GraphQLView.as_view(graphiql=True)(request)
-    else:
-        return Response(data={"error": "You are not signed in."}, status=403)
+class PrivateGraphQLView(GraphQLView):
+    def parse_body(self, request):
+        if isinstance(request, rest_framework.request.Request):
+            return request.data
+        return super(PrivateGraphQLView, self).parse_body(request)
+
+    @classmethod
+    def as_view(cls, *args, **kwargs):
+        view = super(PrivateGraphQLView, cls).as_view(*args, **kwargs)
+        view = permission_classes((IsAuthenticated,))(view)
+        view = authentication_classes((TokenAuthentication,))(view)
+        view = api_view(['POST', 'GET'])(view)
+        return view
 
 
 class SignInView(APIView):
