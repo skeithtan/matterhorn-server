@@ -15,14 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+
 from core.urls import urls as core_urls
-from core.views import SignInView
-from institutions.urls import urls as institutions_urls
+from core.views import SignInView, private_graph_ql_view
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^sign-in/', SignInView.as_view()),
+    url(r'^institutions/', include('institutions.urls')),
+    url(r'^graphql', private_graph_ql_view)
 ]
 
 urlpatterns += core_urls
-urlpatterns += institutions_urls

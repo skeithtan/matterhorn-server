@@ -8,6 +8,7 @@ from django.db.models import (
 
 from core.models import COLLEGES
 
+
 class Continent(Model):
     name = CharField(max_length=64, null=False)
 
@@ -57,18 +58,18 @@ class Memorandum(Model):
 
 class MemorandumVersion:
     memorandum = ForeignKey(Memorandum)
-    initial_review_file =  CharField(max_length=512)
+    initial_review_file = CharField(max_length=512)
     final_revision_file = CharField(max_length=512, null=True)
     memorandum_file = CharField(max_length=512)
     version_date = DateField()
 
-class Linkage:
 
+class Linkage:
     LINKAGE_TYPES = (
         ('S', 'Scholarship'),
         ('OI', 'OJT/Internship'),
         ('FE', 'Faculty Exchange'),
-        ('SE','Student Exchange'),
+        ('SE', 'Student Exchange'),
         ('RE', 'Researcher / Expert Exchange'),
         ('SP', 'Support for Projects Exchange'),
         ('RP', 'Research and Publication'),
@@ -85,4 +86,3 @@ class Linkage:
 
     memorandum = ForeignKey(Memorandum)
     type = CharField(max_length=4, choices=LINKAGE_TYPES)
-

@@ -1,11 +1,17 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.contrib.auth import authenticate
-
+from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from graphene_django.views import GraphQLView
+
+
+@api_view(['GET'])
+def private_graph_ql_view(request):
+    if request.user.is_authenticated:
+        return GraphQLView.as_view(graphiql=True)(request)
+    else:
+        return Response(data={"error": "You are not signed in."}, status=403)
 
 
 class SignInView(APIView):
