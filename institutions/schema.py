@@ -2,7 +2,7 @@ from graphene_django.types import DjangoObjectType
 from .models import *
 
 from graphene import (
-    AbstractType,
+    ObjectType,
     List,
     Field,
     Int
@@ -19,7 +19,7 @@ class InstitutionType(DjangoObjectType):
         model = Institution
 
 
-class Query(AbstractType):
+class Query(ObjectType):
     countries = List(CountryType)
     institutions = List(InstitutionType)
 
