@@ -39,7 +39,7 @@ class InstitutionDetail(APIView):
 class MemorandumView(APIView):
     @staticmethod
     def post(request, institution_id):
-        request.data["institution"] = Memorandum.objects.get(id=institution_id)
+        request.data["institution"] = institution_id
         memorandum_serializer = MemorandumSerializer(data=request.data)
 
         if memorandum_serializer.is_valid():
@@ -60,7 +60,6 @@ class MemorandumDetail(APIView):
 
         if memorandum_serializer.is_valid():
             memorandum.institution = Institution.objects.get(id=memorandum_serializer.serialized_data["institution"])
-            memorandum_serializer.save()
 
             return Response(data={
                 "response": memorandum_serializer.data
