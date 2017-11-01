@@ -62,7 +62,7 @@ class MemorandumVersion(Model):
     college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
 
 
-class Linkage:
+class Program(Model):
     LINKAGE_CATEGORIES = (
         ('S', 'Scholarship'),
         ('OI', 'OJT/Internship'),
@@ -83,4 +83,11 @@ class Linkage:
     )
 
     memorandum = ForeignKey(InstitutionMemorandum)
-    category = CharField(max_length=4, choices=LINKAGE_CATEGORIES)
+    linkage = CharField(max_length=4, choices=LINKAGE_CATEGORIES)
+    name = CharField(max_length=64)
+
+
+class ProgramOffering(Model):
+    program = ForeignKey(Program)
+    start_date = DateField()
+    end_date = DateField()
