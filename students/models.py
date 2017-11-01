@@ -1,9 +1,6 @@
-from django.db.models import ForeignKey, CharField, DateField, EmailField, PositiveIntegerField,Model
+from django.db.models import ForeignKey, CharField, DateField, EmailField, PositiveIntegerField, Model
 from core.models import COLLEGES
 from programs.models import Program
-
-# Create your models here.
-
 
 
 class Student(Model):
@@ -24,8 +21,8 @@ class Student(Model):
         ('OUT', 'Outbound')
     )
 
-    type =  CharField(max_length=4, choices=STUDENT_TYPE)
-    id_number = CharField(max_length=8, unique=True)
+    type = CharField(max_length=4, choices=STUDENT_TYPE)
+    id_number = CharField(max_length=8, unique=True, primary_key=True)
     college = CharField(max_length=6, choices=COLLEGES)
     family_name = CharField(max_length=64)
     first_name = CharField(max_length=64)
@@ -42,6 +39,7 @@ class Student(Model):
     email = EmailField(max_length=256)
     civil_status = CharField(max_length=2, choices=CIVIL_STATUS_TYPES)
 
+
 class ResidencyAddressHistory(Model):
     student = ForeignKey(Student)
     effective_from = DateField()
@@ -49,6 +47,7 @@ class ResidencyAddressHistory(Model):
     contact_person_number = CharField(max_length=64)
     address = CharField(max_length=256)
     residence_type = CharField(max_length=64)
+
 
 class StudentProgram(Model):
     student = ForeignKey(Student)
