@@ -16,12 +16,12 @@ class Student(Model):
         ('W', 'Widowed')
     )
 
-    STUDENT_TYPE = (
+    STUDENT_CATEGORIES = (
         ('IN', 'Inbound'),
         ('OUT', 'Outbound')
     )
 
-    type = CharField(max_length=4, choices=STUDENT_TYPE)
+    category = CharField(max_length=4, choices=STUDENT_CATEGORIES)
     id_number = CharField(max_length=8, unique=True, primary_key=True)
     college = CharField(max_length=6, choices=COLLEGES)
     family_name = CharField(max_length=64)
@@ -46,7 +46,7 @@ class ResidencyAddressHistory(Model):
     contact_person_name = CharField(max_length=256)
     contact_person_number = CharField(max_length=64)
     address = CharField(max_length=256)
-    residence_type = CharField(max_length=64)
+    residence = CharField(max_length=64)
 
 
 class StudentProgram(Model):
