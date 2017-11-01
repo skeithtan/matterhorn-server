@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="963af9c5-d44f-4b20-9e17-bcfb78bd7d68" name="Default" comment="">
+<<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
 <<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Eriosys.iml" afterPath="$PROJECT_DIR$/.idea/Eriosys.iml" />
@@ -13,11 +14,19 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/students/urls.py" afterPath="$PROJECT_DIR$/students/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/students/views.py" afterPath="$PROJECT_DIR$/students/views.py" />
 =======
+=======
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/students/schema.py" />
+>>>>>>> parent of 32355d1... Fixed students schema
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eriosys/schema.py" afterPath="$PROJECT_DIR$/Eriosys/schema.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/institutions/urls.py" afterPath="$PROJECT_DIR$/institutions/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/institutions/views.py" afterPath="$PROJECT_DIR$/institutions/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/students/models.py" afterPath="$PROJECT_DIR$/students/models.py" />
+<<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/students/schema.py" afterPath="$PROJECT_DIR$/students/schema.py" />
 >>>>>>> 32355d110f7e631281e2b228fb709873259939d0
+=======
+>>>>>>> parent of 32355d1... Fixed students schema
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,6 +58,7 @@
     <fileColor scope="Non-Project Files (Material Palenight)" color="2f2e43" />
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
 <<<<<<< HEAD
     <splitter split-orientation="horizontal" split-proportion="0.48867595">
 =======
@@ -192,6 +202,90 @@
           </file>
 =======
         </leaf>
+=======
+    <splitter split-orientation="horizontal" split-proportion="0.7307387">
+      <split-first>
+        <splitter split-orientation="horizontal" split-proportion="0.5">
+          <split-first>
+            <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+              <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/Eriosys/settings.py">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="247">
+                      <caret line="127" column="39" lean-forward="true" selection-start-line="127" selection-start-column="39" selection-end-line="127" selection-end-column="39" />
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="schema.py" pinned="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/Eriosys/schema.py">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="260">
+                      <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+                      <folding>
+                        <element signature="e#0#15#0" expanded="true" />
+                      </folding>
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/Eriosys/urls.py">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="615">
+                      <caret line="25" column="48" lean-forward="false" selection-start-line="25" selection-start-column="48" selection-end-line="25" selection-end-column="48" />
+                      <folding>
+                        <element signature="e#641#682#0" expanded="true" />
+                      </folding>
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/students/models.py">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="196">
+                      <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+                      <folding>
+                        <element signature="e#0#102#0" expanded="true" />
+                      </folding>
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="schema.py" pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/institutions/schema.py">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="121">
+                      <caret line="11" column="36" lean-forward="true" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
+                      <folding>
+                        <element signature="e#0#50#0" expanded="true" />
+                      </folding>
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-first>
+          <split-second>
+            <leaf>
+              <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/students/models.py">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="-61">
+                      <caret line="24" column="69" lean-forward="false" selection-start-line="24" selection-start-column="69" selection-end-line="24" selection-end-column="69" />
+                      <folding>
+                        <element signature="e#0#102#0" expanded="true" />
+                      </folding>
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-second>
+        </splitter>
+>>>>>>> parent of 32355d1... Fixed students schema
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -238,9 +332,14 @@
           <file leaf-file-name="schema.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/students/schema.py">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
                 <state relative-caret-position="387">
                   <caret line="33" column="46" lean-forward="false" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
 >>>>>>> 32355d110f7e631281e2b228fb709873259939d0
+=======
+                <state relative-caret-position="459">
+                  <caret line="36" column="33" lean-forward="false" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
+>>>>>>> parent of 32355d1... Fixed students schema
                   <folding>
                     <element signature="e#0#32#0" expanded="true" />
                   </folding>
@@ -294,7 +393,6 @@
       <find>s</find>
       <find>authentication</find>
       <find>movilit</find>
-      <find>name</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -331,10 +429,13 @@
         <option value="$PROJECT_DIR$/students/views.py" />
 =======
         <option value="$PROJECT_DIR$/institutions/views.py" />
-        <option value="$PROJECT_DIR$/Eriosys/schema.py" />
         <option value="$PROJECT_DIR$/students/models.py" />
         <option value="$PROJECT_DIR$/students/schema.py" />
+<<<<<<< HEAD
 >>>>>>> 32355d110f7e631281e2b228fb709873259939d0
+=======
+        <option value="$PROJECT_DIR$/Eriosys/schema.py" />
+>>>>>>> parent of 32355d1... Fixed students schema
       </list>
     </option>
   </component>
@@ -513,7 +614,6 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FullScreen" value="true" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="SearchEverywhereHistoryKey" value="StudentType&#9;null&#9;null" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -818,8 +918,13 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1788269" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31886983" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+>>>>>>> parent of 32355d1... Fixed students schema
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295129" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295129" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1238,14 +1343,22 @@
       </provider>
     </entry>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/programs/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="13" column="27" lean-forward="false" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+=======
+    <entry file="file://$PROJECT_DIR$/Eriosys/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="127" column="39" lean-forward="true" selection-start-line="127" selection-start-column="39" selection-end-line="127" selection-end-column="39" />
+>>>>>>> parent of 32355d1... Fixed students schema
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/institutions/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -1253,6 +1366,8 @@
           <folding>
             <element signature="e#0#32#0" expanded="true" />
 =======
+=======
+>>>>>>> parent of 32355d1... Fixed students schema
     <entry file="file://$PROJECT_DIR$/institutions/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
@@ -1346,6 +1461,7 @@
       </provider>
     </entry>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/institutions/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -1362,12 +1478,19 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Eriosys/schema.py">
+=======
+    <entry file="file://$PROJECT_DIR$/students/models.py">
+>>>>>>> parent of 32355d1... Fixed students schema
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="5" column="48" lean-forward="false" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="48" />
+        <state relative-caret-position="196">
+          <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#15#0" expanded="true" />
 >>>>>>> 32355d110f7e631281e2b228fb709873259939d0
+=======
+            <element signature="e#0#102#0" expanded="true" />
+>>>>>>> parent of 32355d1... Fixed students schema
           </folding>
         </state>
       </provider>
@@ -1382,8 +1505,8 @@
 =======
     <entry file="file://$PROJECT_DIR$/institutions/schema.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="18" column="23" lean-forward="false" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+        <state relative-caret-position="121">
+          <caret line="11" column="36" lean-forward="true" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
 >>>>>>> 32355d110f7e631281e2b228fb709873259939d0
@@ -1391,6 +1514,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/students/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -1400,12 +1524,19 @@
             <element signature="e#0#54#0" expanded="true" />
 =======
     <entry file="file://$PROJECT_DIR$/students/models.py">
+=======
+    <entry file="file://$PROJECT_DIR$/Eriosys/schema.py">
+>>>>>>> parent of 32355d1... Fixed students schema
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="48" column="13" lean-forward="false" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+        <state relative-caret-position="260">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#102#0" expanded="true" />
 >>>>>>> 32355d110f7e631281e2b228fb709873259939d0
+=======
+            <element signature="e#0#15#0" expanded="true" />
+>>>>>>> parent of 32355d1... Fixed students schema
           </folding>
         </state>
       </provider>
@@ -1418,9 +1549,14 @@
 =======
     <entry file="file://$PROJECT_DIR$/students/schema.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="387">
           <caret line="33" column="46" lean-forward="false" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
 >>>>>>> 32355d110f7e631281e2b228fb709873259939d0
+=======
+        <state relative-caret-position="459">
+          <caret line="36" column="33" lean-forward="false" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
+>>>>>>> parent of 32355d1... Fixed students schema
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>

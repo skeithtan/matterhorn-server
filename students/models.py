@@ -4,7 +4,7 @@ from programs.models import Program
 
 
 class Student(Model):
-    SEXES = (
+    GENDER_TYPES = (
         ('F', 'Female'),
         ('M', 'Male')
     )
@@ -21,7 +21,11 @@ class Student(Model):
         ('OUT', 'Outbound')
     )
 
+<<<<<<< HEAD
     type =  CharField(max_length=4, choices=STUDENT_TYPE)
+=======
+    type = CharField(max_length=4, choices=STUDENT_TYPE)
+>>>>>>> parent of 32355d1... Fixed students schema
     id_number = CharField(max_length=8, unique=True, primary_key=True)
     college = CharField(max_length=6, choices=COLLEGES)
     family_name = CharField(max_length=64)
@@ -32,7 +36,7 @@ class Student(Model):
     home_address = CharField(max_length=256)
     phone_number = CharField(max_length=64)
     birth_date = DateField()
-    sex = CharField(max_length=2, choices=SEXES)
+    gender = CharField(max_length=2, choices=GENDER_TYPES)
     emergency_contact_name = CharField(max_length=64)
     emergency_contact_relationship = CharField(max_length=32)
     emergency_contact_number = CharField(max_length=64)
@@ -46,7 +50,7 @@ class ResidencyAddressHistory(Model):
     contact_person_name = CharField(max_length=256)
     contact_person_number = CharField(max_length=64)
     address = CharField(max_length=256)
-    residence = CharField(max_length=64)
+    residence_type = CharField(max_length=64)
 
 
 class StudentProgram(Model):
