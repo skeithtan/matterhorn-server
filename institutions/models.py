@@ -86,8 +86,14 @@ class Program(Model):
     linkage = CharField(max_length=4, choices=LINKAGE_CATEGORIES)
     name = CharField(max_length=64)
 
+    def __str__(self):
+        return self.name
+
+
 
 class ProgramOffering(Model):
     program = ForeignKey(Program)
     start_date = DateField()
     end_date = DateField()
+
+

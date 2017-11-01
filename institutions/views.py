@@ -27,3 +27,10 @@ class InstitutionUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
 #     permission_classes = (IsAuthenticated,)
 #     queryset = Memorandum.objects.all()
 #     serializer_class = InstitutionMemorandumSerializer
+
+class ProgramListCreateView(ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = Program.objects.all()
+    serializer_class = ProgramSerializer
+    lookup_field = 'institution_id'
+    lookup_url_kwarg = 'institution_id'
