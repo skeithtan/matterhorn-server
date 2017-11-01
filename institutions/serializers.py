@@ -18,3 +18,13 @@ class MemorandumVersionSerializer(ModelSerializer):
     class Meta:
         model = MemorandumVersion
         fields = "__all__"
+
+class ProgramSerializer(ModelSerializer):
+    class Meta:
+        model = Program
+        fields = "__all__"
+        
+class ProgramOffering(ModelSerializer):
+    class Meta:
+        model = ProgramOffering
+        fields = "__all__"
