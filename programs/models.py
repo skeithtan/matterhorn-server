@@ -1,6 +1,3 @@
-from django.db import models
-
-# Create your models here.
 from django.db.models import ForeignKey, CharField, DateField,Model
 from institutions.models import Institution
 

@@ -8,7 +8,13 @@ class InstitutionSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class MemorandumSerializer(ModelSerializer):
+class InstitutionMemorandumSerializer(ModelSerializer):
     class Meta:
-        model = Memorandum
+        model = InstitutionMemorandum
+        fields = "__all__"
+
+
+class MemorandumVersionSerializer(ModelSerializer):
+    class Meta:
+        model = MemorandumVersion
         fields = "__all__"

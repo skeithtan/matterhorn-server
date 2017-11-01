@@ -4,7 +4,7 @@ from django.db.models import (
     EmailField,
     DateField,
     ForeignKey,
-)
+    OneToOneField)
 
 from core.models import COLLEGES
 
@@ -37,35 +37,33 @@ class Institution(Model):
         return self.name
 
 
-class Memorandum(Model):
-    MEMORANDUM_TYPES = (
-        ('MOA', 'Memorandum of Agreement'),
-        ('MOU', 'Memorandum of Understanding')
-    )
-
+class InstitutionMemorandum(Model):
     AGREEMENT_TYPES = (
         ('B', 'Bilateral'),
         ('M', 'Multilateral')
     )
 
-    institution = ForeignKey(Institution)
-    type = CharField(max_length=3, choices=MEMORANDUM_TYPES)
+    institution = OneToOneField(Institution)
+    agreement = CharField(max_length=12, choices=AGREEMENT_TYPES)
+
+
+class MemorandumVersion(Model):
+    MEMORANDUM_CATEGORIES = (
+        ('MOA', 'Memorandum of Agreement'),
+        ('MOU', 'Memorandum of Understanding')
+    )
+
+    memorandum = ForeignKey(InstitutionMemorandum)
+    memorandum_category = CharField(max_length=3, choices=MEMORANDUM_CATEGORIES)
+    memorandum_file = CharField(max_length=512)
+    version_date = DateField()
     date_effective = DateField()
     date_expiration = DateField(null=True)
     college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
-    agreement_type = CharField(max_length=64, choices=AGREEMENT_TYPES)
-
-
-class MemorandumVersion:
-    memorandum = ForeignKey(Memorandum)
-    initial_review_file = CharField(max_length=512)
-    final_revision_file = CharField(max_length=512, null=True)
-    memorandum_file = CharField(max_length=512)
-    version_date = DateField()
 
 
 class Linkage:
-    LINKAGE_TYPES = (
+    LINKAGE_CATEGORIES = (
         ('S', 'Scholarship'),
         ('OI', 'OJT/Internship'),
         ('FE', 'Faculty Exchange'),
@@ -78,11 +76,11 @@ class Linkage:
         ('EMPI', 'Exchange of Materials, Publications and Information'),
         ('CE', 'Cultural Exchange'),
         ('SAMC', 'Seminars and Academic Meetings / Conferences'),
-        ('TAP', 'Technical or Adminstrative Programs'),
+        ('TAP', 'Technical or Administrative Programs'),
         ('O', 'Established Office'),
         ('ASE', 'Administrative and Staff Exchange'),
         ('EM', 'Executive Meetings')
     )
 
-    memorandum = ForeignKey(Memorandum)
-    type = CharField(max_length=4, choices=LINKAGE_TYPES)
+    memorandum = ForeignKey(InstitutionMemorandum)
+    category = CharField(max_length=4, choices=LINKAGE_CATEGORIES)
