@@ -21,11 +21,7 @@ class Student(Model):
         ('OUT', 'Outbound')
     )
 
-<<<<<<< HEAD
-    type =  CharField(max_length=4, choices=STUDENT_TYPE)
-=======
     type = CharField(max_length=4, choices=STUDENT_TYPE)
->>>>>>> parent of 32355d1... Fixed students schema
     id_number = CharField(max_length=8, unique=True, primary_key=True)
     college = CharField(max_length=6, choices=COLLEGES)
     family_name = CharField(max_length=64)
