@@ -31,10 +31,13 @@ class ResidencyAddressHistoryListCreateView(ListCreateAPIView):
         return ResidencyAddressHistory.objects.filter(student=student)
 
 
+class ResidencyAddressHistoryUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = ResidencyAddressHistory.objects.all()
+    serializer_class = StudentSerializer
+    lookup_field = 'student_id'
 
-# class ResidencyAddressHistoryUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
-#     permission_classes = (IsAuthenticated,)
-#     queryset = ResidencyAddressHistory.objects.all()
-#     serializer_class = StudentSerializer
-#     lookup_fields = ('student_id', 'residencyaddresshistory_id')
-#     lookup_url_kwarg = ('student_id', 'residencyaddresshistory_id')
+    def get_queryset(self):
+        student = self.kwargs['student_id']
+        residency = self.kwargs['residencyaddresshistory_id']
+        return ResidencyAddressHistory.objects.filter(student=student, id=residency)
