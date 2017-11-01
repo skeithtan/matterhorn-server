@@ -32,7 +32,12 @@ class ProgramListCreateView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
-    lookup_field = 'institution_id'
+
+class ProgramOfferingListCreateView(ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = ProgramOffering.objects.all()
+    serializer_class = ProgramOffering
+
 
 
 

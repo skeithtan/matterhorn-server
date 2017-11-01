@@ -21,6 +21,7 @@ class ResidencyAddressHistoryListCreateView(ListCreateAPIView):
     serializer_class = ResidencyAddressHistorySerializer
     lookup_field = 'student_id'
 
+# i keep forgetting we dont need this cos it's get :((( -- kammy
     def get_queryset(self):
         student = self.kwargs['student_id']
         return ResidencyAddressHistory.objects.filter(student=student)
