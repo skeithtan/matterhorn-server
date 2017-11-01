@@ -46,5 +46,6 @@ class SignInView(APIView):
         })[0]
 
         return Response(data={
-            "token": token.key
+            "token": token.key,
+            "username": username
         }, status=200)

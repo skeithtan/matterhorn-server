@@ -10,14 +10,14 @@ from core.models import COLLEGES
 
 
 class Continent(Model):
-    name = CharField(max_length=64, null=False)
+    name = CharField(max_length=64, null=False, primary_key=True)
 
     def __str__(self):
         return self.name
 
 
 class Country(Model):
-    name = CharField(max_length=64, null=False)
+    name = CharField(max_length=64, null=False, primary_key=True)
     continent = ForeignKey(Continent)
 
     def __str__(self):
