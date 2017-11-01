@@ -1,6 +1,6 @@
 from django.db.models import ForeignKey, CharField, DateField, EmailField, PositiveIntegerField, Model
 from core.models import COLLEGES
-from programs.models import Program
+from institutions.models import ProgramOffering
 
 
 class Student(Model):
@@ -53,7 +53,7 @@ class ResidencyAddressHistory(Model):
 
 class StudentProgram(Model):
     student = ForeignKey(Student)
-    program = ForeignKey(Program)
+    program_offering = ForeignKey(ProgramOffering)
     total_units_enrolled = PositiveIntegerField()
     date_expected_return = DateField()
 
