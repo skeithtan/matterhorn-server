@@ -9,6 +9,7 @@ class InstitutionSerializer(ModelSerializer):
 
 
 class InstitutionMemorandumSerializer(ModelSerializer):
+    # Institution = InstitutionSerializer(read_only=True)
     class Meta:
         model = InstitutionMemorandum
         fields = "__all__"

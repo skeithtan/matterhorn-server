@@ -16,13 +16,13 @@ class InstitutionUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
     serializer_class = InstitutionSerializer
 
 
-# # TODO: This
-# class MemorandumCreateView(ListCreateAPIView):
-#     permission_classes = (IsAuthenticated,)
-#     queryset = Memorandum.objects.all()
-#     serializer_class = InstitutionMemorandumSerializer
-#
-#
+
+class MemorandumCreateView(ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = MemorandumVersion.objects.all()
+    serializer_class = MemorandumVersion.objects.all()
+
+
 # class MemorandumUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
 #     permission_classes = (IsAuthenticated,)
 #     queryset = Memorandum.objects.all()
