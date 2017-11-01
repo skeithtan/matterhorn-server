@@ -20,7 +20,11 @@ class ResidencyAddressHistoryListCreateView(ListCreateAPIView):
     queryset = ResidencyAddressHistory.objects.all()
     serializer_class = ResidencyAddressHistorySerializer
     lookup_field = 'student_id'
-    lookup_url_kwarg = 'student_id'
+
+    def get_queryset(self):
+        student = self.kwargs['student_id']
+        return ResidencyAddressHistory.objects.filter(student=student)
+
 
 
 # class ResidencyAddressHistoryUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):

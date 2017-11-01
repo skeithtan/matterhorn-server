@@ -33,4 +33,6 @@ class ProgramListCreateView(ListCreateAPIView):
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
     lookup_field = 'institution_id'
-    lookup_url_kwarg = 'institution_id'
+
+
+
