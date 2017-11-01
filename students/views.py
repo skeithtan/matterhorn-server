@@ -1,23 +1,25 @@
-from rest_framework.views import APIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from students.serializers import StudentSerializer
 from students.models import *
 
-class StudentView(APIView):
-    @staticmethod
-    def get(request):
-        students = Student.objects.all()
-        student_serializer = StudentSerializer(students, many=True)
+class StudentListCreateView(ListCreateAPIView):
+    permission_classes = (IsAuthenticated, )
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
 
-        return Response(student_serializer.data, status=200)
+class StudentUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
 
-    @staticmethod
-    def post(request):
-        student_serializer = StudentSerializer(data=request.data)
+class ResidencyAddressHistoryListCreateView(ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
 
-        if student_serializer.is_valid():
-            student_serializer.create(student_serializer.validated_data)
-            return Response(student_serializer.data, status=200)
-        else:
-            return Response(student_serializer.errors, status=400)
-
+class ResidencyAddressHistoryUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer

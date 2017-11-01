@@ -25,7 +25,7 @@ class Student(Model):
     )
 
     type =  CharField(max_length=4, choices=STUDENT_TYPE)
-    id_number = CharField(max_length=8, unique=True)
+    id_number = CharField(max_length=8, unique=True, primary_key=True)
     college = CharField(max_length=6, choices=COLLEGES)
     family_name = CharField(max_length=64)
     first_name = CharField(max_length=64)
