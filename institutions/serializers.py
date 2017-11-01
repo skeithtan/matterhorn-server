@@ -1,5 +1,5 @@
 from .models import *
-from rest_framework.serializers import ModelSerializer, CharField
+from rest_framework.serializers import ModelSerializer
 
 
 class InstitutionSerializer(ModelSerializer):
@@ -7,9 +7,8 @@ class InstitutionSerializer(ModelSerializer):
         model = Institution
         fields = "__all__"
 
+
 class MemorandumSerializer(ModelSerializer):
     class Meta:
         model = Memorandum
         fields = "__all__"
-
-
