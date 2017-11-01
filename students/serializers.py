@@ -10,3 +10,8 @@ class ResidencyAddressHistorySerializer(ModelSerializer):
     class Meta:
         model = ResidencyAddressHistory
         field = "__all__"
+
+class StudentProgramSerializer(ModelSerializer):
+    class Meta:
+        model = StudentProgram
+        field = "__all__"
