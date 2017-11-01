@@ -1,5 +1,5 @@
 from graphene_django.types import DjangoObjectType
-from .models import *
+from .models import Student, ResidencyAddressHistory, StudentProgram
 
 from graphene import (
     ObjectType,
@@ -27,11 +27,11 @@ class StudentProgramType(DjangoObjectType):
 class Query(ObjectType):
     students = List(StudentType)
     resident_address_histories = List(ResidencyAddressHistoryType)
-    student_programs = List(StudentProgram)
+    student_programs = List(StudentProgramType)
 
     student = Field(StudentType, id=Int())
     resident_address_history = Field(ResidencyAddressHistoryType, id=Int())
-    student_program = Field(StudentProgram, id=Int())
+    student_program = Field(StudentProgramType, id=Int())
 
     def resolve_students(self, info, **kwargs):
         return Student.objects.all()
