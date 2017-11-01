@@ -15,6 +15,10 @@ class StudentUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
+    def get_queryset(self):
+        student = self.kwargs['pk']
+        return Student.objects.filter(id_number=student)
+
 class ResidencyAddressHistoryListCreateView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = ResidencyAddressHistory.objects.all()
