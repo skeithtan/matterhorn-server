@@ -34,7 +34,7 @@ class ResidencyAddressHistoryListCreateView(ListCreateAPIView):
 class ResidencyAddressHistoryUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = ResidencyAddressHistory.objects.all()
-    serializer_class = StudentSerializer
+    serializer_class = ResidencyAddressHistorySerializer
     lookup_field = 'student_id'
 
     def get_queryset(self):
