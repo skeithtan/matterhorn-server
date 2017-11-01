@@ -1,7 +1,8 @@
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from students.serializers import StudentSerializer
+from students.serializers import *
 from students.models import *
 
 class StudentListCreateView(ListCreateAPIView):
@@ -16,10 +17,15 @@ class StudentUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
 
 class ResidencyAddressHistoryListCreateView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
+    queryset = ResidencyAddressHistory.objects.all()
+    serializer_class = ResidencyAddressHistorySerializer
+    lookup_field = 'student_id'
+    lookup_url_kwarg = 'student_id'
 
-class ResidencyAddressHistoryUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
+
+# class ResidencyAddressHistoryUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+#     permission_classes = (IsAuthenticated,)
+#     queryset = ResidencyAddressHistory.objects.all()
+#     serializer_class = StudentSerializer
+#     lookup_fields = ('student_id', 'residencyaddresshistory_id')
+#     lookup_url_kwarg = ('student_id', 'residencyaddresshistory_id')

@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^sign-in/', SignInView.as_view()),
     url(r'^institutions/', include('institutions.urls')),
+    url(r'^students/', include('students.urls')),
     url(r'^programs/', include('programs.urls')),
     url(r'^graphql', PrivateGraphQLView.as_view())
 ]
