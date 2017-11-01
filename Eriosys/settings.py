@@ -41,7 +41,6 @@ INSTALLED_APPS = [
 
 
     # Our Apps
-    'programs',
     'institutions',
     'core',
     'students',
