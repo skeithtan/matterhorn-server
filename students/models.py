@@ -1,13 +1,10 @@
-from django.db.models import ForeignKey, CharField, DateField, EmailField, PositiveIntegerField,Model
+from django.db.models import ForeignKey, CharField, DateField, EmailField, PositiveIntegerField, Model
 from core.models import COLLEGES
 from programs.models import Program
 
-# Create your models here.
-
-
 
 class Student(Model):
-    GENDER_TYPES = (
+    SEXES = (
         ('F', 'Female'),
         ('M', 'Male')
     )
@@ -35,12 +32,13 @@ class Student(Model):
     home_address = CharField(max_length=256)
     phone_number = CharField(max_length=64)
     birth_date = DateField()
-    gender = CharField(max_length=2, choices=GENDER_TYPES)
+    sex = CharField(max_length=2, choices=SEXES)
     emergency_contact_name = CharField(max_length=64)
     emergency_contact_relationship = CharField(max_length=32)
     emergency_contact_number = CharField(max_length=64)
     email = EmailField(max_length=256)
     civil_status = CharField(max_length=2, choices=CIVIL_STATUS_TYPES)
+
 
 class ResidencyAddressHistory(Model):
     student = ForeignKey(Student)
@@ -48,7 +46,8 @@ class ResidencyAddressHistory(Model):
     contact_person_name = CharField(max_length=256)
     contact_person_number = CharField(max_length=64)
     address = CharField(max_length=256)
-    residence_type = CharField(max_length=64)
+    residence = CharField(max_length=64)
+
 
 class StudentProgram(Model):
     student = ForeignKey(Student)
