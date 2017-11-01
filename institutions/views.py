@@ -33,11 +33,18 @@ class ProgramListCreateView(ListCreateAPIView):
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
 
+class ProgramUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = Program.objects.all()
+    serializer_class = ProgramSerializer
+
 class ProgramOfferingListCreateView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = ProgramOffering.objects.all()
-    serializer_class = ProgramOffering
+    serializer_class = ProgramOfferingSerializer
 
-
+class ProgramOfferingDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+    queryset = ProgramOffering.objects.all()
+    serializer_class = ProgramOfferingSerializer
 
 

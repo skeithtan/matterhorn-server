@@ -24,7 +24,7 @@ class ProgramSerializer(ModelSerializer):
         model = Program
         fields = "__all__"
         
-class ProgramOffering(ModelSerializer):
+class ProgramOfferingSerializer(ModelSerializer):
     class Meta:
         model = ProgramOffering
         fields = "__all__"
