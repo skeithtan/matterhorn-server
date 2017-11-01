@@ -17,16 +17,17 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from core.urls import urls as core_urls
+from institutions.urls import institution_urls, memorandum_urls, program_urls
 from core.views import SignInView, PrivateGraphQLView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^sign-in/', SignInView.as_view()),
-    url(r'^institutions/', include('institutions.urls')),
     url(r'^students/', include('students.urls')),
-    # url(r'^programs/', include('programs.urls')),
     url(r'^graphql', PrivateGraphQLView.as_view())
 ]
 
 urlpatterns += core_urls
-
+urlpatterns += institution_urls
+urlpatterns += memorandum_urls
+urlpatterns += program_urls

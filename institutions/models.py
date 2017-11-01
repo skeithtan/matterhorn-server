@@ -3,8 +3,8 @@ from django.db.models import (
     CharField,
     EmailField,
     DateField,
-    ForeignKey,
-    OneToOneField)
+    ForeignKey
+)
 
 from core.models import COLLEGES
 
@@ -25,6 +25,11 @@ class Country(Model):
 
 
 class Institution(Model):
+    AGREEMENT_TYPES = (
+        ('B', 'Bilateral'),
+        ('M', 'Multilateral')
+    )
+
     name = CharField(max_length=64)
     country = ForeignKey(Country)
     email = EmailField(max_length=256, null=True)
@@ -32,29 +37,20 @@ class Institution(Model):
     website = CharField(max_length=256)
     contact_person_name = CharField(max_length=256, null=True)
     contact_person_number = CharField(max_length=64, null=True)
+    agreement = CharField(max_length=2, choices=AGREEMENT_TYPES)
 
     def __str__(self):
         return self.name
 
 
-class InstitutionMemorandum(Model):
-    AGREEMENT_TYPES = (
-        ('B', 'Bilateral'),
-        ('M', 'Multilateral')
-    )
-
-    institution = OneToOneField(Institution)
-    agreement = CharField(max_length=12, choices=AGREEMENT_TYPES)
-
-
-class MemorandumVersion(Model):
+class Memorandum(Model):
     MEMORANDUM_CATEGORIES = (
         ('MOA', 'Memorandum of Agreement'),
         ('MOU', 'Memorandum of Understanding')
     )
 
-    memorandum = ForeignKey(InstitutionMemorandum)
-    memorandum_category = CharField(max_length=3, choices=MEMORANDUM_CATEGORIES)
+    institution = ForeignKey(Institution)
+    category = CharField(max_length=3, choices=MEMORANDUM_CATEGORIES)
     memorandum_file = CharField(max_length=512)
     version_date = DateField()
     date_effective = DateField()
@@ -82,7 +78,7 @@ class Program(Model):
         ('EM', 'Executive Meetings')
     )
 
-    memorandum = ForeignKey(InstitutionMemorandum)
+    institution = ForeignKey(Institution)
     linkage = CharField(max_length=4, choices=LINKAGE_CATEGORIES)
     name = CharField(max_length=64)
 
@@ -90,11 +86,7 @@ class Program(Model):
         return self.name
 
 
-
 class ProgramOffering(Model):
     program = ForeignKey(Program)
     start_date = DateField()
     end_date = DateField()
-
-
-
