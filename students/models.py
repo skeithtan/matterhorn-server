@@ -39,6 +39,8 @@ class Student(Model):
     email = EmailField(max_length=256)
     civil_status = CharField(max_length=2, choices=CIVIL_STATUS_TYPES)
 
+    def __str__(self):
+        return self.family_name
 
 class ResidencyAddressHistory(Model):
     student = ForeignKey(Student)
@@ -54,3 +56,4 @@ class StudentProgram(Model):
     program = ForeignKey(Program)
     total_units_enrolled = PositiveIntegerField()
     date_expected_return = DateField()
+
