@@ -24,7 +24,6 @@ from students.urls import student_urls, residency_urls, student_program_urls
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^sign-in/', SignInView.as_view()),
-    url(r'^students/', include('students.urls')),
     url(r'^graphql', PrivateGraphQLView.as_view())
 ]
 
