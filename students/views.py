@@ -31,10 +31,6 @@ class ResidencyAddressHistoryListCreateView(ListCreateAPIView):
         student = self.kwargs['student_id']
         return ResidencyAddressHistory.objects.filter(student=student)
 
-    def perform_create(self, serializer):
-        student = Student.objects.get(id_number=self.kwargs['student_id'])
-        serializer.save(student=student)
-
 
 class ResidencyAddressHistoryUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
@@ -80,3 +76,4 @@ class StudentProgramUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
         student = self.kwargs['student_id']
         program_offering = self.kwargs['program_offering_id']
         return StudentProgram.objects.filter(student=student, program_offering=program_offering)
+        return ResidencyAddressHistory.objects.filter(student=student, id=residency)
