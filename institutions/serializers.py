@@ -11,16 +11,16 @@ class InstitutionSerializer(ModelSerializer):
 class MemorandumSerializer(ModelSerializer):
     class Meta:
         model = Memorandum
-        fields = "__all__"
+        exclude = ('institution', )
 
 
 class ProgramSerializer(ModelSerializer):
     class Meta:
         model = Program
-        fields = "__all__"
+        exclude = ('institution', )
 
 
 class ProgramOfferingSerializer(ModelSerializer):
     class Meta:
         model = ProgramOffering
-        fields = "__all__"
+        exclude = ('program', )
