@@ -1,7 +1,5 @@
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from students.serializers import *
 from students.models import *
 
@@ -14,6 +12,10 @@ class StudentUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(StudentUpdateDestroyRetrieveView, self).get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         student = self.kwargs['pk']
@@ -40,6 +42,10 @@ class ResidencyAddressHistoryUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIV
     serializer_class = ResidencyAddressHistorySerializer
     lookup_field = 'student_id'
 
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(ResidencyAddressHistoryUpdateDestroyRetrieveView, self).get_serializer(*args, **kwargs)
+
     def get_queryset(self):
         student = self.kwargs['student_id']
         residency = self.kwargs['residencyaddresshistory_id']
@@ -65,6 +71,10 @@ class StudentProgramUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
     queryset = StudentProgram.objects.all()
     serializer_class = StudentProgramSerializer
     lookup_field = 'student_id'
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(StudentProgramUpdateDestroyRetrieveView, self).get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         student = self.kwargs['student_id']

@@ -6,6 +6,9 @@ class StudentSerializer(ModelSerializer):
         model = Student
         fields = "__all__"
 
+        # def update(self, instance, validated_data):
+
+
 class ResidencyAddressHistorySerializer(ModelSerializer):
     class Meta:
         model = ResidencyAddressHistory
