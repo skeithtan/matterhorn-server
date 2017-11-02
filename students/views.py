@@ -76,4 +76,3 @@ class StudentProgramUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
         student = self.kwargs['student_id']
         program_offering = self.kwargs['program_offering_id']
         return StudentProgram.objects.filter(student=student, program_offering=program_offering)
-        return ResidencyAddressHistory.objects.filter(student=student, id=residency)
