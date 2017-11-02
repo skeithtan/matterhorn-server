@@ -63,7 +63,7 @@ class StudentProgramListCreateView(ListCreateAPIView):
         serializer.save(student=student)
 
 class StudentProgramUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     queryset = StudentProgram.objects.all()
     serializer_class = StudentProgramSerializer
     lookup_field = 'student_id'

@@ -14,5 +14,5 @@ residency_urls = [
 
 studentprogram_urls = [
     url(r'students/(?P<student_id>(\d+))/programs/$', StudentProgramListCreateView.as_view()),
-    url(r'students/(?P<student_id>(\d+))/programs/(?P<program_offering_id>(\d+))$', StudentProgramUpdateDestroyRetrieveView.as_view()),
+    url(r'students/(?P<student_id>(\d+))/programs/(?P<program_offering_id>(\d+))/$', StudentProgramUpdateDestroyRetrieveView.as_view()),
 ]
