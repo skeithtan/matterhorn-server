@@ -8,14 +8,14 @@ class StudentListCreateView(ListCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
-class StudentUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+class StudentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(StudentUpdateDestroyRetrieveView, self).get_serializer(*args, **kwargs)
+        return super(StudentRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         student = self.kwargs['pk']
@@ -32,7 +32,7 @@ class ResidencyAddressHistoryListCreateView(ListCreateAPIView):
         return ResidencyAddressHistory.objects.filter(student=student)
 
 
-class ResidencyAddressHistoryUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+class ResidencyAddressHistoryRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = ResidencyAddressHistory.objects.all()
     serializer_class = ResidencyAddressHistorySerializer
@@ -40,7 +40,7 @@ class ResidencyAddressHistoryUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIV
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(ResidencyAddressHistoryUpdateDestroyRetrieveView, self).get_serializer(*args, **kwargs)
+        return super(ResidencyAddressHistoryRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         student = self.kwargs['student_id']
@@ -62,7 +62,7 @@ class StudentProgramListCreateView(ListCreateAPIView):
         student = Student.objects.get(self.kwargs['student_id'])
         serializer.save(student=student)
 
-class StudentProgramUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+class StudentProgramRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = StudentProgram.objects.all()
     serializer_class = StudentProgramSerializer
@@ -70,7 +70,7 @@ class StudentProgramUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(StudentProgramUpdateDestroyRetrieveView, self).get_serializer(*args,**kwargs)
+        return super(StudentProgramRetrieveUpdateDestroyView, self).get_serializer(*args,**kwargs)
 
     def get_queryset(self):
         student = self.kwargs['student_id']
