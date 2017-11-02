@@ -19,7 +19,7 @@ class InstitutionUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
 class MemorandumListCreateView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Memorandum.objects.all()
-    serializer_class = Memorandum.objects.all()
+    serializer_class = MemorandumSerializer
 
     def get_institution(self):
         queryset = Institution.objects.all()
