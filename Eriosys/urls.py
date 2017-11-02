@@ -19,11 +19,11 @@ from django.contrib import admin
 from core.urls import urls as core_urls
 from institutions.urls import institution_urls, memorandum_urls, program_urls
 from core.views import SignInView, PrivateGraphQLView
+from students.urls import student_urls, residency_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^sign-in/', SignInView.as_view()),
-    url(r'^students/', include('students.urls')),
     url(r'^graphql', PrivateGraphQLView.as_view())
 ]
 
@@ -31,3 +31,7 @@ urlpatterns += core_urls
 urlpatterns += institution_urls
 urlpatterns += memorandum_urls
 urlpatterns += program_urls
+
+urlpatterns += student_urls
+urlpatterns += residency_urls
+
