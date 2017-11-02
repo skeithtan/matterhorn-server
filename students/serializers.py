@@ -9,9 +9,9 @@ class StudentSerializer(ModelSerializer):
 class ResidencyAddressHistorySerializer(ModelSerializer):
     class Meta:
         model = ResidencyAddressHistory
-        exclude = ('student',)
+        fields = "__all__"
 
 class StudentProgramSerializer(ModelSerializer):
     class Meta:
         model = StudentProgram
-        exclude = ('student',)
+        fields = "__all__"
