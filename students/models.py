@@ -32,7 +32,7 @@ class Student(Model):
     home_address = CharField(max_length=256)
     phone_number = CharField(max_length=64)
     birth_date = DateField()
-    gender = CharField(max_length=2, choices=GENDER_TYPES)
+    sex = CharField(max_length=2, choices=GENDER_TYPES)
     emergency_contact_name = CharField(max_length=64)
     emergency_contact_relationship = CharField(max_length=32)
     emergency_contact_number = CharField(max_length=64)

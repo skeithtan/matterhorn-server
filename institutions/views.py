@@ -20,17 +20,14 @@ class MemorandumListCreateView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Memorandum.objects.all()
     serializer_class = MemorandumSerializer
-
-    def get_institution(self):
-        queryset = Institution.objects.all()
-        return get_object_or_404(queryset, pk=self.kwargs['institution_id'])
+    lookup_field = 'institution_id'
 
     def get_queryset(self):
-        institution = self.get_institution()
+        institution = self.kwargs['institution_id']
         return super().get_queryset().filter(institution=institution)
 
     def perform_create(self, serializer):
-        institution = self.get_institution()
+        institution = Institution.objects.get(id=self.kwargs['institution_id'])
         serializer.save(institution=institution)
 
 
