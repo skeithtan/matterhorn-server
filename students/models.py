@@ -42,6 +42,7 @@ class Student(Model):
     def __str__(self):
         return self.family_name
 
+
 class ResidencyAddressHistory(Model):
     student = ForeignKey(Student)
     effective_from = DateField()
@@ -56,4 +57,3 @@ class StudentProgram(Model):
     program_offering = ForeignKey(ProgramOffering)
     total_units_enrolled = PositiveIntegerField()
     date_expected_return = DateField()
-

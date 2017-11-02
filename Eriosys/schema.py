@@ -1,8 +1,9 @@
 import graphene
-import institutions.schema as institutions_schema
+from institutions.schema import Query as institutions_schema
+from students.schema import Query as student_schema
 
 
-class Query(institutions_schema.Query, graphene.ObjectType):
+class Query(institutions_schema, student_schema, graphene.ObjectType):
     pass
 
 
