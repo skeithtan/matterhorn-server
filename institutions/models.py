@@ -55,7 +55,6 @@ class Memorandum(Model):
     institution = ForeignKey(Institution)
     category = CharField(max_length=3, choices=MEMORANDUM_CATEGORIES)
     memorandum_file = CharField(max_length=512)
-    version_date = DateField()
     date_effective = DateField()
     date_expiration = DateField(null=True)
     college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
