@@ -56,4 +56,4 @@ class StudentProgram(Model):
     student = ForeignKey(Student)
     program_offering = ForeignKey(ProgramOffering)
     total_units_enrolled = PositiveIntegerField()
-    date_expected_return = DateField()
+    date_expected_return = DateField(null=True)

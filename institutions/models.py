@@ -60,6 +60,9 @@ class Memorandum(Model):
     date_expiration = DateField(null=True)
     college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
 
+    def __str__(self):
+        return f"{self.institution.name} - {self.date_effective}¬"
+
 
 class MemorandumLinkage(Model):
     LINKAGE_CATEGORIES = (
@@ -84,6 +87,9 @@ class MemorandumLinkage(Model):
     linkage = CharField(max_length=4, choices=LINKAGE_CATEGORIES)
     memorandum = ForeignKey(Memorandum)
 
+    def __str__(self):
+        return f"{self.linkage} - {self.memorandum.institution.name}"
+
 
 class Program(Model):
     memorandum_linkage = ForeignKey(MemorandumLinkage, null=True)
@@ -97,3 +103,6 @@ class ProgramOffering(Model):
     program = ForeignKey(Program)
     start_date = DateField()
     end_date = DateField()
+
+    def __str__(self):
+        return f"{self.program.name} - {self.start_date} to {self.end_date}"
