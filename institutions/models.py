@@ -46,6 +46,7 @@ class Institution(Model):
     def latest_memorandum(self):
         return self.memorandum_set.all().order_by('-version_date')[0] if self.memorandum_set.count() > 0 else None
 
+
 class Memorandum(Model):
     MEMORANDUM_CATEGORIES = (
         ('MOA', 'Memorandum of Agreement'),
@@ -58,6 +59,7 @@ class Memorandum(Model):
     date_effective = DateField()
     date_expiration = DateField(null=True)
     college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
+
 
 class MemorandumLinkage(Model):
     LINKAGE_CATEGORIES = (
@@ -82,8 +84,9 @@ class MemorandumLinkage(Model):
     linkage = CharField(max_length=4, choices=LINKAGE_CATEGORIES)
     memorandum = ForeignKey(Memorandum)
 
+
 class Program(Model):
-    memorandum_linkage = ForeignKey(MemorandumLinkage,null=True)
+    memorandum_linkage = ForeignKey(MemorandumLinkage, null=True)
     name = CharField(max_length=64)
 
     def __str__(self):

@@ -24,6 +24,11 @@ class MemorandumType(DjangoObjectType):
         model = Memorandum
 
 
+class MemorandumLinkageType(DjangoObjectType):
+    class Meta:
+        model = MemorandumLinkage
+
+
 class ProgramType(DjangoObjectType):
     class Meta:
         model = Program
@@ -38,8 +43,6 @@ class Query(ObjectType):
     countries = List(CountryType)
     institutions = List(InstitutionType)
     memorandums = List(MemorandumType)
-    programs = List(ProgramType)
-    program_offerings = List(ProgramOfferingType)
 
     institution = Field(InstitutionType, id=Int())
     memorandum = Field(MemorandumType, id=Int())
@@ -55,3 +58,11 @@ class Query(ObjectType):
     def resolve_institution(self, info, **kwargs):
         id = kwargs.get('id')
         return Institution.objects.get(pk=id)
+
+    def resolve_program(self, info, **kwargs):
+        id = kwargs.get('id')
+        return Program.objects.get(pk=id)
+
+    def resolve_program_offering(self, info, **kwargs):
+        id = kwargs.get('id')
+        return ProgramOffering.objects.get(pk=id)
