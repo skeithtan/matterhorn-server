@@ -42,6 +42,10 @@ class Institution(Model):
     def __str__(self):
         return self.name
 
+    @property
+    def latest_memorandum(self):
+        return self.memorandum_set.all().order_by('-version_date')[0] if self.memorandum_set.count() > 0 else None
+
 class Memorandum(Model):
     MEMORANDUM_CATEGORIES = (
         ('MOA', 'Memorandum of Agreement'),
