@@ -42,7 +42,6 @@ class Institution(Model):
     def __str__(self):
         return self.name
 
-
 class Memorandum(Model):
     MEMORANDUM_CATEGORIES = (
         ('MOA', 'Memorandum of Agreement'),
@@ -57,8 +56,7 @@ class Memorandum(Model):
     date_expiration = DateField(null=True)
     college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
 
-
-class Program(Model):
+class MemorandumLinkage(Model):
     LINKAGE_CATEGORIES = (
         ('S', 'Scholarship'),
         ('OI', 'OJT/Internship'),
@@ -78,8 +76,11 @@ class Program(Model):
         ('EM', 'Executive Meetings')
     )
 
-    institution = ForeignKey(Institution)
     linkage = CharField(max_length=4, choices=LINKAGE_CATEGORIES)
+    memorandum = ForeignKey(Memorandum)
+
+class Program(Model):
+    memorandum_linkage = ForeignKey(MemorandumLinkage,null=True)
     name = CharField(max_length=64)
 
     def __str__(self):
