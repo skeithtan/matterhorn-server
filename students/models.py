@@ -1,4 +1,4 @@
-from django.db.models import ForeignKey, CharField, DateField, EmailField, PositiveIntegerField, Model
+from django.db.models import ForeignKey, CharField, DateField, PositiveIntegerField, Model
 from core.models import COLLEGES
 from institutions.models import ProgramOffering
 
@@ -36,7 +36,7 @@ class Student(Model):
     emergency_contact_name = CharField(max_length=64)
     emergency_contact_relationship = CharField(max_length=32)
     emergency_contact_number = CharField(max_length=64)
-    email = EmailField(max_length=256)
+    email = CharField(max_length=256)
     civil_status = CharField(max_length=2, choices=CIVIL_STATUS_TYPES)
 
     def __str__(self):

@@ -36,7 +36,7 @@ class Institution(Model):
     website = CharField(max_length=256)
     contact_person_name = CharField(max_length=256, blank=True)
     contact_person_number = CharField(max_length=64, blank=True)
-    contact_person_email = EmailField(max_length=256, null=True)
+    contact_person_email = CharField(max_length=256, blank=True)
     agreement = CharField(max_length=2, choices=AGREEMENT_TYPES)
 
     def __str__(self):
