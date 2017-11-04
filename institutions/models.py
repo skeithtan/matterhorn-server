@@ -87,6 +87,9 @@ class MemorandumLinkage(Model):
     linkage = CharField(max_length=4, choices=LINKAGE_CATEGORIES)
     memorandum = ForeignKey(Memorandum)
 
+    class Meta:
+        unique_together = ('linkage', 'memorandum')
+
     def __str__(self):
         return f"{self.linkage} - {self.memorandum.institution.name}"
 
