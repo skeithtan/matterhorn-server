@@ -3,10 +3,12 @@ from rest_framework.permissions import IsAuthenticated
 from students.serializers import *
 from students.models import *
 
+
 class StudentListCreateView(ListCreateAPIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+
 
 class StudentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
@@ -19,7 +21,8 @@ class StudentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         student = self.kwargs['pk']
-        return Student.objects.filter(id_number=student)
+        return Student.objects.filter(pk=student)
+
 
 class ResidencyAddressHistoryListCreateView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
@@ -62,6 +65,7 @@ class StudentProgramListCreateView(ListCreateAPIView):
         student = Student.objects.get(self.kwargs['student_id'])
         serializer.save(student=student)
 
+
 class StudentProgramRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = StudentProgram.objects.all()
@@ -70,7 +74,7 @@ class StudentProgramRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(StudentProgramRetrieveUpdateDestroyView, self).get_serializer(*args,**kwargs)
+        return super(StudentProgramRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         student = self.kwargs['student_id']
