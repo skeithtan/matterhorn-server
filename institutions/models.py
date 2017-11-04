@@ -10,14 +10,14 @@ from core.models import COLLEGES
 
 
 class Continent(Model):
-    name = CharField(max_length=64, null=False, primary_key=True)
+    name = CharField(max_length=64, primary_key=True)
 
     def __str__(self):
         return self.name
 
 
 class Country(Model):
-    name = CharField(max_length=64, null=False, primary_key=True)
+    name = CharField(max_length=64, primary_key=True)
     continent = ForeignKey(Continent)
 
     def __str__(self):
@@ -34,8 +34,8 @@ class Institution(Model):
     country = ForeignKey(Country)
     address = CharField(max_length=256)
     website = CharField(max_length=256)
-    contact_person_name = CharField(max_length=256, null=True)
-    contact_person_number = CharField(max_length=64, null=True)
+    contact_person_name = CharField(max_length=256, blank=True)
+    contact_person_number = CharField(max_length=64, blank=True)
     contact_person_email = EmailField(max_length=256, null=True)
     agreement = CharField(max_length=2, choices=AGREEMENT_TYPES)
 
@@ -58,7 +58,7 @@ class Memorandum(Model):
     memorandum_file = CharField(max_length=512)
     date_effective = DateField()
     date_expiration = DateField(null=True)
-    college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
+    college_initiator = CharField(max_length=5, choices=COLLEGES, blank=True)
 
     def __str__(self):
         return f"{self.institution.name} - {self.date_effective}¬"
