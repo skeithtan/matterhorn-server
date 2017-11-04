@@ -43,10 +43,10 @@ class Query(ObjectType):
         return StudentProgram.objects.all()
 
     def resolve_student(self, info, **kwargs):
-        return Student.objects.get(id_number=kwargs.get('id'))
+        return Student.objects.get(pk=kwargs.get('id'))
 
     def resolve_resident_address_history(self, info, **kwargs):
-        return ResidencyAddressHistory.objects.get(id=kwargs.get('id'))
+        return ResidencyAddressHistory.objects.get(pk=kwargs.get('id'))
 
     def resolve_student_program(self, info, **kwargs):
-        return StudentProgram.objects.get(id=kwargs.get('id'))
+        return StudentProgram.objects.get(pk=kwargs.get('id'))
