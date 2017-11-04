@@ -21,7 +21,7 @@ class Student(Model):
         ('OUT', 'Outbound')
     )
 
-    category = CharField(max_length=4, choices=STUDENT_CATEGORIES)
+    category = CharField(max_length=3, choices=STUDENT_CATEGORIES)
     id_number = CharField(max_length=8, unique=True)
     college = CharField(max_length=6, choices=COLLEGES)
     family_name = CharField(max_length=64)
