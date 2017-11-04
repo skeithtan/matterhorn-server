@@ -7,4 +7,4 @@ class Query(institutions_schema, student_schema, graphene.ObjectType):
     pass
 
 
-schema = graphene.Schema(query=Query)
+schema = graphene.Schema(query=Query, auto_camelcase=False)
