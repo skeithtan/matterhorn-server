@@ -22,7 +22,7 @@ class Student(Model):
     )
 
     category = CharField(max_length=3, choices=STUDENT_CATEGORIES)
-    id_number = CharField(max_length=8, unique=True, primary_key=True)
+    id_number = CharField(max_length=8, unique=True)
     college = CharField(max_length=6, choices=COLLEGES)
     family_name = CharField(max_length=64)
     first_name = CharField(max_length=64)
