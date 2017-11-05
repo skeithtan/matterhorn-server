@@ -24,9 +24,9 @@ class MemorandumType(DjangoObjectType):
         model = Memorandum
 
 
-class MemorandumLinkageType(DjangoObjectType):
+class LinkageType(DjangoObjectType):
     class Meta:
-        model = MemorandumLinkage
+        model = Linkage
 
 
 class ProgramType(DjangoObjectType):
