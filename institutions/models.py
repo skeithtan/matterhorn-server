@@ -3,8 +3,8 @@ from django.db.models import (
     CharField,
     EmailField,
     DateField,
-    ForeignKey
-)
+    ForeignKey,
+    ManyToManyField)
 
 from core.models import COLLEGES
 
@@ -47,6 +47,14 @@ class Institution(Model):
         return self.memorandum_set.all().order_by('-version_date')[0] if self.memorandum_set.count() > 0 else None
 
 
+class Linkage(Model):
+    code = CharField(max_length=4, primary_key=True)
+    name = CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
+
 class Memorandum(Model):
     MEMORANDUM_CATEGORIES = (
         ('MOA', 'Memorandum of Agreement'),
@@ -59,43 +67,15 @@ class Memorandum(Model):
     date_effective = DateField()
     date_expiration = DateField(null=True)
     college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
+    linkages = ManyToManyField(Linkage)
 
     def __str__(self):
-        return f"{self.institution.name} - {self.date_effective}¬"
-
-
-class MemorandumLinkage(Model):
-    LINKAGE_CATEGORIES = (
-        ('S', 'Scholarship'),
-        ('OI', 'OJT/Internship'),
-        ('FE', 'Faculty Exchange'),
-        ('SE', 'Student Exchange'),
-        ('RE', 'Researcher / Expert Exchange'),
-        ('SP', 'Support for Projects Exchange'),
-        ('RP', 'Research and Publication'),
-        ('AP', 'Academic Program'),
-        ('PF', 'Project Funding'),
-        ('EMPI', 'Exchange of Materials, Publications and Information'),
-        ('CE', 'Cultural Exchange'),
-        ('SAMC', 'Seminars and Academic Meetings / Conferences'),
-        ('TAP', 'Technical or Administrative Programs'),
-        ('O', 'Established Office'),
-        ('ASE', 'Administrative and Staff Exchange'),
-        ('EM', 'Executive Meetings')
-    )
-
-    linkage = CharField(max_length=4, choices=LINKAGE_CATEGORIES)
-    memorandum = ForeignKey(Memorandum)
-
-    class Meta:
-        unique_together = ('linkage', 'memorandum')
-
-    def __str__(self):
-        return f"{self.linkage} - {self.memorandum.institution.name}"
+        return f"{self.institution.name} - {self.date_effective}"
 
 
 class Program(Model):
-    memorandum_linkage = ForeignKey(MemorandumLinkage, null=True)
+    memorandum = ForeignKey(Memorandum)
+    linkage = ForeignKey(Linkage)
     name = CharField(max_length=64)
 
     def __str__(self):

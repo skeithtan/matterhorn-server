@@ -1,3 +1,5 @@
+from rest_framework.relations import PrimaryKeyRelatedField
+
 from .models import *
 from rest_framework.serializers import ModelSerializer
 
@@ -9,6 +11,8 @@ class InstitutionSerializer(ModelSerializer):
 
 
 class MemorandumSerializer(ModelSerializer):
+    linkages = PrimaryKeyRelatedField(many=True, queryset=Linkage.objects.all())
+
     class Meta:
         model = Memorandum
         exclude = ('institution', )
