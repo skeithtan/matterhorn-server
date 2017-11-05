@@ -58,7 +58,7 @@ class Memorandum(Model):
     memorandum_file = CharField(max_length=512)
     date_effective = DateField()
     date_expiration = DateField(null=True)
-    college_initiator = CharField(max_length=5, choices=COLLEGES, blank=True)
+    college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
 
     def __str__(self):
         return f"{self.institution.name} - {self.date_effective}¬"
