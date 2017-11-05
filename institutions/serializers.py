@@ -17,6 +17,9 @@ class MemorandumSerializer(ModelSerializer):
         model = Memorandum
         exclude = ('institution', )
 
+class LinkageSerializer(ModelSerializer):
+    class Meta:
+        model = Linkage
 
 class ProgramSerializer(ModelSerializer):
     class Meta:

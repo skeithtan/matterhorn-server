@@ -62,10 +62,14 @@ class ProgramListCreateView(ListCreateAPIView):
         serializer.create(institution=institution)
 
 
-class ProgramUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+class ProgramRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(ProgramRetrieveUpdateDestroyView, self).get_serializer(*args,**kwargs)
 
 
 class ProgramOfferingListCreateView(ListCreateAPIView):
@@ -95,4 +99,17 @@ class ProgramOfferingRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         kwargs['partial'] = True
         return super(ProgramOfferingRetrieveUpdateDestroyView, self).get_serializer(*args,**kwargs)
 
+class LinkageListCreateView(ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = Linkage.objects.all()
+    serializer_class = LinkageSerializer
+
+class LinkageRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = Linkage.objects.all()
+    serializer_class = LinkageSerializer
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(LinkageRetrieveUpdateDestroyView, self).get_serializer(*args,**kwargs)
 

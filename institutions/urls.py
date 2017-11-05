@@ -13,7 +13,7 @@ memorandum_urls = [
 ]
 
 program_urls = [
-    url(r'programs/(?P<pk>(\d+))/$', ProgramUpdateDestroyRetrieveView.as_view()),
+    url(r'programs/(?P<pk>(\d+))/$', ProgramRetrieveUpdateDestroyView.as_view()),
     url(r'programs/(?P<program_id>(\d+))/offerings/$', ProgramOfferingListCreateView.as_view()),
     url(r'program-offerings/(?P<pk>(\d+))/$', ProgramOfferingRetrieveUpdateDestroyView.as_view()),
 ]
