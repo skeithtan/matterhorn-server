@@ -25,9 +25,3 @@ class ProgramSerializer(ModelSerializer):
     class Meta:
         model = Program
         exclude = ('institution', )
-
-
-class ProgramOfferingSerializer(ModelSerializer):
-    class Meta:
-        model = ProgramOffering
-        exclude = ('program', )

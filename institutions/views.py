@@ -71,34 +71,6 @@ class ProgramRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         kwargs['partial'] = True
         return super(ProgramRetrieveUpdateDestroyView, self).get_serializer(*args,**kwargs)
 
-
-class ProgramOfferingListCreateView(ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = ProgramOffering.objects.all()
-    serializer_class = ProgramOfferingSerializer
-
-    def get_program(self):
-        queryset = Program.objects.all()
-        return get_object_or_404(queryset, pk=self.kwargs['program_id'])
-
-    def get_queryset(self):
-        program = self.get_program()
-        return super().get_queryset().filter(program=program)
-
-    def perform_create(self, serializer):
-        program = self.get_program()
-        serializer.create(program=program)
-
-
-class ProgramOfferingRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = ProgramOffering.objects.all()
-    serializer_class = ProgramOfferingSerializer
-
-    def get_serializer(self, *args, **kwargs):
-        kwargs['partial'] = True
-        return super(ProgramOfferingRetrieveUpdateDestroyView, self).get_serializer(*args,**kwargs)
-
 class LinkageListCreateView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Linkage.objects.all()

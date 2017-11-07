@@ -77,15 +77,8 @@ class Program(Model):
     memorandum = ForeignKey(Memorandum)
     linkage = ForeignKey(Linkage)
     name = CharField(max_length=64)
-
-    def __str__(self):
-        return self.name
-
-
-class ProgramOffering(Model):
-    program = ForeignKey(Program)
     start_date = DateField()
     end_date = DateField()
 
     def __str__(self):
-        return f"{self.program.name} - {self.start_date} to {self.end_date}"
+        return self.name

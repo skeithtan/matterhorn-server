@@ -55,6 +55,6 @@ class ResidencyAddressHistory(Model):
 
 class StudentProgram(Model):
     student = ForeignKey(Student)
-    program_offering = ForeignKey(ProgramOffering)
+    program_offering = ForeignKey(Program)
     total_units_enrolled = PositiveIntegerField()
     date_expected_return = DateField(null=True)
