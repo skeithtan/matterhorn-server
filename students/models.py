@@ -1,9 +1,9 @@
 from django.db.models import ForeignKey, CharField, DateField, PositiveIntegerField, Model
-from core.models import COLLEGES
+from core.models import *
 from institutions.models import *
 
 
-class Student(Model):
+class Student(SoftDeletionModel):
     GENDER_TYPES = (
         ('F', 'Female'),
         ('M', 'Male')
@@ -44,7 +44,7 @@ class Student(Model):
         return self.family_name
 
 
-class ResidencyAddressHistory(Model):
+class ResidencyAddressHistory(SoftDeletionModel):
     student = ForeignKey(Student)
     effective_from = DateField()
     contact_person_name = CharField(max_length=256)
@@ -53,7 +53,7 @@ class ResidencyAddressHistory(Model):
     residence = CharField(max_length=64)
 
 
-class StudentProgram(Model):
+class StudentProgram(SoftDeletionModel):
     student = ForeignKey(Student)
     program_offering = ForeignKey(Program)
     total_units_enrolled = PositiveIntegerField()
