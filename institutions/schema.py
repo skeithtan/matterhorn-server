@@ -34,11 +34,6 @@ class ProgramType(DjangoObjectType):
         model = Program
 
 
-class ProgramOfferingType(DjangoObjectType):
-    class Meta:
-        model = ProgramOffering
-
-
 class Query(ObjectType):
     countries = List(CountryType)
     institutions = List(InstitutionType)
@@ -47,7 +42,6 @@ class Query(ObjectType):
     institution = Field(InstitutionType, id=Int())
     memorandum = Field(MemorandumType, id=Int())
     program = Field(ProgramType, id=Int())
-    program_offering = Field(ProgramOfferingType, id=Int())
 
     def resolve_countries(self, info, **kwargs):
         return [country for country in Country.objects.all() if country.institution_set.count() > 0]
@@ -62,7 +56,3 @@ class Query(ObjectType):
     def resolve_program(self, info, **kwargs):
         id = kwargs.get('id')
         return Program.objects.get(pk=id)
-
-    def resolve_program_offering(self, info, **kwargs):
-        id = kwargs.get('id')
-        return ProgramOffering.objects.get(pk=id)
