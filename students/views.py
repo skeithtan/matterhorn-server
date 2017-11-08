@@ -80,21 +80,3 @@ class StudentProgramRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         student = self.kwargs['student_id']
         program_offering = self.kwargs['program_offering_id']
         return StudentProgram.objects.filter(student=student, program_offering=program_offering)
-
-
-class StudentBinView(ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = Student.all_objects.exclude(deleted_at=None)
-    serializer_class = StudentSerializer
-
-
-class ResidencyAddressHistoryBinView(ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = ResidencyAddressHistory.all_objects.exclude(deleted_at=None)
-    serializer_class = ResidencyAddressHistorySerializer
-
-
-class StudentProgramBinView(ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = StudentProgram.all_objects.exclude(deleted_at=None)
-    serializer_class = StudentProgramSerializer

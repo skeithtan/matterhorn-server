@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from .views import *
+from .deletions import *
 
 
 student_urls = [
