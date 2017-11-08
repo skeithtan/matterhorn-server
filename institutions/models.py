@@ -6,7 +6,7 @@ from django.db.models import (
     ForeignKey,
     ManyToManyField)
 
-from core.models import COLLEGES
+from core.models import *
 
 
 class Continent(Model):
@@ -24,7 +24,7 @@ class Country(Model):
         return f"{self.name} - {self.continent.name} "
 
 
-class Institution(Model):
+class Institution(SoftDeletionModel):
     AGREEMENT_TYPES = (
         ('B', 'Bilateral'),
         ('M', 'Multilateral')
@@ -55,7 +55,7 @@ class Linkage(Model):
         return self.name
 
 
-class Memorandum(Model):
+class Memorandum(SoftDeletionModel):
     MEMORANDUM_CATEGORIES = (
         ('MOA', 'Memorandum of Agreement'),
         ('MOU', 'Memorandum of Understanding')
@@ -73,7 +73,7 @@ class Memorandum(Model):
         return f"{self.institution.name} - {self.date_effective}"
 
 
-class Program(Model):
+class Program(SoftDeletionModel):
     memorandum = ForeignKey(Memorandum)
     linkage = ForeignKey(Linkage)
     name = CharField(max_length=64)
