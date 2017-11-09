@@ -48,7 +48,7 @@ class SoftDeletionModel(Model):
 
     objects = SoftDeletionManager()
     all_objects = SoftDeletionManager(alive_only=False)
-    user = ForeignKey(User,null=True,blank=True)
+    user = ForeignKey(User, null=True, blank=True)
 
     class Meta:
         abstract = True

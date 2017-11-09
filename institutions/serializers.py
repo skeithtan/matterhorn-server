@@ -10,8 +10,6 @@ class InstitutionSerializer(ModelSerializer):
         fields = "__all__"
 
 
-
-
 class MemorandumSerializer(ModelSerializer):
     linkages = PrimaryKeyRelatedField(many=True, queryset=Linkage.objects.all())
 
@@ -19,9 +17,11 @@ class MemorandumSerializer(ModelSerializer):
         model = Memorandum
         exclude = ('institution', )
 
+
 class LinkageSerializer(ModelSerializer):
     class Meta:
         model = Linkage
+
 
 class ProgramSerializer(ModelSerializer):
     class Meta:
