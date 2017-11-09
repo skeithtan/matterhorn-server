@@ -4,7 +4,6 @@ from .deletions import *
 from .restorations import *
 
 student_urls = [
-    url(r'$', StudentListCreateView.as_view()),
     url(r'(?P<pk>(\d+))/$', StudentRetrieveUpdateDestroyView.as_view()),
     url(r'(?P<student_id>(\d+))/residency/$', ResidencyAddressHistoryListCreateView.as_view()),
     url(r'(?P<student_id>(\d+))/residency/(?P<pk>(\d+))/$',
@@ -12,6 +11,7 @@ student_urls = [
     url(r'(?P<student_id>(\d+))/programs/$', StudentProgramListCreateView.as_view()),
     url(r'(?P<student_id>(\d+))/programs/(?P<program_offering_id>(\d+))/$',
         StudentProgramRetrieveUpdateDestroyView.as_view()),
+    url(r'$', StudentListCreateView.as_view()),
 ]
 
 deleted_urls = [

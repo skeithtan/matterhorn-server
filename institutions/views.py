@@ -1,5 +1,5 @@
 from rest_framework.generics import ListCreateAPIView, get_object_or_404
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from core.mixins import MemorandumAdminMixin
 from core.views import ModelUpdateDestroyRetrieveView
@@ -19,8 +19,8 @@ class InstitutionUpdateDestroyRetrieveView(ModelUpdateDestroyRetrieveView):
     serializer_class = InstitutionSerializer
 
 
-class MemorandumListCreateView(MemorandumAdminMixin,ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
+class MemorandumListCreateView(ListCreateAPIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,IsAuthenticated)
     queryset = Memorandum.objects.all()
     serializer_class = MemorandumSerializer
     lookup_field = 'institution_id'
