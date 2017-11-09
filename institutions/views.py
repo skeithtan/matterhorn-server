@@ -19,14 +19,6 @@ class InstitutionUpdateDestroyRetrieveView(ModelUpdateDestroyRetrieveView):
     serializer_class = InstitutionSerializer
 
 
-class InstitutionRestoreView(ModelRestoreView):
-    def get_model(self):
-        return Institution
-
-    def get_serializer_class(self):
-        return InstitutionSerializer
-
-
 class MemorandumListCreateView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Memorandum.objects.all()

@@ -1,6 +1,7 @@
 from django.conf.urls import url, include
 from .views import *
 from .deletions import *
+from .restorations import *
 
 institution_urls = [
     url(r'(?P<pk>(\d+))/$', InstitutionUpdateDestroyRetrieveView.as_view()),
@@ -15,8 +16,10 @@ deleted_urls = [
     url(r'institutions/(?P<pk>(\d+))/restore/$', InstitutionRestoreView.as_view()),
     url(r'memorandums/$', DeletedMemorandumsView.as_view()),
     url(r'memorandums/(?P<pk>(\d+))/$', DeletedMemorandumUpdateDeletedView.as_view()),
+    url(r'memorandums/(?P<pk>(\d+))/restore/$', MemorandumRestoreView.as_view()),
     url(r'programs/$', DeletedProgramsView.as_view()),
     url(r'programs/(?P<pk>(\d+))/$', DeletedProgramUpdateView.as_view()),
+    url(r'programs/(?P<pk>(\d+))/restore/$', ProgramRestoreView.as_view()),
 ]
 
 memorandum_urls = [
