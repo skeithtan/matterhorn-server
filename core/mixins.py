@@ -32,8 +32,7 @@ class MasterGenericAPIViewMixin(ListCreateAPIView, RetrieveUpdateDestroyAPIView)
 
     def delete(self, request, *args, **kwargs):
         permission = Permission.objects.get(codename=self.codename)
-        print(permission)
-        print(request.user)
+
         if permission not in request.user.user_permissions.all():
             return Response(status=403, data={
                 "error": "not authorized to delete"
