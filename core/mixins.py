@@ -29,14 +29,10 @@ class MemorandumAdminMixin(ListCreateAPIView,RetrieveUpdateDestroyAPIView):
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        print(request.user)
-        print(request.user.user_permissions.all())
-        print(self.permission not in request.user.user_permissions.all())
         if self.permission not in request.user.user_permissions.all():
             return Response(status=403, data={
                 "error": "not authorized to delete"
             })
-        print(self.permission)
         return self.destroy(request, *args, **kwargs)
 
 class StudentAdminMixin(UserPassesTestMixin):
