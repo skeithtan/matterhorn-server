@@ -4,49 +4,53 @@ from institutions.serializers import *
 from institutions.models import *
 
 
-class InstitutionBinView(ListCreateAPIView):
+class DeletedInstitutionsView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Institution.all_objects.exclude(deleted_at=None)
     serializer_class = InstitutionSerializer
 
 
-class InstitutionUpdateBinView(RetrieveUpdateDestroyAPIView):
+class DeletedInstitutionUpdateDeletedView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Institution.all_objects.exclude(deleted_at=None)
     serializer_class = InstitutionSerializer
 
+    # def destroy(self, request, *args, **kwargs):
+    #     user = self.request.user
+    #     return super(DeletedInstitutionUpdateDeletedView, self).update(request, user=user)
+
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(InstitutionUpdateBinView, self).get_serializer(*args, **kwargs)
+        return super(DeletedInstitutionUpdateDeletedView, self).get_serializer(*args, **kwargs)
 
 
-class MemorandumBinView(ListCreateAPIView):
+class DeletedMemorandumsView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Memorandum.all_objects.exclude(deleted_at=None)
     serializer_class = MemorandumSerializer
 
 
-class MemorandumUpdateBinView(RetrieveUpdateDestroyAPIView):
+class DeletedMemorandumUpdateDeletedView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Memorandum.all_objects.exclude(deleted_at=None)
     serializer_class = MemorandumSerializer
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(MemorandumUpdateBinView, self).get_serializer(*args, **kwargs)
+        return super(DeletedMemorandumUpdateDeletedView, self).get_serializer(*args, **kwargs)
 
 
-class ProgramBinView(ListCreateAPIView):
+class DeletedProgramsView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Program.all_objects.exclude(deleted_at=None)
     serializer_class = ProgramSerializer
 
 
-class ProgramUpdateBinView(RetrieveUpdateDestroyAPIView):
+class DeletedProgramUpdateView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Program.all_objects.exclude(deleted_at=None)
     serializer_class = ProgramSerializer
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(ProgramUpdateBinView, self).get_serializer(*args, **kwargs)
+        return super(DeletedProgramUpdateView, self).get_serializer(*args, **kwargs)

@@ -1,5 +1,7 @@
-from django.db.models import Model, DateTimeField, Manager, QuerySet
+from django.contrib.auth import user_logged_in
+from django.db.models import Model, DateTimeField, Manager, QuerySet, ForeignKey
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your models here.
 COLLEGES = (
@@ -46,11 +48,12 @@ class SoftDeletionModel(Model):
 
     objects = SoftDeletionManager()
     all_objects = SoftDeletionManager(alive_only=False)
+    user = ForeignKey(User,null=True,blank=True)
 
     class Meta:
         abstract = True
 
-    def delete(self):
+    def delete(self, **kwargs):
         self.deleted_at = timezone.now()
         self.save()
 

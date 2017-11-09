@@ -10,6 +10,8 @@ class InstitutionSerializer(ModelSerializer):
         fields = "__all__"
 
 
+
+
 class MemorandumSerializer(ModelSerializer):
     linkages = PrimaryKeyRelatedField(many=True, queryset=Linkage.objects.all())
 
