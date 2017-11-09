@@ -1,7 +1,10 @@
 import rest_framework
 from django.contrib.auth import authenticate
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -49,3 +52,29 @@ class SignInView(APIView):
             "token": token.key,
             "username": username
         }, status=200)
+
+
+class ModelRestoreView(APIView):
+    def get_model(self):
+        return None
+
+    def get_serializer_class(self):
+        return None
+
+    def put(self, request, pk):
+        model = get_object_or_404(self.get_model().all_objects, pk=pk)
+        model.undelete()
+        serializer = self.get_serializer_class()(model)
+        return Response(serializer.data)
+
+
+class ModelUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+    def destroy(self, request, *args, **kwargs):
+        # user = self.request.user
+        instance = self.get_object()
+        instance.delete(user=request.user)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(RetrieveUpdateDestroyAPIView, self).get_serializer(*args, **kwargs)

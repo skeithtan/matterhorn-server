@@ -19,6 +19,9 @@ class SoftDeletionQuerySet(QuerySet):
     def delete(self):
         return super(SoftDeletionQuerySet, self).update(deleted_at=timezone.now())
 
+    def undelete(self):
+        return super(SoftDeletionQuerySet, self).update(deleted_at=None, user=None)
+
     def hard_delete(self):
         return super(SoftDeletionQuerySet, self).delete()
 
@@ -45,7 +48,6 @@ class SoftDeletionManager(Manager):
 
 class SoftDeletionModel(Model):
     deleted_at = DateTimeField(blank=True, null=True)
-
     objects = SoftDeletionManager()
     all_objects = SoftDeletionManager(alive_only=False)
     user = ForeignKey(User, null=True, blank=True)
@@ -55,7 +57,13 @@ class SoftDeletionModel(Model):
 
     def delete(self, **kwargs):
         self.deleted_at = timezone.now()
+        self.user = kwargs['user']
         self.save()
 
     def hard_delete(self):
         super(SoftDeletionModel, self).delete()
+
+    def undelete(self):
+        self.deleted_at = None
+        self.user = None
+        self.save()

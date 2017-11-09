@@ -15,10 +15,6 @@ class DeletedInstitutionUpdateDeletedView(RetrieveUpdateDestroyAPIView):
     queryset = Institution.all_objects.exclude(deleted_at=None)
     serializer_class = InstitutionSerializer
 
-    # def destroy(self, request, *args, **kwargs):
-    #     user = self.request.user
-    #     return super(DeletedInstitutionUpdateDeletedView, self).update(request, user=user)
-
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
         return super(DeletedInstitutionUpdateDeletedView, self).get_serializer(*args, **kwargs)

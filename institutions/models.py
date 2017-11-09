@@ -79,6 +79,12 @@ class Program(SoftDeletionModel):
     name = CharField(max_length=64)
     start_date = DateField()
     end_date = DateField()
+    duration = CharField(max_length=16)
 
     def __str__(self):
         return self.name
+
+
+class StudyField(SoftDeletionModel):
+    name = CharField(max_length=64)
+    program = ForeignKey(Program)

@@ -55,6 +55,7 @@ class ResidencyAddressHistory(SoftDeletionModel):
 
 class StudentProgram(SoftDeletionModel):
     student = ForeignKey(Student)
-    program_offering = ForeignKey(Program)
+    program = ForeignKey(Program)
+    default_units = PositiveIntegerField()
     total_units_enrolled = PositiveIntegerField()
     date_expected_return = DateField(null=True)

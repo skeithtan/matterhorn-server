@@ -1,5 +1,8 @@
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
+from core.views import ModelRestoreView, ModelUpdateDestroyRetrieveView
 from institutions.serializers import *
 from institutions.models import *
 
@@ -10,14 +13,18 @@ class InstitutionListCreateView(ListCreateAPIView):
     serializer_class = InstitutionSerializer
 
 
-class InstitutionUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+class InstitutionUpdateDestroyRetrieveView(ModelUpdateDestroyRetrieveView):
     permission_classes = (IsAuthenticated,)
-    queryset = Institution.objects.all()
+    queryset = Institution.all_objects
     serializer_class = InstitutionSerializer
 
-    def get_serializer(self, *args, **kwargs):
-        kwargs['partial'] = True
-        return super(InstitutionUpdateDestroyRetrieveView, self).get_serializer(*args, **kwargs)
+
+class InstitutionRestoreView(ModelRestoreView):
+    def get_model(self):
+        return Institution
+
+    def get_serializer_class(self):
+        return InstitutionSerializer
 
 
 class MemorandumListCreateView(ListCreateAPIView):
@@ -35,14 +42,10 @@ class MemorandumListCreateView(ListCreateAPIView):
         serializer.save(institution=institution)
 
 
-class MemorandumUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
+class MemorandumUpdateDestroyRetrieveView(ModelUpdateDestroyRetrieveView):
     permission_classes = (IsAuthenticated,)
-    queryset = Memorandum.objects.all()
+    queryset = Memorandum.all_objects
     serializer_class = MemorandumSerializer
-
-    def get_serializer(self, *args, **kwargs):
-        kwargs['partial'] = True
-        return super(MemorandumUpdateDestroyRetrieveView, self).get_serializer(*args,**kwargs)
 
 
 class ProgramListCreateView(ListCreateAPIView):
@@ -63,14 +66,10 @@ class ProgramListCreateView(ListCreateAPIView):
         serializer.create(institution=institution)
 
 
-class ProgramRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+class ProgramRetrieveUpdateDestroyView(ModelUpdateDestroyRetrieveView):
     permission_classes = (IsAuthenticated,)
-    queryset = Program.objects.all()
+    queryset = Program.all_objects
     serializer_class = ProgramSerializer
-
-    def get_serializer(self, *args, **kwargs):
-        kwargs['partial'] = True
-        return super(ProgramRetrieveUpdateDestroyView, self).get_serializer(*args,**kwargs)
 
 
 class LinkageListCreateView(ListCreateAPIView):
@@ -79,11 +78,11 @@ class LinkageListCreateView(ListCreateAPIView):
     serializer_class = LinkageSerializer
 
 
-class LinkageRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+class LinkageRetrieveUpdateDestroyView(ModelUpdateDestroyRetrieveView):
     permission_classes = (IsAuthenticated,)
     queryset = Linkage.objects.all()
     serializer_class = LinkageSerializer
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(LinkageRetrieveUpdateDestroyView, self).get_serializer(*args,**kwargs)
+        return super(LinkageRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
