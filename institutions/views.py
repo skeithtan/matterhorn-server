@@ -1,8 +1,6 @@
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView, get_object_or_404
+from rest_framework.generics import ListCreateAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-
-from core.views import ModelRestoreView, ModelUpdateDestroyRetrieveView
+from core.views import ModelUpdateDestroyRetrieveView
 from institutions.serializers import *
 from institutions.models import *
 

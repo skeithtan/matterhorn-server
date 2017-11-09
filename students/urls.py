@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from .views import *
 from .deletions import *
+from .restorations import *
 
 student_urls = [
     url(r'$', StudentListCreateView.as_view()),
@@ -16,8 +17,11 @@ student_urls = [
 deleted_urls = [
     url(r'studentprograms/$', DeletedStudentProgramView.as_view()),
     url(r'studentprograms/(?P<pk>(\d+))/$', DeletedStudentProgramUpdateView.as_view()),
+    url(r'studentprograms/(?P<pk>(\d+))/restore/$', StudentRestoreView.as_view()),
     url(r'residency/$', DeletedResidencyAddressHistoryView.as_view()),
     url(r'residency/(?P<pk>(\d+))/$', DeletedResidencyAddressHistoryUpdateView.as_view()),
+    url(r'residency/(?P<pk>(\d+))/restore/$', ResidencyRestoreView.as_view()),
     url(r'students/$', DeletedStudentView.as_view()),
     url(r'students/(?P<pk>(\d+))/$', DeletedStudentUpdateView.as_view()),
+    url(r'students/(?P<pk>(\d+))/restore/$', StudentProgramRestoreView.as_view()),
 ]
