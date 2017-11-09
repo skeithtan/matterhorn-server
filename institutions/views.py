@@ -1,5 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+
+from core.mixins import MemorandumAdminMixin
 from core.views import ModelUpdateDestroyRetrieveView
 from institutions.serializers import *
 from institutions.models import *
@@ -17,7 +19,7 @@ class InstitutionUpdateDestroyRetrieveView(ModelUpdateDestroyRetrieveView):
     serializer_class = InstitutionSerializer
 
 
-class MemorandumListCreateView(ListCreateAPIView):
+class MemorandumListCreateView(MemorandumAdminMixin,ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Memorandum.objects.all()
     serializer_class = MemorandumSerializer
@@ -42,18 +44,6 @@ class ProgramListCreateView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
-
-    def get_institution(self):
-        queryset = Institution.objects.all()
-        return get_object_or_404(queryset, pk=self.kwargs['institution_id'])
-
-    def get_queryset(self):
-        institution = self.get_institution()
-        return super().get_queryset().filter(institution=institution)
-
-    def perform_create(self, serializer):
-        institution = self.get_institution()
-        serializer.create(institution=institution)
 
 
 class ProgramRetrieveUpdateDestroyView(ModelUpdateDestroyRetrieveView):

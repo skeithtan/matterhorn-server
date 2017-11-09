@@ -26,4 +26,4 @@ class LinkageSerializer(ModelSerializer):
 class ProgramSerializer(ModelSerializer):
     class Meta:
         model = Program
-        exclude = ('institution', )
+        fields = "__all__"
