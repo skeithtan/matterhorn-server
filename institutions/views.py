@@ -5,6 +5,8 @@ from core.mixins import MemorandumAdminMixin
 from core.views import ModelUpdateDestroyRetrieveView
 from institutions.serializers import *
 from institutions.models import *
+from django.contrib.auth.models import Permission
+from rest_framework.response import Response
 
 
 class InstitutionListCreateView(ListCreateAPIView):
@@ -19,8 +21,8 @@ class InstitutionUpdateDestroyRetrieveView(ModelUpdateDestroyRetrieveView):
     serializer_class = InstitutionSerializer
 
 
-class MemorandumListCreateView(ListCreateAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly,IsAuthenticated)
+class MemorandumListCreateView(MemorandumAdminMixin):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Memorandum.objects.all()
     serializer_class = MemorandumSerializer
     lookup_field = 'institution_id'
@@ -34,7 +36,7 @@ class MemorandumListCreateView(ListCreateAPIView):
         serializer.save(institution=institution)
 
 
-class MemorandumUpdateDestroyRetrieveView(ModelUpdateDestroyRetrieveView):
+class MemorandumUpdateDestroyRetrieveView(MemorandumAdminMixin):
     permission_classes = (IsAuthenticated,)
     queryset = Memorandum.all_objects
     serializer_class = MemorandumSerializer

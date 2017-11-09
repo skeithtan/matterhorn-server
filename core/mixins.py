@@ -3,19 +3,41 @@ from django.conf.urls import handler403
 from django.contrib.auth.models import *
 from django.http import Http404
 from django.http import HttpResponseForbidden
+from rest_framework.generics import *
 
 from rest_framework.permissions import BasePermission
 from rest_framework.response import Response
 
 
 
-class MemorandumAdminMixin(UserPassesTestMixin):
-    def test_func(self,user):
-        permission = Permission.objects.get(name="Can CRUD Memorandums")
-        return permission in user.user_permissions.all()
+class MemorandumAdminMixin(ListCreateAPIView,RetrieveUpdateDestroyAPIView):
+    permission = Permission.objects.get(codename="crud_memorandum")
 
-    def handle_no_permission(self,request):
-        raise PermissionDenied("user is not memorandum admin")
+    def post(self, request, *args, **kwargs):
+        if self.permission not in request.user.user_permissions.all():
+            return Response(status=403, data={
+                "error": "not authorized to add"
+            })
+
+        return self.create(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        if self.permission not in request.user.user_permissions.all():
+            return Response(status=403, data={
+                "error": "not authorized to edit"
+            })
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        print(request.user)
+        print(request.user.user_permissions.all())
+        print(self.permission not in request.user.user_permissions.all())
+        if self.permission not in request.user.user_permissions.all():
+            return Response(status=403, data={
+                "error": "not authorized to delete"
+            })
+        print(self.permission)
+        return self.destroy(request, *args, **kwargs)
 
 class StudentAdminMixin(UserPassesTestMixin):
     def test_func(self,user):
