@@ -1,7 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
-from core.mixins import MemorandumAdminMixin
+from core.mixins import MasterGenericAPIViewMixin
 from core.views import ModelUpdateDestroyRetrieveView
 from institutions.serializers import *
 from institutions.models import *
@@ -21,11 +21,12 @@ class InstitutionUpdateDestroyRetrieveView(ModelUpdateDestroyRetrieveView):
     serializer_class = InstitutionSerializer
 
 
-class MemorandumListCreateView(MemorandumAdminMixin):
+class MemorandumListCreateView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Memorandum.objects.all()
     serializer_class = MemorandumSerializer
     lookup_field = 'institution_id'
+    codename = 'crud_memorandum'
 
     def get_queryset(self):
         institution = self.kwargs['institution_id']
@@ -36,28 +37,32 @@ class MemorandumListCreateView(MemorandumAdminMixin):
         serializer.save(institution=institution)
 
 
-class MemorandumUpdateDestroyRetrieveView(MemorandumAdminMixin):
+class MemorandumUpdateDestroyRetrieveView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
     queryset = Memorandum.all_objects
     serializer_class = MemorandumSerializer
+    codename = 'crud_memorandum'
 
 
-class ProgramListCreateView(ListCreateAPIView):
+class ProgramListCreateView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
+    codename = 'crud_memorandum'
 
 
-class ProgramRetrieveUpdateDestroyView(ModelUpdateDestroyRetrieveView):
+class ProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
     queryset = Program.all_objects
     serializer_class = ProgramSerializer
+    codename = 'crud_memorandum'
 
 
-class LinkageListCreateView(ListCreateAPIView):
+class LinkageListCreateView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
     queryset = Linkage.objects.all()
     serializer_class = LinkageSerializer
+    codename = 'crud_memorandum'
 
 
 class LinkageRetrieveUpdateDestroyView(ModelUpdateDestroyRetrieveView):

@@ -10,11 +10,12 @@ from rest_framework.response import Response
 
 
 
-class MemorandumAdminMixin(ListCreateAPIView,RetrieveUpdateDestroyAPIView):
-    permission = Permission.objects.get(codename="crud_memorandum")
+class MasterGenericAPIViewMixin(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
+    codename = None
 
     def post(self, request, *args, **kwargs):
-        if self.permission not in request.user.user_permissions.all():
+        permission = Permission.objects.get(codename=self.codename)
+        if permission not in request.user.user_permissions.all():
             return Response(status=403, data={
                 "error": "not authorized to add"
             })
@@ -22,23 +23,22 @@ class MemorandumAdminMixin(ListCreateAPIView,RetrieveUpdateDestroyAPIView):
         return self.create(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        if self.permission not in request.user.user_permissions.all():
+        permission = Permission.objects.get(codename=self.codename)
+        if permission not in request.user.user_permissions.all():
             return Response(status=403, data={
                 "error": "not authorized to edit"
             })
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        if self.permission not in request.user.user_permissions.all():
+        permission = Permission.objects.get(codename=self.codename)
+        print(permission)
+        print(request.user)
+        if permission not in request.user.user_permissions.all():
             return Response(status=403, data={
                 "error": "not authorized to delete"
             })
         return self.destroy(request, *args, **kwargs)
 
-class StudentAdminMixin(UserPassesTestMixin):
-    def test_func(self,user):
-        permission = Permission.objects.get(name="Can CRUD Students")
-        try:
-            return permission in user_logged_in.user_permissions.all()
-        except:
-            return False
+
+
