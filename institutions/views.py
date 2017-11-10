@@ -33,6 +33,7 @@ class InstitutionListCreateView(MasterGenericAPIViewMixin):
 
         return self.create(request, *args, **kwargs)
 
+
 class InstitutionUpdateDestroyRetrieveView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
     queryset = Institution.all_objects
