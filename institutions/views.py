@@ -48,9 +48,6 @@ class ProgramListCreateView(SharedReadOnlyMixin):
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
 
-
-
-
 class ProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
     queryset = Program.all_objects

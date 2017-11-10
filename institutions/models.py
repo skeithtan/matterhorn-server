@@ -79,7 +79,7 @@ class Term(SoftDeletionModel):
 
 
 class AcademicYear(Model):
-    academic_year_start = PositiveIntegerField()
+    academic_year_start = PositiveIntegerField(primary_key=True)
 
 
 class Program(SoftDeletionModel):

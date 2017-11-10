@@ -8,6 +8,7 @@ from rest_framework.generics import *
 
 from rest_framework.permissions import BasePermission
 from rest_framework.response import Response
+from rest_framework.generics import GenericAPIView
 
 
 
@@ -21,7 +22,7 @@ class MasterGenericAPIViewMixin(ListCreateAPIView, RetrieveUpdateDestroyAPIView)
                 "error": "not authorized to add"
             })
 
-        return self.create(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         permission = Permission.objects.get(codename=self.codename)
@@ -61,7 +62,7 @@ class SharedReadOnlyMixin(MasterGenericAPIViewMixin):
                 "error": "not authorized to view"
             })
 
-        return self.create(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         #only users with crud permissions may post
