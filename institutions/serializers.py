@@ -4,7 +4,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.relations import PrimaryKeyRelatedField
 
 from .models import *
-from rest_framework.serializers import ModelSerializer, Serializer
+from rest_framework.serializers import ModelSerializer, Serializer,BaseSerializer
 from rest_framework import serializers
 
 
@@ -44,6 +44,7 @@ class ProgramSerializer(Serializer):
         return value
 
     def validate_linkage(self, value):
+
         try:
             linkage = get_object_or_404(Linkage, code=value)
         except Http404:
@@ -57,17 +58,28 @@ class ProgramSerializer(Serializer):
             academic_year = get_object_or_404(AcademicYear, academic_year_start=value)
         except Http404:
             academic_year = AcademicYear.objects.create(academic_year_start=value)
-            print(academic_year)
 
         value = academic_year
         return value
 
-    # def validate_terms(self, value):
-    #     for term in value:
-    #         if Term.objects.get(number=term)
+    def validate_terms(self, value):
+        queryset = []
+        for term_number in value:
+            try:
+                queryset.append(get_object_or_404(Term, number=term_number))
+            except Http404:
+                raise ValidationError("Term does not exist!")
+        return queryset
+
+
+
+
+
+
 
 
     def create(self, validated_data):
+        print(validated_data)
         return Program.objects.create(**validated_data)
 
 
