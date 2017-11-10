@@ -4,7 +4,7 @@ from django.db.models import (
     EmailField,
     DateField,
     ForeignKey,
-    ManyToManyField)
+    ManyToManyField, PositiveIntegerField)
 
 from core.models import *
 
@@ -73,13 +73,17 @@ class Memorandum(SoftDeletionModel):
         return f"{self.institution.name} - {self.date_effective}"
 
 
+class Term(SoftDeletionModel):
+    number = PositiveIntegerField(primary_key=True)
+    name = CharField(max_length=8)
+
+
 class Program(SoftDeletionModel):
     memorandum = ForeignKey(Memorandum)
     linkage = ForeignKey(Linkage)
     name = CharField(max_length=64)
-    start_date = DateField()
-    end_date = DateField()
-    duration = CharField(max_length=16)
+    academic_year_start = PositiveIntegerField(max_length=9999)
+    terms = ManyToManyField(Term)
 
     def __str__(self):
         return self.name
@@ -88,3 +92,4 @@ class Program(SoftDeletionModel):
 class StudyField(SoftDeletionModel):
     name = CharField(max_length=64)
     program = ForeignKey(Program)
+    terms = ManyToManyField(Term)

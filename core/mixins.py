@@ -57,3 +57,4 @@ class MasterGenericAPIViewMixin(ListCreateAPIView, RetrieveUpdateDestroyAPIView)
 
 
 
+
