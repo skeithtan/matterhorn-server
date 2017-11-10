@@ -77,9 +77,15 @@ class Term(SoftDeletionModel):
     number = PositiveIntegerField(primary_key=True)
     name = CharField(max_length=8)
 
+    def __str__(self):
+        return self.name
+
 
 class AcademicYear(Model):
     academic_year_start = PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.academic_year_start} - {self.academic_year_start + 1}"
 
 
 class Program(SoftDeletionModel):
@@ -97,3 +103,6 @@ class StudyField(SoftDeletionModel):
     name = CharField(max_length=64)
     program = ForeignKey(Program)
     terms = ManyToManyField(Term)
+
+    def __str__(self):
+        return f"{self.program} - {self.name}"

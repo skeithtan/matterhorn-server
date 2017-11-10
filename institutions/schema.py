@@ -34,10 +34,21 @@ class ProgramType(DjangoObjectType):
         model = Program
 
 
+class TermType(DjangoObjectType):
+    class Meta:
+        model = Term
+
+
+class AcademicYearType(DjangoObjectType):
+    class Meta:
+        model = AcademicYear
+
+
 class Query(ObjectType):
     countries = List(CountryType)
     institutions = List(InstitutionType)
     memorandums = List(MemorandumType)
+    programs = List(ProgramType, year=Int(), term=Int())
 
     institution = Field(InstitutionType, id=Int())
     memorandum = Field(MemorandumType, id=Int())
@@ -52,6 +63,9 @@ class Query(ObjectType):
     def resolve_institution(self, info, **kwargs):
         id = kwargs.get('id')
         return Institution.objects.get(pk=id)
+
+    def resolve_programs(self, info, **kwargs):
+        pass
 
     def resolve_program(self, info, **kwargs):
         id = kwargs.get('id')
