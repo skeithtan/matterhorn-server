@@ -40,8 +40,7 @@ class ProgramSerializer(Serializer):
         except Http404:
             raise ValidationError("Memorandum does not exist!")
 
-        value = memorandum
-        return value
+        return memorandum
 
     def validate_linkage(self, value):
 
@@ -50,8 +49,7 @@ class ProgramSerializer(Serializer):
         except Http404:
             raise ValidationError("Linkage does not exist!")
 
-        value = linkage
-        return value
+        return linkage
 
     def validate_academic_year(self, value):
         try:
@@ -59,8 +57,7 @@ class ProgramSerializer(Serializer):
         except Http404:
             academic_year = AcademicYear.objects.create(academic_year_start=value)
 
-        value = academic_year
-        return value
+        return academic_year
 
     def validate_terms(self, value):
         queryset = []
