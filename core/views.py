@@ -66,15 +66,3 @@ class ModelRestoreView(APIView):
         model.undelete()
         serializer = self.get_serializer_class()(model)
         return Response(serializer.data)
-
-
-class ModelUpdateDestroyRetrieveView(RetrieveUpdateDestroyAPIView):
-    def destroy(self, request, *args, **kwargs):
-        # user = self.request.user
-        instance = self.get_object()
-        instance.delete(user=request.user)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-    def get_serializer(self, *args, **kwargs):
-        kwargs['partial'] = True
-        return super(RetrieveUpdateDestroyAPIView, self).get_serializer(*args, **kwargs)
