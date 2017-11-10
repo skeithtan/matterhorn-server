@@ -52,8 +52,8 @@ class MasterGenericAPIViewMixin(ListCreateAPIView, RetrieveUpdateDestroyAPIView)
         instance.delete(user=request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    class ViewOnlyMixin(MasterGenericAPIViewMixin):
-        
+    # class ViewOnlyMixin(MasterGenericAPIViewMixin):
+
 
 
 
