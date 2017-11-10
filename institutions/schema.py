@@ -65,7 +65,19 @@ class Query(ObjectType):
         return Institution.objects.get(pk=id)
 
     def resolve_programs(self, info, **kwargs):
-        pass
+        year = kwargs.get('year')
+        term = kwargs.get('term')
+
+        if year and term:
+            return Program.objects.filter(academic_year__academic_year_start=year, terms__number=term)
+
+        if year:
+            return Program.objects.filter(academic_year__academic_year_start=year)
+
+        if term:
+            return Program.objects.filter(terms__number=term)
+
+        return Program.objects.all()
 
     def resolve_program(self, info, **kwargs):
         id = kwargs.get('id')
