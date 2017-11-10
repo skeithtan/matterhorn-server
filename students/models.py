@@ -1,4 +1,4 @@
-from django.db.models import ForeignKey, CharField, DateField, PositiveIntegerField, Model
+from django.db.models import Model
 from core.models import *
 from institutions.models import *
 
