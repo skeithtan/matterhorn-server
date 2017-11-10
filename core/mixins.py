@@ -52,7 +52,26 @@ class MasterGenericAPIViewMixin(ListCreateAPIView, RetrieveUpdateDestroyAPIView)
         instance.delete(user=request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class SharedReadOnlyMixin(MasterGenericAPIViewMixin):
+    def get(self, request, *args, **kwargs):
+        #override to allow users to get without crud permission
+        permission = Permission.objects.get(codename='get_memorandum')
+        if permission not in request.user.user_permissions.all():
+            return Response(status=403, data={
+                "error": "not authorized to view"
+            })
 
+        return self.create(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        #only users with crud permissions may post
+        permission = Permission.objects.get(codename='crud_memorandum')
+        if permission not in request.user.user_permissions.all():
+            return Response(status=403, data={
+                "error": "not authorized to add"
+            })
+
+        return self.create(request, *args, **kwargs)
 
 
 
