@@ -2,7 +2,6 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from core.mixins import MasterGenericAPIViewMixin
-from core.views import ModelUpdateDestroyRetrieveView
 from students.serializers import *
 from students.models import *
 

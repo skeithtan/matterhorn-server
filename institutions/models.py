@@ -78,11 +78,15 @@ class Term(SoftDeletionModel):
     name = CharField(max_length=8)
 
 
+class AcademicYear(Model):
+    academic_year_start = PositiveIntegerField()
+
+
 class Program(SoftDeletionModel):
     memorandum = ForeignKey(Memorandum)
     linkage = ForeignKey(Linkage)
     name = CharField(max_length=64)
-    academic_year_start = PositiveIntegerField(max_length=9999)
+    academic_year = ForeignKey(AcademicYear)
     terms = ManyToManyField(Term)
 
     def __str__(self):
