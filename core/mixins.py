@@ -1,14 +1,7 @@
-from braces.views import UserPassesTestMixin
-from django.conf.urls import handler403
 from django.contrib.auth.models import *
-from django.http import Http404
-from django.http import HttpResponseForbidden
 from rest_framework import status
 from rest_framework.generics import *
-
-from rest_framework.permissions import BasePermission
 from rest_framework.response import Response
-
 
 
 class MasterGenericAPIViewMixin(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
@@ -52,9 +45,10 @@ class MasterGenericAPIViewMixin(ListCreateAPIView, RetrieveUpdateDestroyAPIView)
         instance.delete(user=request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 class SharedReadOnlyMixin(MasterGenericAPIViewMixin):
     def get(self, request, *args, **kwargs):
-        #override to allow users to get without crud permission
+        # override to allow users to get without crud permission
         permission = Permission.objects.get(codename='get_memorandum')
         if permission not in request.user.user_permissions.all():
             return Response(status=403, data={
@@ -64,7 +58,7 @@ class SharedReadOnlyMixin(MasterGenericAPIViewMixin):
         return self.create(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        #only users with crud permissions may post
+        # only users with crud permissions may post
         permission = Permission.objects.get(codename='crud_memorandum')
         if permission not in request.user.user_permissions.all():
             return Response(status=403, data={
@@ -72,10 +66,3 @@ class SharedReadOnlyMixin(MasterGenericAPIViewMixin):
             })
 
         return self.create(request, *args, **kwargs)
-
-
-
-
-
-
-
