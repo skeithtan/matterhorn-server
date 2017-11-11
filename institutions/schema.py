@@ -5,8 +5,8 @@ from graphene import (
     ObjectType,
     List,
     Field,
-    Int
-)
+    Int,
+    String)
 
 
 class CountryType(DjangoObjectType):
@@ -14,14 +14,36 @@ class CountryType(DjangoObjectType):
         model = Country
 
 
-class InstitutionType(DjangoObjectType):
-    class Meta:
-        model = Institution
-
-
 class MemorandumType(DjangoObjectType):
+    linkages = List(String)
+
+    def resolve_linkages(self, info):
+        return [linkage.code for linkage in self.linkages.all()]
+
     class Meta:
         model = Memorandum
+
+
+class InstitutionType(DjangoObjectType):
+    mous = List(MemorandumType)
+    moas = List(MemorandumType)
+    latest_moa = Field(MemorandumType)
+    latest_mou = Field(MemorandumType)
+
+    def resolve_moas(self, info):
+        return self.mous
+
+    def resolve_moas(self, info):
+        return self.moas
+
+    def resolve_latest_moa(self, info):
+        return self.latest_moa
+
+    def resolve_latest_mou(self, info):
+        return self.latest_mou
+
+    class Meta:
+        model = Institution
 
 
 class LinkageType(DjangoObjectType):
@@ -59,6 +81,13 @@ class Query(ObjectType):
 
     def resolve_institutions(self, info, **kwargs):
         return Institution.objects.all()
+
+    def resolve_memorandums(self, info, **kwargs):
+        return Memorandum.objects.all()
+
+    def resolve_memorandum(self, info, **kwargs):
+        id = kwargs.get('id')
+        return Memorandum.objects.get(pk=id)
 
     def resolve_institution(self, info, **kwargs):
         id = kwargs.get('id')

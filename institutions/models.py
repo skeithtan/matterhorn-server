@@ -41,8 +41,22 @@ class Institution(SoftDeletionModel):
         return self.name
 
     @property
-    def latest_memorandum(self):
-        return self.memorandum_set.all().order_by('-version_date')[0] if self.memorandum_set.count() > 0 else None
+    def moas(self):
+        return self.memorandum_set.filter(category='MOA').order_by('-date_effective')
+
+    @property
+    def mous(self):
+        return self.memorandum_set.filter(category='MOU').order_by('-date_effective')
+
+    @property
+    def latest_moa(self):
+        moas = self.moas
+        return moas[0] if moas.count() > 0 else None
+
+    @property
+    def latest_mou(self):
+        mous = self.mous
+        return mous[0] if mous.count() > 0 else None
 
 
 class Linkage(Model):
@@ -66,6 +80,10 @@ class Memorandum(SoftDeletionModel):
     date_expiration = DateField(null=True)
     college_initiator = CharField(max_length=5, choices=COLLEGES, null=True)
     linkages = ManyToManyField(Linkage)
+
+    @property
+    def is_latest(self):
+        return self.institution.latest_memorandum.id == self.id
 
     def __str__(self):
         return f"{self.institution.name} - {self.date_effective}"
