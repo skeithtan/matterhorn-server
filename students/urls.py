@@ -9,7 +9,7 @@ student_urls = [
     url(r'(?P<student_id>(\d+))/residency/(?P<pk>(\d+))/$',
         ResidencyAddressHistoryRetrieveUpdateDestroyView.as_view()),
     url(r'(?P<student_id>(\d+))/programs/$', StudentProgramListCreateView.as_view()),
-    url(r'(?P<student_id>(\d+))/programs/(?P<program_offering_id>(\d+))/$',
+    url(r'(?P<student_id>(\d+))/programs/(?P<study_field_id>(\d+))/$',
         StudentProgramRetrieveUpdateDestroyView.as_view()),
     url(r'$', StudentListCreateView.as_view()),
 ]

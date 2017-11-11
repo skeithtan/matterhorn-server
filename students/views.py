@@ -74,5 +74,5 @@ class StudentProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
 
     def get_queryset(self):
         student = self.kwargs['student_id']
-        program_offering = self.kwargs['program_offering_id']
-        return StudentProgram.objects.filter(student=student, program_offering=program_offering)
+        study_field = self.kwargs['study_field']
+        return StudentProgram.objects.filter(student=student, study_field=study_field)

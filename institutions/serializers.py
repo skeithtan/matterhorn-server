@@ -84,10 +84,6 @@ class ProgramSerializer(Serializer):
         program.save()
         return program
 
-
-
-
-
         # def create(self, validated_data):
         #     academic_year = validated_data["academic_year"]
         #     print("hello")
@@ -107,3 +103,9 @@ class ProgramSerializer(Serializer):
         #         )
         #         validated_data["academic_year"] = academic_year_attr.pk
         #         return Program.objects.create(**validated_data)
+
+
+class StudyFieldSerializer(ModelSerializer):
+    class Meta:
+        model = StudyField
+        fields ="__all__"
