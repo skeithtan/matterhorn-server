@@ -84,10 +84,16 @@ class LinkageRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
         kwargs['partial'] = True
         return super(LinkageRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
 
-
-class AcademicYearListCreateView(MasterGenericAPIViewMixin):
+#I didn't inherit from MasterGenericAPIViewMixin cos it wont let me load it without the permission/auth thing sozzzzz - Kammy
+class AcademicYearListCreateView(ListCreateAPIView):
     permission_classes = (IsAuthenticated, )
     queryset = AcademicYear.objects.all()
     serializer_class = AcademicYearSerializer
     #TODO: input codename here
 
+
+# I added this for the sake of getting JSON sa insomnia cos im lazy af -Kammy
+class TermListCreateView(ListCreateAPIView):
+    permission_classes = (IsAuthenticated, )
+    queryset = Term.objects.all()
+    serializer_class = TermSerializer

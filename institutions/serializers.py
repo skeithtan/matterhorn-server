@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, request
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from rest_framework.relations import PrimaryKeyRelatedField
@@ -30,7 +30,7 @@ class LinkageSerializer(ModelSerializer):
 class TermSerializer(ModelSerializer):
     class Meta:
         model = Term
-        field = "__all__"
+        fields = "__all__"
 
 
 class AcademicYearSerializer(ModelSerializer):
@@ -38,7 +38,17 @@ class AcademicYearSerializer(ModelSerializer):
 
     class Meta:
         model = AcademicYear
-        field = ('academic_year_start', 'terms')
+        fields = "__all__"
+
+    def create(self, validated_data):
+        terms = validated_data.pop('terms')
+        instance = AcademicYear.objects.create(**validated_data)
+
+        #for some unknown reason, if you do a POST request it still requires the Academic_year sa Term... ?? - kammy
+        for term in terms:
+            Term.objects.create(academic_year=instance, **terms)
+
+        return instance
 
 
 #TODO: This

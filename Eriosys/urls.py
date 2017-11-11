@@ -16,7 +16,8 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from institutions.urls import institution_urls, memorandum_urls, program_urls, deleted_urls as institution_deleted_urls
+from institutions.urls import institution_urls, memorandum_urls, \
+    program_urls, deleted_urls as institution_deleted_urls, academic_year_urls
 from core.views import SignInView, PrivateGraphQLView
 from students.urls import student_urls, deleted_urls as students_deleted_urls
 
@@ -28,5 +29,6 @@ urlpatterns = [
     url(r'^deleted/', include(institution_deleted_urls + students_deleted_urls)),
     url(r'^students/', include(student_urls)),
     url(r'^memorandums/', include(memorandum_urls)),
-    url(r'^programs', include(program_urls))
+    url(r'^programs', include(program_urls)),
+    url(r'^academic-years', include(academic_year_urls))
 ]

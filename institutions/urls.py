@@ -30,3 +30,8 @@ program_urls = [
     url(r'$', ProgramListCreateView.as_view()),
     url(r'(?P<pk>(\d+))/$', ProgramRetrieveUpdateDestroyView.as_view()),
 ]
+
+academic_year_urls = [
+    url(r'terms/$', TermListCreateView.as_view()),
+    url(r'$', AcademicYearListCreateView.as_view()),
+]
