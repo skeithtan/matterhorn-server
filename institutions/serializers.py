@@ -30,7 +30,7 @@ class LinkageSerializer(ModelSerializer):
 class TermSerializer(ModelSerializer):
     class Meta:
         model = Term
-        fields = "__all__"
+        exclude = ('academic_year', )
 
 
 class AcademicYearSerializer(ModelSerializer):
@@ -44,7 +44,6 @@ class AcademicYearSerializer(ModelSerializer):
         terms = validated_data.pop('terms')
         instance = AcademicYear.objects.create(**validated_data)
 
-        #for some unknown reason, if you do a POST request it still requires the Academic_year sa Term... ?? - kammy
         for term in terms:
             Term.objects.create(academic_year=instance, **terms)
 
