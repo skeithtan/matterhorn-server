@@ -19,6 +19,10 @@ class StudentRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     serializer_class = StudentSerializer
     codename = 'crud_student'
 
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(StudentRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
+
     def get_queryset(self):
         student = self.kwargs['pk']
         return Student.objects.filter(pk=student)
@@ -42,6 +46,10 @@ class ResidencyAddressHistoryRetrieveUpdateDestroyView(MasterGenericAPIViewMixin
     serializer_class = ResidencyAddressHistorySerializer
     lookup_field = 'student_id'
     codename = 'crud_student'
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(ResidencyAddressHistoryRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         student = self.kwargs['student_id']
@@ -71,6 +79,10 @@ class StudentProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     serializer_class = StudentProgramSerializer
     lookup_field = 'student_id'
     codename = 'crud_student'
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(StudentProgramRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         student = self.kwargs['student_id']
