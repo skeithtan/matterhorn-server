@@ -48,7 +48,7 @@ class Query(ObjectType):
     countries = List(CountryType)
     institutions = List(InstitutionType)
     memorandums = List(MemorandumType)
-    programs = List(ProgramType, year=Int(), term=Int())
+    programs = List(ProgramType, year=Int(), term=Int(), institution=Int())
 
     institution = Field(InstitutionType, id=Int())
     memorandum = Field(MemorandumType, id=Int())
@@ -67,17 +67,20 @@ class Query(ObjectType):
     def resolve_programs(self, info, **kwargs):
         year = kwargs.get('year')
         term = kwargs.get('term')
+        institution = kwargs.get('institution')
 
-        if year and term:
-            return Program.objects.filter(academic_year__academic_year_start=year, terms__number=term)
+        programs = Program.objects.all()
+
+        if institution:
+            programs = programs.filter(memorandum__institution_id=institution)
 
         if year:
-            return Program.objects.filter(academic_year__academic_year_start=year)
+            programs = programs.filter(academic_year__academic_year_start=year)
 
         if term:
-            return Program.objects.filter(terms__number=term)
+            programs.filter(terms__number=term)
 
-        return Program.objects.all()
+        return programs
 
     def resolve_program(self, info, **kwargs):
         id = kwargs.get('id')
