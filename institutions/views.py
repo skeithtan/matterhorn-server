@@ -84,19 +84,3 @@ class LinkageRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
         kwargs['partial'] = True
         return super(LinkageRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
 
-class StudyFieldListCreateView(MasterGenericAPIViewMixin):
-    permission_classes = (IsAuthenticated,)
-    queryset = StudyField.objects.all()
-    serializers = StudyFieldSerializer
-    # TODO: put the codename here!!!!!
-
-
-class StudyFieldRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
-    permission_classes = (IsAuthenticated, )
-    queryset = StudyField.objects.all()
-    serializers = StudyFieldSerializer
-    # TODO: put the codename here!!!!!
-
-    def get_serializer(self, *args, **kwargs):
-        kwargs['partial'] = True
-        return super(StudyFieldRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)

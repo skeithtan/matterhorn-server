@@ -89,19 +89,18 @@ class Memorandum(SoftDeletionModel):
         return f"{self.institution.name} - {self.date_effective}"
 
 
-class Term(SoftDeletionModel):
-    number = PositiveIntegerField(primary_key=True)
-    name = CharField(max_length=8)
-
-    def __str__(self):
-        return self.name
-
-
 class AcademicYear(Model):
     academic_year_start = PositiveIntegerField(primary_key=True)
 
     def __str__(self):
         return f"{self.academic_year_start} - {self.academic_year_start + 1}"
+
+
+class Term(SoftDeletionModel):
+    number = PositiveIntegerField(primary_key=True)
+    start_date = DateField()
+    end_date = DateField()
+    academic_year = ForeignKey(AcademicYear)
 
 
 class Program(SoftDeletionModel):
@@ -118,7 +117,6 @@ class Program(SoftDeletionModel):
 class StudyField(SoftDeletionModel):
     name = CharField(max_length=64)
     program = ForeignKey(Program)
-    terms = ManyToManyField(Term)
 
     def __str__(self):
         return f"{self.program} - {self.name}"

@@ -29,7 +29,4 @@ memorandum_urls = [
 program_urls = [
     url(r'$', ProgramListCreateView.as_view()),
     url(r'(?P<pk>(\d+))/$', ProgramRetrieveUpdateDestroyView.as_view()),
-    url(r'(?P<program_id>(\d+))/studyfields/$', StudyFieldListCreateView.as_view()),
-    url(r'(?P<program_id>(\d+))/studyfields/(?P<study_field_id>(\d+))$', StudyFieldListCreateView.as_view()),
-
 ]
