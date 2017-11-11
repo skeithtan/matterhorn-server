@@ -27,6 +27,21 @@ class LinkageSerializer(ModelSerializer):
         model = Linkage
 
 
+class TermSerializer(ModelSerializer):
+    class Meta:
+        model = Term
+        field = "__all__"
+
+
+class AcademicYearSerializer(ModelSerializer):
+    terms = TermSerializer(many=True)
+
+    class Meta:
+        model = AcademicYear
+        field = ('academic_year_start', 'terms')
+
+
+#TODO: This
 class ProgramSerializer(Serializer):
     memorandum = serializers.IntegerField()
     linkage = serializers.CharField()

@@ -84,3 +84,10 @@ class LinkageRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
         kwargs['partial'] = True
         return super(LinkageRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
 
+
+class AcademicYearListCreateView(MasterGenericAPIViewMixin):
+    permission_classes = (IsAuthenticated, )
+    queryset = AcademicYear.objects.all()
+    serializer_class = AcademicYearSerializer
+    #TODO: input codename here
+
