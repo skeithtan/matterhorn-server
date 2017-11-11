@@ -4,7 +4,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.relations import PrimaryKeyRelatedField
 
 from .models import *
-from rest_framework.serializers import ModelSerializer, Serializer,BaseSerializer
+from rest_framework.serializers import ModelSerializer, Serializer, BaseSerializer
 from rest_framework import serializers
 
 
@@ -19,7 +19,7 @@ class MemorandumSerializer(ModelSerializer):
 
     class Meta:
         model = Memorandum
-        exclude = ('institution', )
+        exclude = ('institution',)
 
 
 class LinkageSerializer(ModelSerializer):
@@ -39,7 +39,7 @@ class ProgramSerializer(Serializer):
             memorandum = get_object_or_404(Memorandum, pk=value)
         except Http404:
             raise ValidationError("Memorandum does not exist!")
-
+        #returning pk also doesnt work
         return memorandum
 
     def validate_linkage(self, value):
@@ -66,37 +66,44 @@ class ProgramSerializer(Serializer):
                 queryset.append(get_object_or_404(Term, number=term_number))
             except Http404:
                 raise ValidationError("Term does not exist!")
+
         return queryset
 
-
-
-
-
-
-
-
     def create(self, validated_data):
-        print(validated_data)
-        return Program.objects.create(**validated_data)
+        program = Program()
+        program.memorandum = Memorandum.objects.get(pk=validated_data["memorandum"])
+        program.linkage = validated_data["linkage"]
+        program.academic_year = validated_data["academic_year"]
+        program.save()
+        print(program)
+        program.save()
+
+        for term in validated_data["terms"]:
+            program.terms.add(Term.objects.get(number=term))
+
+        program.save()
+        return program
 
 
-    # def create(self, validated_data):
-    #     academic_year = validated_data["academic_year"]
-    #     print("hello")
-    #     if AcademicYear.objects.get(academic_year_start=academic_year) is None:
-    #         #create if doesnt exist
-    #         academic_year_attr = AcademicYear(
-    #             academic_year_start=academic_year
-    #         )
-    #         academic_year_attr.save()
-    #         validated_data["academic_year"] = academic_year_attr.pk
-    #         return Program.objects.create(**validated_data)
-    #     else:
-    #         print("helloo")
-    #         #assign if exist
-    #         academic_year_attr = AcademicYear.objects.get(
-    #             academic_year_start=academic_year
-    #         )
-    #         validated_data["academic_year"] = academic_year_attr.pk
-    #         return Program.objects.create(**validated_data)
 
+
+
+        # def create(self, validated_data):
+        #     academic_year = validated_data["academic_year"]
+        #     print("hello")
+        #     if AcademicYear.objects.get(academic_year_start=academic_year) is None:
+        #         #create if doesnt exist
+        #         academic_year_attr = AcademicYear(
+        #             academic_year_start=academic_year
+        #         )
+        #         academic_year_attr.save()
+        #         validated_data["academic_year"] = academic_year_attr.pk
+        #         return Program.objects.create(**validated_data)
+        #     else:
+        #         print("helloo")
+        #         #assign if exist
+        #         academic_year_attr = AcademicYear.objects.get(
+        #             academic_year_start=academic_year
+        #         )
+        #         validated_data["academic_year"] = academic_year_attr.pk
+        #         return Program.objects.create(**validated_data)
