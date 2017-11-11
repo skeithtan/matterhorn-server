@@ -1,9 +1,7 @@
 from django.db.models import (
     Model,
     CharField,
-    EmailField,
     DateField,
-    ForeignKey,
     ManyToManyField, PositiveIntegerField)
 
 from core.models import *
