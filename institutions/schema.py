@@ -71,10 +71,14 @@ class Query(ObjectType):
     institutions = List(InstitutionType)
     memorandums = List(MemorandumType)
     programs = List(ProgramType, year=Int(), term=Int(), institution=Int())
+    academic_years = List(AcademicYearType)
 
     institution = Field(InstitutionType, id=Int())
     memorandum = Field(MemorandumType, id=Int())
     program = Field(ProgramType, id=Int())
+
+    def resolve_academic_years(self, info, **kwargs):
+        return AcademicYear.objects.all()
 
     def resolve_countries(self, info, **kwargs):
         return [country for country in Country.objects.all() if country.institution_set.count() > 0]
