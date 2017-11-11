@@ -71,7 +71,7 @@ class ProgramSerializer(Serializer):
 
     def create(self, validated_data):
         program = Program()
-        program.memorandum = Memorandum.objects.get(pk=validated_data["memorandum"])
+        program.memorandum = validated_data["memorandum"]
         program.linkage = validated_data["linkage"]
         program.academic_year = validated_data["academic_year"]
         program.save()
