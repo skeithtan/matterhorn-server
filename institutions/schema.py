@@ -5,8 +5,8 @@ from graphene import (
     ObjectType,
     List,
     Field,
-    Int
-)
+    Int,
+    String)
 
 
 class CountryType(DjangoObjectType):
@@ -14,14 +14,36 @@ class CountryType(DjangoObjectType):
         model = Country
 
 
-class InstitutionType(DjangoObjectType):
-    class Meta:
-        model = Institution
-
-
 class MemorandumType(DjangoObjectType):
+    linkages = List(String)
+
+    def resolve_linkages(self, info):
+        return [linkage.code for linkage in self.linkages.all()]
+
     class Meta:
         model = Memorandum
+
+
+class InstitutionType(DjangoObjectType):
+    mous = List(MemorandumType)
+    moas = List(MemorandumType)
+    latest_moa = Field(MemorandumType)
+    latest_mou = Field(MemorandumType)
+
+    def resolve_moas(self, info):
+        return self.mous
+
+    def resolve_moas(self, info):
+        return self.moas
+
+    def resolve_latest_moa(self, info):
+        return self.latest_moa
+
+    def resolve_latest_mou(self, info):
+        return self.latest_mou
+
+    class Meta:
+        model = Institution
 
 
 class LinkageType(DjangoObjectType):
@@ -48,17 +70,28 @@ class Query(ObjectType):
     countries = List(CountryType)
     institutions = List(InstitutionType)
     memorandums = List(MemorandumType)
-    programs = List(ProgramType, year=Int(), term=Int())
+    programs = List(ProgramType, year=Int(), term=Int(), institution=Int())
+    academic_years = List(AcademicYearType)
 
     institution = Field(InstitutionType, id=Int())
     memorandum = Field(MemorandumType, id=Int())
     program = Field(ProgramType, id=Int())
+
+    def resolve_academic_years(self, info, **kwargs):
+        return AcademicYear.objects.all()
 
     def resolve_countries(self, info, **kwargs):
         return [country for country in Country.objects.all() if country.institution_set.count() > 0]
 
     def resolve_institutions(self, info, **kwargs):
         return Institution.objects.all()
+
+    def resolve_memorandums(self, info, **kwargs):
+        return Memorandum.objects.all()
+
+    def resolve_memorandum(self, info, **kwargs):
+        id = kwargs.get('id')
+        return Memorandum.objects.get(pk=id)
 
     def resolve_institution(self, info, **kwargs):
         id = kwargs.get('id')
@@ -67,17 +100,20 @@ class Query(ObjectType):
     def resolve_programs(self, info, **kwargs):
         year = kwargs.get('year')
         term = kwargs.get('term')
+        institution = kwargs.get('institution')
 
-        if year and term:
-            return Program.objects.filter(academic_year__academic_year_start=year, terms__number=term)
+        programs = Program.objects.all()
+
+        if institution:
+            programs = programs.filter(memorandum__institution_id=institution)
 
         if year:
-            return Program.objects.filter(academic_year__academic_year_start=year)
+            programs = programs.filter(academic_year__academic_year_start=year)
 
         if term:
-            return Program.objects.filter(terms__number=term)
+            programs.filter(terms__number=term)
 
-        return Program.objects.all()
+        return programs
 
     def resolve_program(self, info, **kwargs):
         id = kwargs.get('id')
