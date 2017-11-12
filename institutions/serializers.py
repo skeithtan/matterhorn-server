@@ -33,15 +33,16 @@ class TermSerializer(ModelSerializer):
         exclude = ('academic_year', )
 
 
+#TODO: this
 class AcademicYearSerializer(ModelSerializer):
-    terms = TermSerializer(many=True)
+    # terms = TermSerializer(many=True)
 
     class Meta:
         model = AcademicYear
         fields = "__all__"
 
     def create(self, validated_data):
-        terms = validated_data.pop('terms')
+        # terms = validated_data.pop('terms')
         instance = AcademicYear.objects.create(**validated_data)
 
         for term in terms:
