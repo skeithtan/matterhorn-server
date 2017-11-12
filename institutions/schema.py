@@ -111,7 +111,7 @@ class Query(ObjectType):
             programs = programs.filter(academic_year__academic_year_start=year)
 
         if term:
-            programs.filter(terms__number=term)
+            programs = programs.filter(terms__number=term)
 
         return programs
 
