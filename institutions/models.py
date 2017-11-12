@@ -103,6 +103,9 @@ class Term(SoftDeletionModel):
     end_date = DateField()
     academic_year = ForeignKey(AcademicYear)
 
+    def __str__(self):
+        return f"Term {self.number}"
+
 
 class Program(SoftDeletionModel):
     memorandum = ForeignKey(Memorandum)
