@@ -91,6 +91,10 @@ class AcademicYearListCreateView(ListCreateAPIView):
     serializer_class = AcademicYearSerializer
     #TODO: input codename here
 
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(AcademicYearListCreateView, self).get_serializer(*args, **kwargs)
+
 
 # I added this for the sake of getting JSON sa insomnia cos im lazy af -Kammy
 class TermListCreateView(ListCreateAPIView):

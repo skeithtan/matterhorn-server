@@ -101,7 +101,7 @@ class Term(SoftDeletionModel):
     number = PositiveIntegerField()
     start_date = DateField()
     end_date = DateField()
-    academic_year = ForeignKey(AcademicYear)
+    academic_year = ForeignKey(AcademicYear, related_name='term_academic_year')
 
     def __str__(self):
         return f"Term {self.number}"

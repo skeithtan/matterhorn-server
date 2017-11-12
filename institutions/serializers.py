@@ -35,18 +35,18 @@ class TermSerializer(ModelSerializer):
 
 #TODO: this
 class AcademicYearSerializer(ModelSerializer):
-    # terms = TermSerializer(many=True)
+    term_academic_year = TermSerializer(many=True)
 
     class Meta:
         model = AcademicYear
-        fields = "__all__"
+        fields = ['academic_year_start', 'term_academic_year']
 
     def create(self, validated_data):
-        # terms = validated_data.pop('terms')
+        terms = validated_data.pop('term_academic_year')
         instance = AcademicYear.objects.create(**validated_data)
 
         for term in terms:
-            Term.objects.create(academic_year=instance, **terms)
+            Term.objects.create(term_academic_year=instance, **term)
 
         return instance
 
