@@ -56,6 +56,11 @@ class ProgramType(DjangoObjectType):
         model = Program
 
 
+class StudyFieldType(DjangoObjectType):
+    class Meta:
+        model = StudyField
+
+
 class TermType(DjangoObjectType):
     class Meta:
         model = Term
