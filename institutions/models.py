@@ -96,7 +96,6 @@ class AcademicYear(Model):
         return f"{self.academic_year_start} - {self.academic_year_start + 1}"
 
 
-#I removed number as PK in this model... wouldn't migrate doe huhu
 class Term(SoftDeletionModel):
     number = PositiveIntegerField()
     start_date = DateField()

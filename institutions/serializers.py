@@ -33,7 +33,6 @@ class TermSerializer(ModelSerializer):
         exclude = ('academic_year', )
 
 
-#TODO: this
 class AcademicYearSerializer(Serializer):
     academic_year_start = serializers.IntegerField()
     terms = TermSerializer(many=True, write_only=True)
