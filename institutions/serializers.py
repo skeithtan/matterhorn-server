@@ -33,20 +33,22 @@ class TermSerializer(ModelSerializer):
         exclude = ('academic_year', )
 
 
-#TODO: this
-class AcademicYearSerializer(ModelSerializer):
-    term_academic_year = TermSerializer(many=True)
+class AcademicYearSerializer(Serializer):
+    academic_year_start = serializers.IntegerField()
+    terms = TermSerializer(many=True, write_only=True)
 
-    class Meta:
-        model = AcademicYear
-        fields = ['academic_year_start', 'term_academic_year']
+    def validate_academic_year_start(self, value):
+        if AcademicYear.objects.filter(pk=value):
+            raise ValidationError("Academic Year Exists!")
+        else:
+            return value
 
     def create(self, validated_data):
-        terms = validated_data.pop('term_academic_year')
+        terms = validated_data.pop('terms')
         instance = AcademicYear.objects.create(**validated_data)
 
         for term in terms:
-            Term.objects.create(term_academic_year=instance, **term)
+            Term.objects.create(academic_year=instance, **term)
 
         return instance
 
