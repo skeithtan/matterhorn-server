@@ -37,10 +37,6 @@ class AcademicYearSerializer(Serializer):
     academic_year_start = serializers.IntegerField()
     terms = TermSerializer(many=True, write_only=True)
 
-    class Meta:
-        model = AcademicYear
-        fields = ['__all__']
-
     def create(self, validated_data):
         terms = validated_data.pop('terms')
         instance = AcademicYear.objects.create(**validated_data)
