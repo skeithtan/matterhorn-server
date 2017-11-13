@@ -34,19 +34,20 @@ class TermSerializer(ModelSerializer):
 
 
 #TODO: this
-class AcademicYearSerializer(ModelSerializer):
-    term_academic_year = TermSerializer(many=True)
+class AcademicYearSerializer(Serializer):
+    academic_year_start = serializers.IntegerField()
+    terms = TermSerializer(many=True, write_only=True)
 
     class Meta:
         model = AcademicYear
-        fields = ['academic_year_start', 'term_academic_year']
+        fields = ['__all__']
 
     def create(self, validated_data):
-        terms = validated_data.pop('term_academic_year')
+        terms = validated_data.pop('terms')
         instance = AcademicYear.objects.create(**validated_data)
 
         for term in terms:
-            Term.objects.create(term_academic_year=instance, **term)
+            Term.objects.create(academic_year=instance, **term)
 
         return instance
 
