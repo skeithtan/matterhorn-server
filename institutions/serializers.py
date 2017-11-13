@@ -37,6 +37,12 @@ class AcademicYearSerializer(Serializer):
     academic_year_start = serializers.IntegerField()
     terms = TermSerializer(many=True, write_only=True)
 
+    def validate_academic_year_start(self, value):
+        if AcademicYear.objects.filter(pk=value):
+            raise ValidationError("Academic Year Exists!")
+        else:
+            return value
+
     def create(self, validated_data):
         terms = validated_data.pop('terms')
         instance = AcademicYear.objects.create(**validated_data)
