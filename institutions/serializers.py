@@ -30,16 +30,16 @@ class LinkageSerializer(ModelSerializer):
 class TermSerializer(ModelSerializer):
     class Meta:
         model = Term
-        exclude = ('academic_year', )
+        exclude = ('academic_year',)
 
 
 class AcademicYearSerializer(Serializer):
     academic_year_start = serializers.IntegerField()
-    terms = TermSerializer(many=True, write_only=True)
+    terms = TermSerializer(many=True)
 
     def validate_academic_year_start(self, value):
         if AcademicYear.objects.filter(pk=value):
-            raise ValidationError("Academic Year Exists!")
+            raise ValidationError("Academic Year exists")
         else:
             return value
 
@@ -60,7 +60,7 @@ class AcademicYearSerializer(Serializer):
         return instance
 
 
-#TODO: This
+# TODO: This
 class ProgramSerializer(ModelSerializer):
     memorandum = PrimaryKeyRelatedField(queryset=Memorandum.objects.all())
     linkage = PrimaryKeyRelatedField(queryset=Linkage.objects.all())
@@ -70,5 +70,3 @@ class ProgramSerializer(ModelSerializer):
     class Meta:
         model = Program
         fields = "__all__"
-
-
