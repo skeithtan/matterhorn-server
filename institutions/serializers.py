@@ -43,6 +43,13 @@ class AcademicYearSerializer(Serializer):
         else:
             return value
 
+    # def validate_terms(self, value):
+    #     term_serializer = TermSerializer(date=value)
+    #     if term_serializer.is_valid() is False:
+    #         raise ValidationError("All fields for term must have values!")
+    #
+    #     return value
+
     def create(self, validated_data):
         terms = validated_data.pop('terms')
         instance = AcademicYear.objects.create(**validated_data)
@@ -54,79 +61,14 @@ class AcademicYearSerializer(Serializer):
 
 
 #TODO: This
-class ProgramSerializer(Serializer):
-    memorandum = serializers.IntegerField()
-    linkage = serializers.CharField()
-    name = serializers.CharField(max_length=64)
-    academic_year = serializers.IntegerField()
-    terms = serializers.ListField(child=serializers.IntegerField())
+class ProgramSerializer(ModelSerializer):
+    memorandum = PrimaryKeyRelatedField(queryset=Memorandum.objects.all())
+    linkage = PrimaryKeyRelatedField(queryset=Linkage.objects.all())
+    terms = PrimaryKeyRelatedField(many=True, queryset=Term.objects.all())
+    academic_year = PrimaryKeyRelatedField(queryset=AcademicYear.objects.all())
 
-    def validate_memorandum(self, value):
-        try:
-            memorandum = get_object_or_404(Memorandum, pk=value)
-        except Http404:
-            raise ValidationError("Memorandum does not exist!")
-        #returning pk also doesnt work
-        return memorandum
+    class Meta:
+        model = Program
+        fields = "__all__"
 
-    def validate_linkage(self, value):
 
-        try:
-            linkage = get_object_or_404(Linkage, code=value)
-        except Http404:
-            raise ValidationError("Linkage does not exist!")
-
-        return linkage
-
-    def validate_academic_year(self, value):
-        try:
-            academic_year = get_object_or_404(AcademicYear, academic_year_start=value)
-        except Http404:
-            academic_year = AcademicYear.objects.create(academic_year_start=value)
-
-        return academic_year
-
-    def validate_terms(self, value):
-        queryset = []
-        for term_number in value:
-            try:
-                queryset.append(get_object_or_404(Term, number=term_number))
-            except Http404:
-                raise ValidationError("Term does not exist!")
-
-        return queryset
-
-    def create(self, validated_data):
-        program = Program()
-        program.memorandum = validated_data["memorandum"]
-        program.linkage = validated_data["linkage"]
-        program.academic_year = validated_data["academic_year"]
-        program.save()
-        print(program)
-        program.save()
-
-        for term in validated_data["terms"]:
-            program.terms.add(Term.objects.get(number=term))
-
-        program.save()
-        return program
-
-        # def create(self, validated_data):
-        #     academic_year = validated_data["academic_year"]
-        #     print("hello")
-        #     if AcademicYear.objects.get(academic_year_start=academic_year) is None:
-        #         #create if doesnt exist
-        #         academic_year_attr = AcademicYear(
-        #             academic_year_start=academic_year
-        #         )
-        #         academic_year_attr.save()
-        #         validated_data["academic_year"] = academic_year_attr.pk
-        #         return Program.objects.create(**validated_data)
-        #     else:
-        #         print("helloo")
-        #         #assign if exist
-        #         academic_year_attr = AcademicYear.objects.get(
-        #             academic_year_start=academic_year
-        #         )
-        #         validated_data["academic_year"] = academic_year_attr.pk
-        #         return Program.objects.create(**validated_data)
