@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^sign-in/', SignInView.as_view()),
     url(r'^graphql', PrivateGraphQLView.as_view()),
     url(r'^institutions/', include(institution_urls)),
-    url(r'^deleted/', include(institution_deleted_urls + students_deleted_urls)),
+    url(r'^archive/', include(institution_deleted_urls + students_deleted_urls)),
     url(r'^students/', include(student_urls)),
     url(r'^memorandums/', include(memorandum_urls)),
     url(r'^programs', include(program_urls)),
