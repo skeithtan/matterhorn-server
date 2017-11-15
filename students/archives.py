@@ -1,10 +1,10 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from students.serializers import *
 from students.models import *
 
 
-class ArchivedStudentView(ListCreateAPIView):
+class ArchivedStudentView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Student.archived.all()
     serializer_class = StudentSerializer
@@ -20,7 +20,7 @@ class ArchivedStudentUpdateView(RetrieveUpdateDestroyAPIView):
         return super(ArchivedStudentUpdateView, self).get_serializer(*args, **kwargs)
 
 
-class ArchivedResidencyAddressHistoryView(ListCreateAPIView):
+class ArchivedResidencyAddressHistoryView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = ResidencyAddressHistory.archived.all()
     serializer_class = ResidencyAddressHistorySerializer
@@ -36,7 +36,7 @@ class ArchivedResidencyAddressHistoryUpdateView(RetrieveUpdateDestroyAPIView):
         return super(ArchivedResidencyAddressHistoryUpdateView, self).get_serializer(*args, **kwargs)
 
 
-class ArchivedStudentProgramView(ListCreateAPIView):
+class ArchivedStudentProgramView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = StudentProgram.archived.all()
     serializer_class = StudentProgramSerializer

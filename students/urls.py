@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from .views import *
 from .archives import *
 from .restorations import *
@@ -14,14 +14,21 @@ student_urls = [
     url(r'$', StudentListCreateView.as_view()),
 ]
 
-deleted_urls = [
-    url(r'studentprograms/$', ArchivedStudentProgramView.as_view()),
-    url(r'studentprograms/(?P<pk>(\d+))/$', ArchivedStudentProgramUpdateView.as_view()),
-    url(r'studentprograms/(?P<pk>(\d+))/restore/$', StudentRestoreView.as_view()),
-    url(r'residency/$', ArchivedResidencyAddressHistoryView.as_view()),
-    url(r'residency/(?P<pk>(\d+))/$', ArchivedResidencyAddressHistoryUpdateView.as_view()),
-    url(r'residency/(?P<pk>(\d+))/restore/$', ResidencyRestoreView.as_view()),
-    url(r'students/$', ArchivedStudentView.as_view()),
-    url(r'students/(?P<pk>(\d+))/$', ArchivedStudentUpdateView.as_view()),
-    url(r'students/(?P<pk>(\d+))/restore/$', StudentProgramRestoreView.as_view()),
+student_archived_urls = [
+    url(r'$', ArchivedStudentView.as_view()),
+    url(r'(?P<pk>(\d+))/$', ArchivedStudentUpdateView.as_view()),
+    url(r'(?P<pk>(\d+))/restore/$', StudentProgramRestoreView.as_view()),
 ]
+
+student_programs_archived_urls = [
+    url(r'$', ArchivedStudentProgramView.as_view()),
+    url(r'(?P<pk>(\d+))/$', ArchivedStudentProgramUpdateView.as_view()),
+    url(r'(?P<pk>(\d+))/restore/$', StudentRestoreView.as_view()),
+]
+
+residency_archived_urls = [
+    url(r'$', ArchivedResidencyAddressHistoryView.as_view()),
+    url(r'(?P<pk>(\d+))/$', ArchivedResidencyAddressHistoryUpdateView.as_view()),
+    url(r'(?P<pk>(\d+))/restore/$', ResidencyRestoreView.as_view()),
+]
+

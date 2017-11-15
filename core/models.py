@@ -33,17 +33,18 @@ class SoftDeletionQuerySet(QuerySet):
 
 class SoftDeletionManager(Manager):
     def __init__(self, *args, **kwargs):
-        self.alive_only = kwargs.pop('alive_only', True)
+        self.alive_only = kwargs.pop('alive_only', False)
         self.archived_only = kwargs.pop('archived_only', False)
 
         super(SoftDeletionManager, self).__init__(*args, **kwargs)
 
     def get_queryset(self):
+
         if self.alive_only:
             return SoftDeletionQuerySet(self.model).filter(archived_at=None)
 
         if self.archived_only:
-            return SoftDeletionQuerySet(self.model).filter(archived_at__isnull=False)
+            return SoftDeletionQuerySet(self.model).exclude(archived_at=None)
 
         return SoftDeletionQuerySet(self.model)
 
@@ -54,8 +55,8 @@ class SoftDeletionManager(Manager):
 class SoftDeletionModel(Model):
     archived_at = DateTimeField(blank=True, null=True)
     objects = SoftDeletionManager()
-    current = SoftDeletionManager(alive_only=False)
-    archived = SoftDeletionManager(archived_only=False)
+    current = SoftDeletionManager(alive_only=True)
+    archived = SoftDeletionManager(archived_only=True)
     archiver = CharField(max_length=32, blank=True)
 
     class Meta:
@@ -71,5 +72,5 @@ class SoftDeletionModel(Model):
 
     def undelete(self):
         self.archived_at = None
-        self.archiver = None
+        self.archiver = ""
         self.save()
