@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from .views import *
-from .deletions import *
+from .archives import *
 from .restorations import *
 
 institution_urls = [
@@ -11,14 +11,14 @@ institution_urls = [
 ]
 
 deleted_urls = [
-    url(r'institutions/$', DeletedInstitutionsView.as_view()),
-    url(r'institutions/(?P<pk>(\d+))/$', DeletedInstitutionUpdateDeletedView.as_view()),
+    url(r'institutions/$', ArchivedInstitutionsView.as_view()),
+    url(r'institutions/(?P<pk>(\d+))/$', ArchivedInstitutionUpdateDeletedView.as_view()),
     url(r'institutions/(?P<pk>(\d+))/restore/$', InstitutionRestoreView.as_view()),
-    url(r'memorandums/$', DeletedMemorandumsView.as_view()),
-    url(r'memorandums/(?P<pk>(\d+))/$', DeletedMemorandumUpdateDeletedView.as_view()),
+    url(r'memorandums/$', ArchivedMemorandumsView.as_view()),
+    url(r'memorandums/(?P<pk>(\d+))/$', ArchivedMemorandumUpdateDeletedView.as_view()),
     url(r'memorandums/(?P<pk>(\d+))/restore/$', MemorandumRestoreView.as_view()),
-    url(r'programs/$', DeletedProgramsView.as_view()),
-    url(r'programs/(?P<pk>(\d+))/$', DeletedProgramUpdateView.as_view()),
+    url(r'programs/$', ArchivedProgramsView.as_view()),
+    url(r'programs/(?P<pk>(\d+))/$', ArchivedProgramUpdateView.as_view()),
     url(r'programs/(?P<pk>(\d+))/restore/$', ProgramRestoreView.as_view()),
 ]
 
