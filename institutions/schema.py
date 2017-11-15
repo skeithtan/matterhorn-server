@@ -6,7 +6,7 @@ from graphene import (
     List,
     Field,
     Int,
-    String)
+    String, Boolean)
 
 
 class CountryType(DjangoObjectType):
@@ -74,8 +74,8 @@ class AcademicYearType(DjangoObjectType):
 class Query(ObjectType):
     countries = List(CountryType)
     institutions = List(InstitutionType)
-    memorandums = List(MemorandumType)
-    programs = List(ProgramType, year=Int(), term=Int(), institution=Int())
+    memorandums = List(MemorandumType, archived=Boolean())
+    programs = List(ProgramType, year=Int(), term=Int(), institution=Int(), archived=Boolean())
     academic_years = List(AcademicYearType)
     terms = List(TermType, year=Int())
 
@@ -93,7 +93,8 @@ class Query(ObjectType):
         return Institution.objects.all()
 
     def resolve_memorandums(self, info, **kwargs):
-        return Memorandum.objects.all()
+        archived = kwargs.get('archived', False)
+        return Memorandum.all_objects.filter(deleted_at__isnull=False) if archived else Memorandum.objects.all()
 
     def resolve_memorandum(self, info, **kwargs):
         id = kwargs.get('id')
@@ -115,9 +116,10 @@ class Query(ObjectType):
     def resolve_programs(self, info, **kwargs):
         year = kwargs.get('year')
         term = kwargs.get('term')
+        archived = kwargs.get('archived', False)
         institution = kwargs.get('institution')
 
-        programs = Program.objects.all()
+        programs = Program.all_objects.filter(deleted_at__isnull=False) if archived else Program.objects.all()
 
         if institution:
             programs = programs.filter(memorandum__institution_id=institution)

@@ -5,8 +5,8 @@ from graphene import (
     ObjectType,
     List,
     Field,
-    Int
-)
+    Int,
+    Boolean)
 
 
 class StudentType(DjangoObjectType):
@@ -25,7 +25,7 @@ class StudentProgramType(DjangoObjectType):
 
 
 class Query(ObjectType):
-    students = List(StudentType)
+    students = List(StudentType, archived=Boolean())
     resident_address_histories = List(ResidencyAddressHistoryType)
     student_programs = List(StudentProgramType)
 
@@ -34,7 +34,8 @@ class Query(ObjectType):
     student_program = Field(StudentProgramType, id=Int())
 
     def resolve_students(self, info, **kwargs):
-        return Student.objects.all()
+        archived = kwargs.get('archived', False)
+        return Student.all_objects.filter(deleted_at__isnull=False) if archived else Student.objects.all()
 
     def resolve_resident_address_histories(self, info, **kwargs):
         return ResidencyAddressHistory.objects.all()
