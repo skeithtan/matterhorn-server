@@ -73,9 +73,9 @@ class AcademicYearType(DjangoObjectType):
 
 class Query(ObjectType):
     countries = List(CountryType)
-    institutions = List(InstitutionType)
-    memorandums = List(MemorandumType, archived=Boolean())
-    programs = List(ProgramType, year=Int(), term=Int(), institution=Int(), archived=Boolean())
+    institutions = List(InstitutionType, archived=Boolean(), year_archived=Int())
+    memorandums = List(MemorandumType, archived=Boolean(), year_archived=Int())
+    programs = List(ProgramType, year=Int(), term=Int(), institution=Int(), archived=Boolean(), year_archived=Int())
     academic_years = List(AcademicYearType)
     terms = List(TermType, year=Int())
 
@@ -90,22 +90,27 @@ class Query(ObjectType):
         return [country for country in Country.objects.all() if country.institution_set.count() > 0]
 
     def resolve_institutions(self, info, **kwargs):
-        return Institution.objects.all()
+        archived = kwargs.get('archived', False)
+        year_archived = kwargs.get('yea_archivedr')
+
+        return Institution.archived.filter(archived_at__year=year_archived) if archived else Institution.current.all()
 
     def resolve_memorandums(self, info, **kwargs):
         archived = kwargs.get('archived', False)
-        return Memorandum.archived.all() if archived else Memorandum.current.all()
+        year_archived = kwargs.get('year_archived')
+
+        return Memorandum.archived.filter(archived_at__year=year_archived) if archived else Memorandum.current.all()
 
     def resolve_memorandum(self, info, **kwargs):
         id = kwargs.get('id')
-        return Memorandum.objects.get(pk=id)
+        return Memorandum.current.get(pk=id)
 
     def resolve_institution(self, info, **kwargs):
         id = kwargs.get('id')
-        return Institution.objects.get(pk=id)
+        return Institution.current.get(pk=id)
 
     def resolve_terms(self, info, **kwargs):
-        terms = Term.objects.all()
+        terms = Term.current.all()
         year = kwargs.get('year')
 
         if year:
@@ -118,8 +123,9 @@ class Query(ObjectType):
         term = kwargs.get('term')
         archived = kwargs.get('archived', False)
         institution = kwargs.get('institution')
+        year_archived = kwargs.get('year_archived')
 
-        programs = Program.archived.all() if archived else Program.current.all()
+        programs = Program.archived.filter(archived_at__year=year_archived) if archived else Program.current.all()
 
         if institution:
             programs = programs.filter(memorandum__institution_id=institution)
