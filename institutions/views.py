@@ -87,7 +87,7 @@ class LinkageRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
 
 
 class AcademicYearListCreateView(MasterGenericAPIViewMixin):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
     queryset = AcademicYear.objects.all()
     serializer_class = AcademicYearSerializer
     codename = 'crud_student'
@@ -98,6 +98,6 @@ class AcademicYearListCreateView(MasterGenericAPIViewMixin):
 
 
 class TermListCreateView(ListCreateAPIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
     queryset = Term.objects.all()
     serializer_class = TermSerializer

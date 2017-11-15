@@ -77,6 +77,7 @@ class Query(ObjectType):
     memorandums = List(MemorandumType)
     programs = List(ProgramType, year=Int(), term=Int(), institution=Int())
     academic_years = List(AcademicYearType)
+    terms = List(TermType, year=Int())
 
     institution = Field(InstitutionType, id=Int())
     memorandum = Field(MemorandumType, id=Int())
@@ -101,6 +102,15 @@ class Query(ObjectType):
     def resolve_institution(self, info, **kwargs):
         id = kwargs.get('id')
         return Institution.objects.get(pk=id)
+
+    def resolve_terms(self, info, **kwargs):
+        terms = Term.objects.all()
+        year = kwargs.get('year')
+
+        if year:
+            terms = terms.filter(academic_year__academic_year_start=year)
+
+        return terms
 
     def resolve_programs(self, info, **kwargs):
         year = kwargs.get('year')
