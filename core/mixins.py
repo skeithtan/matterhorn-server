@@ -43,7 +43,7 @@ class MasterGenericAPIViewMixin(ListCreateAPIView, RetrieveUpdateDestroyAPIView)
             })
 
         instance = self.get_object()
-        instance.delete(user=request.user)
+        instance.delete(user=request.user.username)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
