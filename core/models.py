@@ -1,5 +1,4 @@
-from django.contrib.auth import user_logged_in
-from django.db.models import Model, DateTimeField, Manager, QuerySet, ForeignKey
+from django.db.models import Model, DateTimeField, Manager, QuerySet, CharField
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -57,14 +56,14 @@ class SoftDeletionModel(Model):
     objects = SoftDeletionManager()
     current = SoftDeletionManager(alive_only=False)
     archived = SoftDeletionManager(archived_only=False)
-    user = ForeignKey(User, null=True, blank=True)
+    archiver = CharField(max_length=32, blank=True)
 
     class Meta:
         abstract = True
 
     def delete(self, **kwargs):
         self.archived_at = timezone.now()
-        self.user = kwargs['user']
+        self.archiver = kwargs['user']
         self.save()
 
     def hard_delete(self):
@@ -72,5 +71,5 @@ class SoftDeletionModel(Model):
 
     def undelete(self):
         self.archived_at = None
-        self.user = None
+        self.archiver = None
         self.save()
