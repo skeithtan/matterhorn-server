@@ -4,50 +4,50 @@ from students.serializers import *
 from students.models import *
 
 
-class DeletedStudentView(ListCreateAPIView):
+class ArchivedStudentView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Student.all_objects.exclude(deleted_at=None)
     serializer_class = StudentSerializer
 
 
-class DeletedStudentUpdateView(RetrieveUpdateDestroyAPIView):
+class ArchivedStudentUpdateView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Student.all_objects.exclude(deleted_at=None)
     serializer_class = StudentSerializer
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(DeletedStudentUpdateView, self).get_serializer(*args, **kwargs)
+        return super(ArchivedStudentUpdateView, self).get_serializer(*args, **kwargs)
 
 
-class DeletedResidencyAddressHistoryView(ListCreateAPIView):
+class ArchivedResidencyAddressHistoryView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = ResidencyAddressHistory.all_objects.exclude(deleted_at=None)
     serializer_class = ResidencyAddressHistorySerializer
 
 
-class DeletedResidencyAddressHistoryUpdateView(RetrieveUpdateDestroyAPIView):
+class ArchivedResidencyAddressHistoryUpdateView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = ResidencyAddressHistory.all_objects.exclude(deleted_at=None)
     serializer_class = ResidencyAddressHistorySerializer
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(DeletedResidencyAddressHistoryUpdateView, self).get_serializer(*args, **kwargs)
+        return super(ArchivedResidencyAddressHistoryUpdateView, self).get_serializer(*args, **kwargs)
 
 
-class DeletedStudentProgramView(ListCreateAPIView):
+class ArchivedStudentProgramView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = StudentProgram.all_objects.exclude(deleted_at=None)
     serializer_class = StudentProgramSerializer
 
 
-class DeletedStudentProgramUpdateView(RetrieveUpdateDestroyAPIView):
+class ArchivedStudentProgramUpdateView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = StudentProgram.all_objects.exclude(deleted_at=None)
     serializer_class = StudentProgramSerializer
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(DeletedStudentProgramUpdateView, self).get_serializer(*args, **kwargs)
+        return super(ArchivedStudentProgramUpdateView, self).get_serializer(*args, **kwargs)
 
