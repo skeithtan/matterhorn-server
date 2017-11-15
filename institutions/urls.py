@@ -11,21 +11,21 @@ institution_urls = [
 ]
 
 institution_archived_urls = [
-    url(r'$', ArchivedInstitutionsView.as_view()),
-    url(r'(?P<pk>(\d+))/$', ArchivedInstitutionUpdateDeletedView.as_view()),
     url(r'(?P<pk>(\d+))/restore/$', InstitutionRestoreView.as_view()),
+    url(r'(?P<pk>(\d+))/$', ArchivedInstitutionUpdateDeletedView.as_view()),
+    url(r'$', ArchivedInstitutionsView.as_view()),
 ]
 
 memorandum_archived_urls = [
-    url(r'$', ArchivedMemorandumsView.as_view()),
-    url(r'(?P<pk>(\d+))/$', ArchivedMemorandumUpdateDeletedView.as_view()),
     url(r'(?P<pk>(\d+))/restore/$', MemorandumRestoreView.as_view()),
+    url(r'(?P<pk>(\d+))/$', ArchivedMemorandumUpdateDeletedView.as_view()),
+    url(r'$', ArchivedMemorandumsView.as_view()),
 ]
 
 program_archived_urls = [
-    url(r'$', ArchivedProgramsView.as_view()),
-    url(r'(?P<pk>(\d+))/$', ArchivedProgramUpdateView.as_view()),
     url(r'(?P<pk>(\d+))/restore/$', ProgramRestoreView.as_view()),
+    url(r'(?P<pk>(\d+))/$', ArchivedProgramUpdateView.as_view()),
+    url(r'$', ArchivedProgramsView.as_view()),
 ]
 
 memorandum_urls = [
@@ -33,8 +33,8 @@ memorandum_urls = [
 ]
 
 program_urls = [
-    url(r'$', ProgramListCreateView.as_view()),
     url(r'(?P<pk>(\d+))/$', ProgramRetrieveUpdateDestroyView.as_view()),
+    url(r'$', ProgramListCreateView.as_view()),
 ]
 
 academic_year_urls = [

@@ -15,20 +15,19 @@ student_urls = [
 ]
 
 student_archived_urls = [
-    url(r'$', ArchivedStudentView.as_view()),
+    url(r'(?P<pk>(\d+))/restore/$', StudentRestoreView.as_view()),
     url(r'(?P<pk>(\d+))/$', ArchivedStudentUpdateView.as_view()),
-    url(r'(?P<pk>(\d+))/restore/$', StudentProgramRestoreView.as_view()),
+    url(r'$', ArchivedStudentView.as_view()),
 ]
 
 student_programs_archived_urls = [
-    url(r'$', ArchivedStudentProgramView.as_view()),
+    url(r'(?P<pk>(\d+))/restore/$', StudentProgramRestoreView.as_view()),
     url(r'(?P<pk>(\d+))/$', ArchivedStudentProgramUpdateView.as_view()),
-    url(r'(?P<pk>(\d+))/restore/$', StudentRestoreView.as_view()),
+    url(r'$', ArchivedStudentProgramView.as_view()),
 ]
 
 residency_archived_urls = [
-    url(r'$', ArchivedResidencyAddressHistoryView.as_view()),
-    url(r'(?P<pk>(\d+))/$', ArchivedResidencyAddressHistoryUpdateView.as_view()),
     url(r'(?P<pk>(\d+))/restore/$', ResidencyRestoreView.as_view()),
+    url(r'(?P<pk>(\d+))/$', ArchivedResidencyAddressHistoryUpdateView.as_view()),
+    url(r'$', ArchivedResidencyAddressHistoryView.as_view()),
 ]
-
