@@ -17,19 +17,19 @@ COLLEGES = (
 
 class SoftDeletionQuerySet(QuerySet):
     def delete(self):
-        return super(SoftDeletionQuerySet, self).update(deleted_at=timezone.now())
+        return super(SoftDeletionQuerySet, self).update(archived_at=timezone.now())
 
     def undelete(self):
-        return super(SoftDeletionQuerySet, self).update(deleted_at=None, user=None)
+        return super(SoftDeletionQuerySet, self).update(archived_at=None, user=None)
 
     def hard_delete(self):
         return super(SoftDeletionQuerySet, self).delete()
 
     def alive(self):
-        return self.filter(deleted_at=None)
+        return self.filter(archived_at=None)
 
     def dead(self):
-        return self.exclude(deleted_at=None)
+        return self.exclude(archived_at=None)
 
 
 class SoftDeletionManager(Manager):
@@ -39,7 +39,7 @@ class SoftDeletionManager(Manager):
 
     def get_queryset(self):
         if self.alive_only:
-            return SoftDeletionQuerySet(self.model).filter(deleted_at=None)
+            return SoftDeletionQuerySet(self.model).filter(archived_at=None)
         return SoftDeletionQuerySet(self.model)
 
     def hard_delete(self):
@@ -47,7 +47,7 @@ class SoftDeletionManager(Manager):
 
 
 class SoftDeletionModel(Model):
-    deleted_at = DateTimeField(blank=True, null=True)
+    archived_at = DateTimeField(blank=True, null=True)
     objects = SoftDeletionManager()
     all_objects = SoftDeletionManager(alive_only=False)
     user = ForeignKey(User, null=True, blank=True)
@@ -56,7 +56,7 @@ class SoftDeletionModel(Model):
         abstract = True
 
     def delete(self, **kwargs):
-        self.deleted_at = timezone.now()
+        self.archived_at = timezone.now()
         self.user = kwargs['user']
         self.save()
 
@@ -64,6 +64,6 @@ class SoftDeletionModel(Model):
         super(SoftDeletionModel, self).delete()
 
     def undelete(self):
-        self.deleted_at = None
+        self.archived_at = None
         self.user = None
         self.save()

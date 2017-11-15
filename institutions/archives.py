@@ -6,13 +6,13 @@ from institutions.models import *
 
 class ArchivedInstitutionsView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = Institution.all_objects.exclude(deleted_at=None)
+    queryset = Institution.all_objects.exclude(archived_at=None)
     serializer_class = InstitutionSerializer
 
 
 class ArchivedInstitutionUpdateDeletedView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = Institution.all_objects.exclude(deleted_at=None)
+    queryset = Institution.all_objects.exclude(archived_at=None)
     serializer_class = InstitutionSerializer
 
     def get_serializer(self, *args, **kwargs):
@@ -22,13 +22,13 @@ class ArchivedInstitutionUpdateDeletedView(RetrieveUpdateDestroyAPIView):
 
 class ArchivedMemorandumsView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = Memorandum.all_objects.exclude(deleted_at=None)
+    queryset = Memorandum.all_objects.exclude(archived_at=None)
     serializer_class = MemorandumSerializer
 
 
 class ArchivedMemorandumUpdateDeletedView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = Memorandum.all_objects.exclude(deleted_at=None)
+    queryset = Memorandum.all_objects.exclude(archived_at=None)
     serializer_class = MemorandumSerializer
 
     def get_serializer(self, *args, **kwargs):
@@ -38,13 +38,13 @@ class ArchivedMemorandumUpdateDeletedView(RetrieveUpdateDestroyAPIView):
 
 class ArchivedProgramsView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = Program.all_objects.exclude(deleted_at=None)
+    queryset = Program.all_objects.exclude(archived_at=None)
     serializer_class = ProgramSerializer
 
 
 class ArchivedProgramUpdateView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = Program.all_objects.exclude(deleted_at=None)
+    queryset = Program.all_objects.exclude(archived_at=None)
     serializer_class = ProgramSerializer
 
     def get_serializer(self, *args, **kwargs):
