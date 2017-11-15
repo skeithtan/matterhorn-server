@@ -24,6 +24,10 @@ class InstitutionUpdateDestroyRetrieveView(MasterGenericAPIViewMixin):
         kwargs['partial'] = True
         return super(InstitutionUpdateDestroyRetrieveView, self).get_serializer(*args, **kwargs)
 
+    def get_queryset(self):
+        institution = self.kwargs['pk']
+        return super().get_queryset().filter(pk=institution)
+
 
 class MemorandumListCreateView(SharedReadOnlyMixin):
     permission_classes = (IsAuthenticatedOrReadOnly,)
@@ -50,6 +54,10 @@ class MemorandumUpdateDestroyRetrieveView(MasterGenericAPIViewMixin):
         kwargs['partial'] = True
         return super(MemorandumUpdateDestroyRetrieveView, self).get_serializer(*args, **kwargs)
 
+    def get_queryset(self):
+        memorandum = self.kwargs['pk']
+        return super().get_queryset().filter(pk=memorandum)
+
 
 class ProgramListCreateView(SharedReadOnlyMixin):
     permission_classes = (IsAuthenticated,)
@@ -67,6 +75,9 @@ class ProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
         kwargs['partial'] = True
         return super(ProgramRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
 
+    def get_queryset(self):
+        program = self.kwargs['pk']
+        return super().get_queryset().filter(pk=program)
 
 class LinkageListCreateView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
