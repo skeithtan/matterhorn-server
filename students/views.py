@@ -15,7 +15,7 @@ class StudentListCreateView(MasterGenericAPIViewMixin):
 
 class StudentRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
-    queryset = Student.all_objects
+    queryset = Student.current.all()
     serializer_class = StudentSerializer
     codename = 'crud_student'
 
@@ -42,7 +42,7 @@ class ResidencyAddressHistoryListCreateView(MasterGenericAPIViewMixin):
 
 class ResidencyAddressHistoryRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
-    queryset = ResidencyAddressHistory.all_objects
+    queryset = ResidencyAddressHistory.current
     serializer_class = ResidencyAddressHistorySerializer
     lookup_field = 'student_id'
     codename = 'crud_student'
@@ -75,7 +75,7 @@ class StudentProgramListCreateView(MasterGenericAPIViewMixin):
 
 class StudentProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
-    queryset = StudentProgram.all_objects
+    queryset = StudentProgram.current
     serializer_class = StudentProgramSerializer
     lookup_field = 'student_id'
     codename = 'crud_student'

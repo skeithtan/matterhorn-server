@@ -35,11 +35,17 @@ class SoftDeletionQuerySet(QuerySet):
 class SoftDeletionManager(Manager):
     def __init__(self, *args, **kwargs):
         self.alive_only = kwargs.pop('alive_only', True)
+        self.archived_only = kwargs.pop('archived_only', False)
+
         super(SoftDeletionManager, self).__init__(*args, **kwargs)
 
     def get_queryset(self):
         if self.alive_only:
             return SoftDeletionQuerySet(self.model).filter(archived_at=None)
+
+        if self.archived_only:
+            return SoftDeletionQuerySet(self.model).filter(archived_at__isnull=False)
+
         return SoftDeletionQuerySet(self.model)
 
     def hard_delete(self):
@@ -49,7 +55,8 @@ class SoftDeletionManager(Manager):
 class SoftDeletionModel(Model):
     archived_at = DateTimeField(blank=True, null=True)
     objects = SoftDeletionManager()
-    all_objects = SoftDeletionManager(alive_only=False)
+    current = SoftDeletionManager(alive_only=False)
+    archived = SoftDeletionManager(archived_only=False)
     user = ForeignKey(User, null=True, blank=True)
 
     class Meta:

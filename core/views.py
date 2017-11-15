@@ -62,7 +62,7 @@ class ModelRestoreView(APIView):
         return None
 
     def put(self, request, pk):
-        model = get_object_or_404(self.get_model().all_objects, pk=pk)
+        model = get_object_or_404(self.get_model().current, pk=pk)
         model.undelete()
         serializer = self.get_serializer_class()(model)
         return Response(serializer.data)

@@ -6,13 +6,13 @@ from students.models import *
 
 class ArchivedStudentView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = Student.all_objects.exclude(archived_at=None)
+    queryset = Student.archived.all()
     serializer_class = StudentSerializer
 
 
 class ArchivedStudentUpdateView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = Student.all_objects.exclude(archived_at=None)
+    queryset = Student.archived.all()
     serializer_class = StudentSerializer
 
     def get_serializer(self, *args, **kwargs):
@@ -22,13 +22,13 @@ class ArchivedStudentUpdateView(RetrieveUpdateDestroyAPIView):
 
 class ArchivedResidencyAddressHistoryView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = ResidencyAddressHistory.all_objects.exclude(archived_at=None)
+    queryset = ResidencyAddressHistory.archived.all()
     serializer_class = ResidencyAddressHistorySerializer
 
 
 class ArchivedResidencyAddressHistoryUpdateView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = ResidencyAddressHistory.all_objects.exclude(archived_at=None)
+    queryset = ResidencyAddressHistory.archived.all()
     serializer_class = ResidencyAddressHistorySerializer
 
     def get_serializer(self, *args, **kwargs):
@@ -38,13 +38,13 @@ class ArchivedResidencyAddressHistoryUpdateView(RetrieveUpdateDestroyAPIView):
 
 class ArchivedStudentProgramView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = StudentProgram.all_objects.exclude(archived_at=None)
+    queryset = StudentProgram.archived.all()
     serializer_class = StudentProgramSerializer
 
 
 class ArchivedStudentProgramUpdateView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = StudentProgram.all_objects.exclude(archived_at=None)
+    queryset = StudentProgram.archived.all()
     serializer_class = StudentProgramSerializer
 
     def get_serializer(self, *args, **kwargs):

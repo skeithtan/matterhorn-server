@@ -35,7 +35,7 @@ class Query(ObjectType):
 
     def resolve_students(self, info, **kwargs):
         archived = kwargs.get('archived', False)
-        return Student.all_objects.filter(archived_at__isnull=False) if archived else Student.objects.all()
+        return Student.archived.all() if archived else Student.current.all()
 
     def resolve_resident_address_histories(self, info, **kwargs):
         return ResidencyAddressHistory.objects.all()

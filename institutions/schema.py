@@ -94,7 +94,7 @@ class Query(ObjectType):
 
     def resolve_memorandums(self, info, **kwargs):
         archived = kwargs.get('archived', False)
-        return Memorandum.all_objects.filter(archived_at__isnull=False) if archived else Memorandum.objects.all()
+        return Memorandum.archived.all() if archived else Memorandum.current.all()
 
     def resolve_memorandum(self, info, **kwargs):
         id = kwargs.get('id')
@@ -119,7 +119,7 @@ class Query(ObjectType):
         archived = kwargs.get('archived', False)
         institution = kwargs.get('institution')
 
-        programs = Program.all_objects.filter(archived_at__isnull=False) if archived else Program.objects.all()
+        programs = Program.archived.all() if archived else Program.current.all()
 
         if institution:
             programs = programs.filter(memorandum__institution_id=institution)

@@ -16,7 +16,7 @@ class InstitutionListCreateView(SharedReadOnlyMixin):
 
 class InstitutionUpdateDestroyRetrieveView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
-    queryset = Institution.all_objects
+    queryset = Institution.current
     serializer_class = InstitutionSerializer
     codename = 'crud_memorandum'
 
@@ -46,7 +46,7 @@ class MemorandumListCreateView(SharedReadOnlyMixin):
 
 class MemorandumUpdateDestroyRetrieveView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
-    queryset = Memorandum.all_objects
+    queryset = Memorandum.current
     serializer_class = MemorandumSerializer
     codename = 'crud_memorandum'
 
@@ -61,13 +61,13 @@ class MemorandumUpdateDestroyRetrieveView(MasterGenericAPIViewMixin):
 
 class ProgramListCreateView(SharedReadOnlyMixin):
     permission_classes = (IsAuthenticated,)
-    queryset = Program.objects.all()
+    queryset = Program.current
     serializer_class = ProgramSerializer
 
 
 class ProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
-    queryset = Program.all_objects
+    queryset = Program.current
     serializer_class = ProgramSerializer
     codename = 'crud_memorandum'
 
