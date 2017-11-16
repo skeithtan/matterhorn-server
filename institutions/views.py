@@ -10,7 +10,7 @@ from rest_framework.response import Response
 
 class InstitutionListCreateView(SharedReadOnlyMixin):
     permission_classes = (IsAuthenticated,)
-    queryset = Institution.objects.all()
+    queryset = Institution.current
     serializer_class = InstitutionSerializer
 
 
@@ -31,7 +31,7 @@ class InstitutionUpdateDestroyRetrieveView(MasterGenericAPIViewMixin):
 
 class MemorandumListCreateView(SharedReadOnlyMixin):
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    queryset = Memorandum.objects.all()
+    queryset = Memorandum.current
     serializer_class = MemorandumSerializer
     lookup_field = 'institution_id'
 

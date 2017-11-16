@@ -9,11 +9,6 @@ from graphene import (
     String, Boolean)
 
 
-class CountryType(DjangoObjectType):
-    class Meta:
-        model = Country
-
-
 class MemorandumType(DjangoObjectType):
     linkages = List(String)
 
@@ -44,6 +39,16 @@ class InstitutionType(DjangoObjectType):
 
     class Meta:
         model = Institution
+
+
+class CountryType(DjangoObjectType):
+    institutions = List(InstitutionType)
+
+    def resolve_institutions(self, info):
+        return self.institution_set.filter(archived_at__isnull=True)
+
+    class Meta:
+        model = Country
 
 
 class LinkageType(DjangoObjectType):
@@ -87,11 +92,12 @@ class Query(ObjectType):
         return AcademicYear.objects.all()
 
     def resolve_countries(self, info, **kwargs):
-        return [country for country in Country.objects.all() if country.institution_set.count() > 0]
+        return [country for country in Country.objects.all() if
+                country.institution_set.filter(archived_at__isnull=True).count() > 0]
 
     def resolve_institutions(self, info, **kwargs):
         archived = kwargs.get('archived', False)
-        year_archived = kwargs.get('yea_archivedr')
+        year_archived = kwargs.get('year_archived')
 
         return Institution.archived.filter(archived_at__year=year_archived) if archived else Institution.current.all()
 
