@@ -42,11 +42,11 @@ class Institution(SoftDeletionModel):
 
     @property
     def moas(self):
-        return self.memorandum_set.filter(category='MOA').order_by('-date_effective')
+        return self.memorandum_set.filter(category='MOA', archived_at__isnull=True).order_by('-date_effective')
 
     @property
     def mous(self):
-        return self.memorandum_set.filter(category='MOU').order_by('-date_effective')
+        return self.memorandum_set.filter(category='MOU', archived_at__isnull=True).order_by('-date_effective')
 
     @property
     def latest_moa(self):
