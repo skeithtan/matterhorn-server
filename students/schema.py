@@ -28,19 +28,19 @@ class StudentType(DjangoObjectType):
         model = Student
 
 
-class StudentProgramType(DjangoObjectType):
+class StudentStudyFieldType(DjangoObjectType):
     class Meta:
-        model = StudentProgram
+        model = StudyField
 
 
 class Query(ObjectType):
     students = List(StudentType, archived=Boolean(), year_archived=Int(), category=String())
     resident_address_histories = List(ResidencyAddressHistoryType, student=Int())
-    student_programs = List(StudentProgramType)
+    student_study_fields = List(StudentStudyFieldType)
 
     student = Field(StudentType, id=Int())
     resident_address_history = Field(ResidencyAddressHistoryType, id=Int())
-    student_program = Field(StudentProgramType, id=Int())
+    student_study_field = Field(StudentStudyFieldType, id=Int())
 
     def resolve_students(self, info, **kwargs):
         archived = kwargs.get('archived', False)
@@ -58,8 +58,8 @@ class Query(ObjectType):
         student = kwargs.get('student')
         return ResidencyAddressHistory.objects.filter(student=student)
 
-    def resolve_student_programs(self, info, **kwargs):
-        return StudentProgram.objects.all()
+    def resolve_student_study_fields(self, info, **kwargs):
+        return StudentStudyField.objects.all()
 
     def resolve_student(self, info, **kwargs):
         return Student.objects.get(pk=kwargs.get('id'))
@@ -67,5 +67,5 @@ class Query(ObjectType):
     def resolve_resident_address_history(self, info, **kwargs):
         return ResidencyAddressHistory.objects.get(pk=kwargs.get('id'))
 
-    def resolve_student_program(self, info, **kwargs):
-        return StudentProgram.objects.get(pk=kwargs.get('id'))
+    def resolve_student_study_field(self, info, **kwargs):
+        return StudentStudyField.objects.get(pk=kwargs.get('id'))
