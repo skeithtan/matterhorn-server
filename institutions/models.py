@@ -107,7 +107,7 @@ class Term(SoftDeletionModel):
 
 
 class Program(SoftDeletionModel):
-    memorandum = ForeignKey(Memorandum)
+    institution = ForeignKey(Institution)
     linkage = ForeignKey(Linkage)
     name = CharField(max_length=64)
     academic_year = ForeignKey(AcademicYear)
