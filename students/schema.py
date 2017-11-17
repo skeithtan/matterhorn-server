@@ -30,7 +30,7 @@ class StudentType(DjangoObjectType):
 
 class StudentStudyFieldType(DjangoObjectType):
     class Meta:
-        model = StudyField
+        model = StudentStudyField
 
 
 class Query(ObjectType):
