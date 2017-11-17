@@ -134,7 +134,7 @@ class Query(ObjectType):
         programs = Program.archived.filter(archived_at__year=year_archived) if archived else Program.current.all()
 
         if institution:
-            programs = programs.filter(memorandum__institution_id=institution)
+            programs = programs.filter(institution__id=institution)
 
         if year:
             programs = programs.filter(academic_year__academic_year_start=year)
