@@ -1,6 +1,6 @@
 from core.views import ModelRestoreView
-from students.models import Student, ResidencyAddressHistory, StudentProgram
-from students.serializers import StudentSerializer, ResidencyAddressHistorySerializer, StudentProgramSerializer
+from students.models import Student, ResidencyAddressHistory, StudentStudyField
+from students.serializers import StudentSerializer, ResidencyAddressHistorySerializer, StudentStudyFieldSerializer
 
 
 class StudentRestoreView(ModelRestoreView):
@@ -19,9 +19,9 @@ class ResidencyRestoreView(ModelRestoreView):
         return ResidencyAddressHistorySerializer
 
 
-class StudentProgramRestoreView(ModelRestoreView):
+class StudentStudyFieldRestoreView(ModelRestoreView):
     def get_model(self):
-        return StudentProgram
+        return StudentStudyField
 
     def get_serializer_class(self):
-        return StudentProgramSerializer
+        return StudentStudyFieldSerializer

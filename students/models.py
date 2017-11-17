@@ -62,7 +62,7 @@ class ResidencyAddressHistory(SoftDeletionModel):
     residence = CharField(max_length=64)
 
 
-class StudentProgram(SoftDeletionModel):
+class StudentStudyField(SoftDeletionModel):
     student = ForeignKey(Student)
     study_field = ForeignKey(StudyField)
     term = ForeignKey(Term)
