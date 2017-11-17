@@ -26,7 +26,7 @@ class StudentProgramType(DjangoObjectType):
 
 class Query(ObjectType):
     students = List(StudentType, archived=Boolean(), year_archived=Int(), category=String())
-    resident_address_histories = List(ResidencyAddressHistoryType)
+    resident_address_histories = List(ResidencyAddressHistoryType, student=Int())
     student_programs = List(StudentProgramType)
 
     student = Field(StudentType, id=Int())
@@ -46,7 +46,8 @@ class Query(ObjectType):
         return students.filter(category=category)
 
     def resolve_resident_address_histories(self, info, **kwargs):
-        return ResidencyAddressHistory.objects.all()
+        student = kwargs.get('student')
+        return ResidencyAddressHistory.objects.filter(student=student)
 
     def resolve_student_programs(self, info, **kwargs):
         return StudentProgram.objects.all()
