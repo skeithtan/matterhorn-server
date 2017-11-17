@@ -9,14 +9,23 @@ from graphene import (
     Boolean, String)
 
 
-class StudentType(DjangoObjectType):
-    class Meta:
-        model = Student
-
-
 class ResidencyAddressHistoryType(DjangoObjectType):
     class Meta:
         model = ResidencyAddressHistory
+
+
+class StudentType(DjangoObjectType):
+    residencies = List(ResidencyAddressHistoryType)
+    latest_residency = Field(ResidencyAddressHistoryType)
+
+    def resolve_residencies(self, info, **kwargs):
+        return self.residencies
+
+    def resolve_latest_residency(self, info, **kwargs):
+        return self.latest_residency
+
+    class Meta:
+        model = Student
 
 
 class StudentProgramType(DjangoObjectType):

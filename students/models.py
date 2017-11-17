@@ -40,13 +40,22 @@ class Student(SoftDeletionModel):
     civil_status = CharField(max_length=2, choices=CIVIL_STATUS_TYPES)
     institution = ForeignKey(Institution, null=True)
 
+    @property
+    def residencies(self):
+        return self.residencyaddresshistory_set.filter(archived_at__isnull=True).order_by('-date_effective')
+
+    @property
+    def latest_residency(self):
+        residencies = self.residencies
+        return residencies[0] if residencies.count() > 0 else None
+
     def __str__(self):
         return self.family_name
 
 
 class ResidencyAddressHistory(SoftDeletionModel):
     student = ForeignKey(Student)
-    effective_from = DateField()
+    date_effective = DateField()
     contact_person_name = CharField(max_length=256)
     contact_person_number = CharField(max_length=64)
     address = CharField(max_length=256)
