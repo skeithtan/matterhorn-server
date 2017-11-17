@@ -1,10 +1,8 @@
 import rest_framework
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
-from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -44,9 +42,12 @@ class SignInView(APIView):
                 "error": "Invalid credentials"
             }, status=401)
 
-        token = Token.objects.get_or_create(defaults={
-            "user": user
-        })[0]
+        if Token.objects.filter(user=user).count() == 1:
+            token = Token.objects.get(user=user)
+        else:
+            token = Token.objects.create(user=user)
+
+        print(token.user, user)
 
         return Response(data={
             "token": token.key,
