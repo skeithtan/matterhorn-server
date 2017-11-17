@@ -103,7 +103,7 @@ class Term(SoftDeletionModel):
     academic_year = ForeignKey(AcademicYear, related_name='terms')
 
     def __str__(self):
-        return f"Term {self.number}"
+        return f"Term {self.number} - {self.academic_year.academic_year_start}"
 
 
 class Program(SoftDeletionModel):
