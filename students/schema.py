@@ -6,7 +6,7 @@ from graphene import (
     List,
     Field,
     Int,
-    Boolean)
+    Boolean, String)
 
 
 class StudentType(DjangoObjectType):
@@ -25,7 +25,7 @@ class StudentProgramType(DjangoObjectType):
 
 
 class Query(ObjectType):
-    students = List(StudentType, archived=Boolean(), year_archived=Int())
+    students = List(StudentType, archived=Boolean(), year_archived=Int(), category=String())
     resident_address_histories = List(ResidencyAddressHistoryType)
     student_programs = List(StudentProgramType)
 
@@ -36,8 +36,14 @@ class Query(ObjectType):
     def resolve_students(self, info, **kwargs):
         archived = kwargs.get('archived', False)
         year_archived = kwargs.get('year_archived')
+        category = kwargs.get('category', 'all')
 
-        return Student.archived.filter(archived_at__year=year_archived) if archived else Student.current.all()
+        students = Student.archived.filter(archived_at__year=year_archived) if archived else Student.current.all()
+
+        if category == 'all':
+            return students
+
+        return students.filter(category=category)
 
     def resolve_resident_address_histories(self, info, **kwargs):
         return ResidencyAddressHistory.objects.all()
