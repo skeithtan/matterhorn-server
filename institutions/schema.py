@@ -113,7 +113,7 @@ class Query(ObjectType):
 
     def resolve_institution(self, info, **kwargs):
         id = kwargs.get('id')
-        return Institution.current.get(pk=id)
+        return Institution.objects.get(pk=id)
 
     def resolve_terms(self, info, **kwargs):
         terms = Term.current.all()
