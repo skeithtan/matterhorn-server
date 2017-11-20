@@ -14,7 +14,7 @@ class ResidencyAddressHistorySerializer(ModelSerializer):
         exclude = ('student', )
 
 
-class StudentStudyFieldSerializer(ModelSerializer):
+class StudentProgramSerializer(ModelSerializer):
     class Meta:
-        model = StudentStudyField
+        model = StudentProgram
         exclude = ('student','study_field')
