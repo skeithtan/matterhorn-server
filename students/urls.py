@@ -23,7 +23,7 @@ student_archived_urls = [
 student_programs_archived_urls = [
     url(r'(?P<pk>(\d+))/restore/$', StudentProgramRestoreView.as_view()),
     url(r'(?P<pk>(\d+))/$', ArchivedStudentProgramUpdateView.as_view()),
-    url(r'$', ArchivedStudentProgramView.as_view()),
+    url(r'$', ArchivedStudentStudyFieldView.as_view()),
 ]
 
 residency_archived_urls = [

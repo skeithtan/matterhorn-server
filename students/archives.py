@@ -36,7 +36,7 @@ class ArchivedResidencyAddressHistoryUpdateView(RetrieveUpdateDestroyAPIView):
         return super(ArchivedResidencyAddressHistoryUpdateView, self).get_serializer(*args, **kwargs)
 
 
-class ArchivedStudentProgramView(ListAPIView):
+class ArchivedStudentStudyFieldView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = StudentProgram.archived.all()
     serializer_class = StudentProgramSerializer
