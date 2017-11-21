@@ -1,4 +1,4 @@
-from django.db.models import Model
+from django.db.models import Model, BooleanField
 from core.models import *
 from institutions.models import *
 
@@ -39,6 +39,7 @@ class Student(SoftDeletionModel):
     email = CharField(max_length=256)
     civil_status = CharField(max_length=2, choices=CIVIL_STATUS_TYPES)
     institution = ForeignKey(Institution, null=True)
+    is_graduate = BooleanField(default=False)
 
     @property
     def residencies(self):
@@ -62,10 +63,35 @@ class ResidencyAddressHistory(SoftDeletionModel):
     residence = CharField(max_length=64)
 
 
-class StudentStudyField(SoftDeletionModel):
+class Requirement(SoftDeletionModel):
+    name = CharField(max_length=64)
+    program = ForeignKey(OutboundProgram, null=True)
+
+
+class StudentProgram(SoftDeletionModel):
     student = ForeignKey(Student)
-    study_field = ForeignKey(StudyField)
-    term = ForeignKey(Term)
+    study_field = ForeignKey(StudyField, null=True)
+    terms_duration = ManyToManyField(Term)  # changed
+
+
+class OutboundStudentProgram(SoftDeletionModel):
+    program = ForeignKey(OutboundProgram)
+    student_program = ForeignKey(StudentProgram)
+
+
+class StudentApplicationRequirement(SoftDeletionModel):
+    requirement = ForeignKey(Requirement)
+    student_program = ForeignKey(OutboundStudentProgram)
+    is_accomplished = BooleanField(default=False)
+
+
+class InboundStudentProgram(SoftDeletionModel):
+    program = ForeignKey(InboundProgram)
+    student_program = ForeignKey(StudentProgram)
+
+
+class DeployedStudentProgram(SoftDeletionModel):
+    student_program = ForeignKey(OutboundStudentProgram)
     default_units = PositiveIntegerField()
-    total_units_enrolled = PositiveIntegerField()
     date_expected_return = DateField(null=True)
+    total_units_enrolled = PositiveIntegerField()

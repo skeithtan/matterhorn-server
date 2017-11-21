@@ -30,7 +30,7 @@ class StudentType(DjangoObjectType):
 
 class StudentStudyFieldType(DjangoObjectType):
     class Meta:
-        model = StudentStudyField
+        model = StudentProgram
 
 
 class Query(ObjectType):
@@ -59,7 +59,7 @@ class Query(ObjectType):
         return ResidencyAddressHistory.objects.filter(student=student)
 
     def resolve_student_study_fields(self, info, **kwargs):
-        return StudentStudyField.objects.all()
+        return StudentProgram.objects.all()
 
     def resolve_student(self, info, **kwargs):
         return Student.objects.get(pk=kwargs.get('id'))
@@ -68,4 +68,4 @@ class Query(ObjectType):
         return ResidencyAddressHistory.objects.get(pk=kwargs.get('id'))
 
     def resolve_student_study_field(self, info, **kwargs):
-        return StudentStudyField.objects.get(pk=kwargs.get('id'))
+        return StudentProgram.objects.get(pk=kwargs.get('id'))

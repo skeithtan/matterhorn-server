@@ -2,7 +2,7 @@ from django.db.models import (
     Model,
     ForeignKey,
     DateField,
-    ManyToManyField, PositiveIntegerField)
+    ManyToManyField, PositiveIntegerField, BooleanField)
 
 from core.models import *
 
@@ -32,9 +32,9 @@ class Institution(SoftDeletionModel):
     country = ForeignKey(Country)
     address = CharField(max_length=256)
     website = CharField(max_length=256)
-    contact_person_name = CharField(max_length=256, blank=True)
-    contact_person_number = CharField(max_length=64, blank=True)
-    contact_person_email = CharField(max_length=256, blank=True)
+    contact_person_name = CharField(max_length=256)
+    contact_person_number = CharField(max_length=64)
+    contact_person_email = CharField(max_length=256)
     agreement = CharField(max_length=2, choices=AGREEMENT_TYPES)
 
     def __str__(self):
@@ -107,14 +107,24 @@ class Term(SoftDeletionModel):
 
 
 class Program(SoftDeletionModel):
-    institution = ForeignKey(Institution)
     linkage = ForeignKey(Linkage)
     name = CharField(max_length=64)
     academic_year = ForeignKey(AcademicYear)
-    terms = ManyToManyField(Term)
+    terms_available = ManyToManyField(Term)
+    is_graduate = BooleanField()
 
     def __str__(self):
         return self.name
+
+
+class OutboundProgram(SoftDeletionModel):
+    program = ForeignKey(Program)
+    requirement_deadline = DateField()
+    institution = ForeignKey(Institution)
+
+
+class InboundProgram(SoftDeletionModel):
+    program = ForeignKey(Program)
 
 
 class StudyField(SoftDeletionModel):
