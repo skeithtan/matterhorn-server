@@ -74,6 +74,11 @@ class StudentProgram(SoftDeletionModel):
     terms_duration = ManyToManyField(Term)  # changed
 
 
+class InboundStudentProgram(SoftDeletionModel):
+    program = ForeignKey(InboundProgram)
+    student_program = ForeignKey(StudentProgram)
+
+
 class OutboundStudentProgram(SoftDeletionModel):
     program = ForeignKey(OutboundProgram)
     student_program = ForeignKey(StudentProgram)
@@ -83,11 +88,6 @@ class StudentApplicationRequirement(SoftDeletionModel):
     requirement = ForeignKey(Requirement)
     student_program = ForeignKey(OutboundStudentProgram)
     is_accomplished = BooleanField(default=False)
-
-
-class InboundStudentProgram(SoftDeletionModel):
-    program = ForeignKey(InboundProgram)
-    student_program = ForeignKey(StudentProgram)
 
 
 class DeployedStudentProgram(SoftDeletionModel):
