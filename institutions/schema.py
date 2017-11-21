@@ -61,6 +61,16 @@ class ProgramType(DjangoObjectType):
         model = Program
 
 
+class InboundProgramType(DjangoObjectType):
+    class Meta:
+        model = InboundProgram
+
+
+class OutboundProgramType(DjangoObjectType):
+    class Meta:
+        model = OutboundProgram
+
+
 class StudyFieldType(DjangoObjectType):
     class Meta:
         model = StudyField
@@ -80,13 +90,13 @@ class Query(ObjectType):
     countries = List(CountryType)
     institutions = List(InstitutionType, archived=Boolean(), year_archived=Int())
     memorandums = List(MemorandumType, archived=Boolean(), year_archived=Int())
-    programs = List(ProgramType, year=Int(), term=Int(), institution=Int(), archived=Boolean(), year_archived=Int())
     academic_years = List(AcademicYearType)
     terms = List(TermType, year=Int())
+    outbound_programs = List(OutboundProgramType, institution=Int())
+    inbound_programs = List(InboundProgramType)
 
     institution = Field(InstitutionType, id=Int())
     memorandum = Field(MemorandumType, id=Int())
-    program = Field(ProgramType, id=Int())
 
     def resolve_academic_years(self, info, **kwargs):
         return AcademicYear.objects.all()
@@ -124,26 +134,9 @@ class Query(ObjectType):
 
         return terms
 
-    def resolve_programs(self, info, **kwargs):
-        year = kwargs.get('year')
-        term = kwargs.get('term')
-        archived = kwargs.get('archived', False)
+    def resolve_outbound_programs(self, info, **kwargs):
         institution = kwargs.get('institution')
-        year_archived = kwargs.get('year_archived')
+        return OutboundProgram.objects.filter(institution=institution)
 
-        programs = Program.archived.filter(archived_at__year=year_archived) if archived else Program.current.all()
-
-        if institution:
-            programs = programs.filter(institution__id=institution)
-
-        if year:
-            programs = programs.filter(academic_year__academic_year_start=year)
-
-        if term:
-            programs = programs.filter(terms__number=term)
-
-        return programs
-
-    def resolve_program(self, info, **kwargs):
-        id = kwargs.get('id')
-        return Program.objects.get(pk=id)
+    def resolve_inbound_programs(self, info, **kwargs):
+        return InboundProgram.objects.all()
