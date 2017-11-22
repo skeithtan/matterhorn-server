@@ -62,39 +62,61 @@ class AcademicYearSerializer(Serializer):
 
 
 class ProgramSerializer(ModelSerializer):
-    terms_available = TermSerializer(many=True, read_only=True)
-
     class Meta:
         model = Program
         fields = "__all__"
 
-class InboundProgramSerializer(Serializer):
-    linkage = serializers.PrimaryKeyRelatedField(queryset=Linkage.objects.all())
-    terms_available = serializers.PrimaryKeyRelatedField(many=True,queryset=Term.objects.all())
-    academic_year = serializers.PrimaryKeyRelatedField(queryset=AcademicYear.objects.all())
-    name = serializers.CharField()
-    is_graduate = serializers.BooleanField()
 
-    @staticmethod
-    def convert_data(validated_data):
-        return {
-            "linkage": validated_data["linkage"].pk,
-            "academic_year": validated_data["academic_year"].pk,
-            "terms_available": [item.pk for item in validated_data["terms_available"]],
-            "name": validated_data["name"],
-            "is_graduate": validated_data["is_graduate"]
-        }
+class InboundProgramSerializer(ModelSerializer):
+    class Meta:
+        model = Program
+        inbound_program = None
+        fields = "__all__"
+
+    def get_inbound_object(self):
+        return self.Meta.inbound_program
 
     def create(self, validated_data):
-        program_details = self.convert_data(validated_data)
-        program_serializer = ProgramSerializer(data=program_details)
-        if not program_serializer.is_valid():
-            raise ValidationError(program_serializer.errors)
-        print(validated_data)
+        terms = validated_data.pop('terms_available')
         program = Program.objects.create(**validated_data)
-        inbound_program = InboundProgram.objects.create(program=program)
+        for term in terms:
+            program.terms_available.add(term)
+        program.save()
+        self.Meta.inbound_program = InboundProgram.objects.create(program=program)
+        return program
 
-        return inbound_program
+
+# class InboundProgramSerializer(Serializer):
+#     program = serializers.PrimaryKeyRelatedField(queryset=Linkage.objects.all())
+#     terms_available = serializers.PrimaryKeyRelatedField(many=True, queryset=Term.objects.all())
+#     academic_year = serializers.PrimaryKeyRelatedField(queryset=AcademicYear.objects.all())
+#     name = serializers.CharField()
+#     is_graduate = serializers.BooleanField()
+#
+#     @staticmethod
+#     def convert_data(validated_data):
+#         return {
+#             "linkage": validated_data["linkage"].pk,
+#             "academic_year": validated_data["academic_year"].pk,
+#             "terms_available": [item.pk for item in validated_data["terms_available"]],
+#             "name": validated_data["name"],
+#             "is_graduate": validated_data["is_graduate"]
+#         }
+#
+#     def create(self, validated_data):
+#         program_details = self.convert_data(validated_data)
+#         terms = validated_data.pop('terms_available')
+#         program_serializer = ProgramSerializer(data=program_details)
+#         if not program_serializer.is_valid():
+#             raise ValidationError(program_serializer.errors)
+#
+#         program = Program.objects.create(**validated_data)
+#         for term in terms:
+#             program.terms_available.add(term)
+#
+#         inbound_program = InboundProgram.objects.create(program=program)
+#
+#         return inbound_program
 
 
 class OutboundProgramSerializer(ModelSerializer):
@@ -105,7 +127,7 @@ class OutboundProgramSerializer(ModelSerializer):
         model = Program
         fields = "__all__"
 
-    def validate_extra_fields(self,value):
+    def validate_extra_fields(self, value):
         if self.requirement_deadline is None:
             raise ValidationError("deadline is required")
         elif self.insitution is None:
@@ -118,14 +140,3 @@ class OutboundProgramSerializer(ModelSerializer):
         outbound_program.requirement_deadline = validated_data["requirement_deadline"]
         outbound_program.save()
         return outbound_program
-
-
-
-
-
-
-
-
-
-
-

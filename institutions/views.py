@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
@@ -69,9 +70,13 @@ class InboundProgramListCreateView(SharedReadOnlyMixin):
     queryset = Program.current
     serializer_class = InboundProgramSerializer
 
-
-
-
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        print(**kwargs)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class ProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
@@ -86,7 +91,6 @@ class ProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     def get_queryset(self):
         program = self.kwargs['pk']
         return super().get_queryset().filter(pk=program)
-
 
 
 class LinkageListCreateView(MasterGenericAPIViewMixin):
