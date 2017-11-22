@@ -6,7 +6,7 @@ from .restorations import *
 institution_urls = [
     url(r'(?P<pk>(\d+))/$', InstitutionUpdateDestroyRetrieveView.as_view()),
     url(r'(?P<institution_id>(\d+))/memorandums/$', MemorandumListCreateView.as_view()),
-    url(r'(?P<institution_id>(\d+))/programs/$', ProgramListCreateView.as_view()),
+    url(r'programs/inbound/$', ProgramListCreateView.as_view()),
     url(r'$', InstitutionListCreateView.as_view()),
 ]
 

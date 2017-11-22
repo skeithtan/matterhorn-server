@@ -43,12 +43,12 @@ class AcademicYearSerializer(Serializer):
         else:
             return value
 
-    # def validate_terms(self, value):
-    #     term_serializer = TermSerializer(date=value)
-    #     if term_serializer.is_valid() is False:
-    #         raise ValidationError("All fields for term must have values!")
-    #
-    #     return value
+    def validate_terms(self, value):
+        term_serializer = TermSerializer(data=value)
+        if term_serializer.is_valid() is False:
+            raise ValidationError("All fields for term must have values!")
+
+        return value
 
     def create(self, validated_data):
         terms = validated_data.pop('terms')
@@ -62,11 +62,36 @@ class AcademicYearSerializer(Serializer):
 
 # TODO: This
 class ProgramSerializer(ModelSerializer):
-    memorandum = PrimaryKeyRelatedField(queryset=Memorandum.objects.all())
-    linkage = PrimaryKeyRelatedField(queryset=Linkage.objects.all())
-    terms = PrimaryKeyRelatedField(many=True, queryset=Term.objects.all())
-    academic_year = PrimaryKeyRelatedField(queryset=AcademicYear.objects.all())
-
     class Meta:
         model = Program
         fields = "__all__"
+
+
+class InboundProgramSerializer(ModelSerializer):
+    program = PrimaryKeyRelatedField(queryset=Program.objects.all())
+
+    # def validate_program(self, value):
+    #     program_serializer = ProgramSerializer(data=value)
+    #     if program_serializer.is_valid() is False:
+    #         raise ValidationError("All fields for program must have values")
+    #     return value
+    #
+    # def create(self, validated_data):
+    #     instance = Program.objects.create(**validated_data)
+    #     inbound_program = InboundProgram.objects.create(program=instance)
+    #
+    #     return inbound_program
+    class Meta:
+        model = Program
+        fields = "__all__"
+
+    def create(self, validated_data):
+        instance = Program.objects.create(**validated_data)
+        inbound_program = InboundProgram.objects.create(program=instance)
+        return inbound_program
+
+
+
+
+
+

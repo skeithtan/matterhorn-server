@@ -64,7 +64,6 @@ class ProgramListCreateView(SharedReadOnlyMixin):
     queryset = Program.current
     serializer_class = ProgramSerializer
 
-
 class ProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
     queryset = Program.current
@@ -78,6 +77,7 @@ class ProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     def get_queryset(self):
         program = self.kwargs['pk']
         return super().get_queryset().filter(pk=program)
+
 
 
 class LinkageListCreateView(MasterGenericAPIViewMixin):
