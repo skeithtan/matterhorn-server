@@ -59,10 +59,19 @@ class MemorandumUpdateDestroyRetrieveView(MasterGenericAPIViewMixin):
         return super().get_queryset().filter(pk=memorandum)
 
 
-class ProgramListCreateView(SharedReadOnlyMixin):
+# class ProgramListCreateView(SharedReadOnlyMixin):
+#     permission_classes = (IsAuthenticated,)
+#     queryset = Program.current
+#     serializer_class = ProgramSerializer
+
+class InboundProgramListCreateView(SharedReadOnlyMixin):
     permission_classes = (IsAuthenticated,)
     queryset = Program.current
-    serializer_class = ProgramSerializer
+    serializer_class = InboundProgramSerializer
+
+
+
+
 
 class ProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)

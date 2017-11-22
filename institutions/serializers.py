@@ -2,6 +2,7 @@ from django.http import Http404, request
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from rest_framework.relations import PrimaryKeyRelatedField
+from rest_framework.utils import model_meta
 
 from .models import *
 from rest_framework.serializers import ModelSerializer, Serializer, BaseSerializer
@@ -60,35 +61,68 @@ class AcademicYearSerializer(Serializer):
         return instance
 
 
-# TODO: This
 class ProgramSerializer(ModelSerializer):
+    terms_available = TermSerializer(many=True, read_only=True)
+
     class Meta:
         model = Program
         fields = "__all__"
 
+class InboundProgramSerializer(Serializer):
+    linkage = serializers.PrimaryKeyRelatedField(queryset=Linkage.objects.all())
+    terms_available = serializers.PrimaryKeyRelatedField(many=True,queryset=Term.objects.all())
+    academic_year = serializers.PrimaryKeyRelatedField(queryset=AcademicYear.objects.all())
+    name = serializers.CharField()
+    is_graduate = serializers.BooleanField()
 
-class InboundProgramSerializer(ModelSerializer):
-    program = PrimaryKeyRelatedField(queryset=Program.objects.all())
+    @staticmethod
+    def convert_data(validated_data):
+        return {
+            "linkage": validated_data["linkage"].pk,
+            "academic_year": validated_data["academic_year"].pk,
+            "terms_available": [item.pk for item in validated_data["terms_available"]],
+            "name": validated_data["name"],
+            "is_graduate": validated_data["is_graduate"]
+        }
 
-    # def validate_program(self, value):
-    #     program_serializer = ProgramSerializer(data=value)
-    #     if program_serializer.is_valid() is False:
-    #         raise ValidationError("All fields for program must have values")
-    #     return value
-    #
-    # def create(self, validated_data):
-    #     instance = Program.objects.create(**validated_data)
-    #     inbound_program = InboundProgram.objects.create(program=instance)
-    #
-    #     return inbound_program
+    def create(self, validated_data):
+        program_details = self.convert_data(validated_data)
+        program_serializer = ProgramSerializer(data=program_details)
+        if not program_serializer.is_valid():
+            raise ValidationError(program_serializer.errors)
+        print(validated_data)
+        program = Program.objects.create(**validated_data)
+        inbound_program = InboundProgram.objects.create(program=program)
+
+        return inbound_program
+
+
+class OutboundProgramSerializer(ModelSerializer):
+    requirement_deadline = DateField()
+    institution = PrimaryKeyRelatedField(queryset=Institution.objects.all())
+
     class Meta:
         model = Program
         fields = "__all__"
+
+    def validate_extra_fields(self,value):
+        if self.requirement_deadline is None:
+            raise ValidationError("deadline is required")
+        elif self.insitution is None:
+            raise ValidationError
 
     def create(self, validated_data):
         instance = Program.objects.create(**validated_data)
-        inbound_program = InboundProgram.objects.create(program=instance)
-        return inbound_program
+        outbound_program = OutboundProgram.objects.create(program=instance)
+        outbound_program.institution = validated_data["institution"]
+        outbound_program.requirement_deadline = validated_data["requirement_deadline"]
+        outbound_program.save()
+        return outbound_program
+
+
+
+
+
 
 
 
