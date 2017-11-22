@@ -73,10 +73,18 @@ class InboundProgramListCreateView(SharedReadOnlyMixin):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        print(**kwargs)
-        self.perform_create(serializer)
+        program = self.perform_create(serializer)
+        key = Program.objects.get(pk=program.pk)
+        inbound_program = InboundProgram.objects.get(program=key)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        data = serializer.data
+        data["created_inbound"] = inbound_program.pk
+        print(data)
+        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
 
 class ProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
