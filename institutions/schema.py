@@ -1,6 +1,6 @@
 from graphene_django.types import DjangoObjectType
 from .models import *
-
+import graphene
 from graphene import (
     ObjectType,
     List,
@@ -56,26 +56,6 @@ class LinkageType(DjangoObjectType):
         model = Linkage
 
 
-class ProgramType(DjangoObjectType):
-    class Meta:
-        model = Program
-
-
-class InboundProgramType(DjangoObjectType):
-    class Meta:
-        model = InboundProgram
-
-
-class OutboundProgramType(DjangoObjectType):
-    class Meta:
-        model = OutboundProgram
-
-
-class StudyFieldType(DjangoObjectType):
-    class Meta:
-        model = StudyField
-
-
 class TermType(DjangoObjectType):
     class Meta:
         model = Term
@@ -86,13 +66,51 @@ class AcademicYearType(DjangoObjectType):
         model = AcademicYear
 
 
+class Program:
+    linkage = Field(LinkageType)
+    name = String()
+    academic_year = Field(AcademicYearType)
+    terms_available = List(TermType)
+    is_graduate = Boolean()
+
+    def resolve_linkage(self, info):
+        return self.program.linkage
+
+    def resolve_name(self, info):
+        return self.program.name
+
+    def resolve_academic_year(self, info):
+        return self.program.academic_year
+
+    def resolve_terms_available(self, info):
+        return self.program.terms_available
+
+    def resolve_is_graduate(self, info):
+        return self.program.is_graduate
+
+
+class InboundProgramType(DjangoObjectType, Program):
+    class Meta:
+        model = InboundProgram
+
+
+class OutboundProgramType(DjangoObjectType, Program):
+    class Meta:
+        model = OutboundProgram
+
+
+class StudyFieldType(DjangoObjectType):
+    class Meta:
+        model = StudyField
+
+
 class Query(ObjectType):
     countries = List(CountryType)
     institutions = List(InstitutionType, archived=Boolean(), year_archived=Int())
     memorandums = List(MemorandumType, archived=Boolean(), year_archived=Int())
     academic_years = List(AcademicYearType)
     terms = List(TermType, year=Int())
-    outbound_programs = List(OutboundProgramType, institution=Int())
+    outbound_programs = List(OutboundProgramType, institution=Int(), year=Int())
     inbound_programs = List(InboundProgramType)
 
     institution = Field(InstitutionType, id=Int())
@@ -135,8 +153,18 @@ class Query(ObjectType):
         return terms
 
     def resolve_outbound_programs(self, info, **kwargs):
-        institution = kwargs.get('institution')
-        return OutboundProgram.objects.filter(institution=institution)
+        institution = kwargs.get('institution', False)
+        year = kwargs.get('year', False)
+
+        outbound_programs = OutboundProgram.objects.all()
+
+        if year:
+            outbound_programs = outbound_programs.filter(program__academic_year__academic_year_start=year)
+
+        if institution:
+            outbound_programs = outbound_programs.filter(institution_id=institution)
+
+        return outbound_programs
 
     def resolve_inbound_programs(self, info, **kwargs):
         return InboundProgram.objects.all()
