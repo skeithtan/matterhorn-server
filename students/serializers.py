@@ -35,15 +35,12 @@ class OutboundStudentProgramSerializer(ModelSerializer):
         return outbound_student_program
 
     def update(self, instance, validated_data):
-        print("this is getting called")
-        requirements = validated_data.pop('application_requirement')
 
-        for requirement in requirements:
-            pass
+        instance.application_requirement.clear()
+        for requirement in validated_data['application_requirement']:
+            instance.application_requirement.add(requirement)
+        instance.save()
         return instance
-
-        # perform this mamaya
-        # requirements = Requirement.objects.filter(program=validated_data['program'] or 'null')
 
 
 class InboundStudentProgramSerializer(ModelSerializer):
