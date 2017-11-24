@@ -68,6 +68,7 @@ class InboundStudentProgram(SoftDeletionModel):
     study_field = ForeignKey(StudyField, null=True)
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(InboundProgram)
+    total_units_enrolled = PositiveIntegerField()
 
 
 class OutboundStudentProgram(SoftDeletionModel):
