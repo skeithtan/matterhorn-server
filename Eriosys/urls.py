@@ -16,8 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from institutions.urls import institution_urls, memorandum_urls, \
-    program_urls, academic_year_urls, institution_archived_urls, memorandum_archived_urls, program_archived_urls
+from institutions.urls import institution_urls, memorandum_urls, program_urls, academic_year_urls, institution_archived_urls, memorandum_archived_urls, program_archived_urls
 from core.views import SignInView, PrivateGraphQLView
 from students.urls import student_urls, student_archived_urls, student_programs_archived_urls, residency_archived_urls
 
@@ -38,6 +37,6 @@ urlpatterns = [
     url(r'^archives/', include(archive_urls)),
     url(r'^students/', include(student_urls)),
     url(r'^memorandums/', include(memorandum_urls)),
-    url(r'^programs', include(program_urls)),
+    url(r'^programs/', include(program_urls)),
     url(r'^academic-years', include(academic_year_urls))
 ]

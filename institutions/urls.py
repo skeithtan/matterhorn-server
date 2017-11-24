@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from .views import *
 from .archives import *
 from .restorations import *
+from students.views import *
 
 institution_urls = [
     url(r'(?P<pk>(\d+))/$', InstitutionUpdateDestroyRetrieveView.as_view()),
@@ -33,6 +34,7 @@ memorandum_urls = [
 
 program_urls = [
     url(r'(?P<pk>(\d+))/$', ProgramRetrieveUpdateDestroyView.as_view()),
+    url(r'inbound/(?P<pk>(\d+))/students/$', InboundStudentProgramListCreateView.as_view()),
     url(r'inbound/$', InboundProgramListCreateView.as_view()),
     url(r'outbound/(?P<outbound_id>(\d+))/requirements/$', RequirementListCreateView.as_view()),
     url(r'outbound/$', OutboundProgramListCreateView.as_view()),

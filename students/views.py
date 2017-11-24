@@ -55,3 +55,10 @@ class ResidencyAddressHistoryRetrieveUpdateDestroyView(MasterGenericAPIViewMixin
         student = self.kwargs['student_id']
         residency = self.kwargs['residencyaddresshistory_id']
         return super().get_queryset().filter(student=student, id=residency)
+
+
+class InboundStudentProgramListCreateView(MasterGenericAPIViewMixin):
+    permission_classes = (IsAuthenticated, )
+    queryset = InboundStudentProgram.objects.all()
+    serializer_class = InboundStudentProgramSerializer
+    codename = 'crud_student'
