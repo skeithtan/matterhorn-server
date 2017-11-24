@@ -133,3 +133,8 @@ class StudyField(SoftDeletionModel):
 
     def __str__(self):
         return f"{self.program} - {self.name}"
+
+
+class Requirement(SoftDeletionModel):
+    name = CharField(max_length=64)
+    program = ForeignKey(OutboundProgram, null=True)

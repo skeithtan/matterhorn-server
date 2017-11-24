@@ -63,11 +63,6 @@ class ResidencyAddressHistory(SoftDeletionModel):
     residence = CharField(max_length=64)
 
 
-class Requirement(SoftDeletionModel):
-    name = CharField(max_length=64)
-    program = ForeignKey(OutboundProgram, null=True)
-
-
 class StudentProgram(SoftDeletionModel):
     student = ForeignKey(Student)
     study_field = ForeignKey(StudyField, null=True)

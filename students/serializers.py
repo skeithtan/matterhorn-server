@@ -42,3 +42,9 @@ class DeployedStudentProgramSerializer(ModelSerializer):
     class Meta:
         model = DeployedStudentProgram
         fields = "__all__"
+
+
+class RequirementSerializer(ModelSerializer):
+    class Meta:
+        model = Requirement
+        fields = "__all__"
