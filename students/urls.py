@@ -8,9 +8,6 @@ student_urls = [
     url(r'(?P<student_id>(\d+))/residency/$', ResidencyAddressHistoryListCreateView.as_view()),
     url(r'(?P<student_id>(\d+))/residency/(?P<pk>(\d+))/$',
         ResidencyAddressHistoryRetrieveUpdateDestroyView.as_view()),
-    url(r'(?P<student_id>(\d+))/programs/$', StudentProgramListCreateView.as_view()),
-    url(r'(?P<student_id>(\d+))/programs/(?P<study_field_id>(\d+))/$',
-        StudentProgramRetrieveUpdateDestroyView.as_view()),
     url(r'$', StudentListCreateView.as_view()),
 ]
 
@@ -21,9 +18,9 @@ student_archived_urls = [
 ]
 
 student_programs_archived_urls = [
-    url(r'(?P<pk>(\d+))/restore/$', StudentProgramRestoreView.as_view()),
-    url(r'(?P<pk>(\d+))/$', ArchivedStudentProgramUpdateView.as_view()),
-    url(r'$', ArchivedStudentStudyFieldView.as_view()),
+    # url(r'(?P<pk>(\d+))/restore/$', StudentProgramRestoreView.as_view()),
+    # url(r'(?P<pk>(\d+))/$', ArchivedStudentProgramUpdateView.as_view()),
+    # url(r'$', ArchivedStudentStudyFieldView.as_view()),
 ]
 
 residency_archived_urls = [

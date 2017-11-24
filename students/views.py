@@ -55,37 +55,3 @@ class ResidencyAddressHistoryRetrieveUpdateDestroyView(MasterGenericAPIViewMixin
         student = self.kwargs['student_id']
         residency = self.kwargs['residencyaddresshistory_id']
         return super().get_queryset().filter(student=student, id=residency)
-
-
-class StudentProgramListCreateView(MasterGenericAPIViewMixin):
-    permission_classes = (IsAuthenticated,)
-    queryset = StudentProgram.objects.all()
-    serializer_class = StudentProgramSerializer
-    lookup_field = 'student_id'
-    codename = 'crud_student'
-
-    def get_queryset(self):
-        student = self.kwargs['student_id']
-        return super().get_queryset().filter(student=student)
-
-    def perform_create(self, serializer):
-        student = Student.objects.get(self.kwargs['student_id'])
-        serializer.save(student=student)
-
-
-class StudentProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
-    permission_classes = (IsAuthenticated,)
-    queryset = StudentProgram.current
-    serializer_class = StudentProgramSerializer
-    lookup_field = 'student_id'
-    codename = 'crud_student'
-
-    def get_serializer(self, *args, **kwargs):
-        kwargs['partial'] = True
-        return super(StudentProgramRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
-
-    def get_queryset(self):
-        student = self.kwargs['student_id']
-        study_field = self.kwargs['study_field']
-        return super().get_queryset().filter(student=student, study_field=study_field)
-

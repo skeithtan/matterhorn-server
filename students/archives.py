@@ -34,20 +34,3 @@ class ArchivedResidencyAddressHistoryUpdateView(RetrieveUpdateDestroyAPIView):
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
         return super(ArchivedResidencyAddressHistoryUpdateView, self).get_serializer(*args, **kwargs)
-
-
-class ArchivedStudentStudyFieldView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = StudentProgram.archived.all()
-    serializer_class = StudentProgramSerializer
-
-
-class ArchivedStudentProgramUpdateView(RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = StudentProgram.archived.all()
-    serializer_class = StudentProgramSerializer
-
-    def get_serializer(self, *args, **kwargs):
-        kwargs['partial'] = True
-        return super(ArchivedStudentProgramUpdateView, self).get_serializer(*args, **kwargs)
-

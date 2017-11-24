@@ -63,18 +63,11 @@ class ResidencyAddressHistory(SoftDeletionModel):
     residence = CharField(max_length=64)
 
 
-class StudentProgram(SoftDeletionModel):
-    student = ForeignKey(Student)
-    study_field = ForeignKey(StudyField, null=True)
-    terms_duration = ManyToManyField(Term)  # changed
-
-
 class InboundStudentProgram(SoftDeletionModel):
     student = ForeignKey(Student)
     study_field = ForeignKey(StudyField, null=True)
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(InboundProgram)
-    student_program = ForeignKey(StudentProgram)
 
 
 class OutboundStudentProgram(SoftDeletionModel):
@@ -82,7 +75,6 @@ class OutboundStudentProgram(SoftDeletionModel):
     study_field = ForeignKey(StudyField, null=True)
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(OutboundProgram)
-    student_program = ForeignKey(StudentProgram)
     application_requirement = ManyToManyField(Requirement)
 
 
@@ -91,6 +83,7 @@ class DeployedStudentProgram(SoftDeletionModel):
     default_units = PositiveIntegerField()
     date_expected_return = DateField(null=True)
     total_units_enrolled = PositiveIntegerField()
+
 
 
 
