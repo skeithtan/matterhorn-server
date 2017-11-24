@@ -62,3 +62,52 @@ class InboundStudentProgramListCreateView(MasterGenericAPIViewMixin):
     queryset = InboundStudentProgram.objects.all()
     serializer_class = InboundStudentProgramSerializer
     codename = 'crud_student'
+
+
+class InboundStudentProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
+    permission_classes = (IsAuthenticated, )
+    queryset = InboundStudentProgram.current.all()
+    serializer_class = InboundStudentProgramSerializer
+    codename = 'crud_student'
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(InboundStudentProgramRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
+
+    def get_queryset(self):
+        pass
+
+
+class OutboundStudentProgramListCreateView(MasterGenericAPIViewMixin):
+    permission_classes = (IsAuthenticated, )
+    queryset = OutboundStudentProgram.objects.all()
+    serializer_class = OutboundStudentProgramSerializer
+    codename = 'crud_student'
+
+
+class OutboundStudentProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
+    permission_classes = (IsAuthenticated, )
+    queryset = OutboundStudentProgram.objects.all()
+    serializer_class = OutboundStudentProgramSerializer
+    lookup_field = 'outbound_program_id'
+    codename = 'crud_student'
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(OutboundStudentProgramRetrieveUpdateDestroyView, self).get_serializer(*args, **kwargs)
+
+    def get_queryset(self):
+        student = self.kwargs['pk']
+        return super().get_queryset().filter(id=student)
+
+
+
+
+
+
+
+
+
+
+
+
