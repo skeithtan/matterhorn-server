@@ -28,19 +28,12 @@ class StudentType(DjangoObjectType):
         model = Student
 
 
-class StudentStudyFieldType(DjangoObjectType):
-    class Meta:
-        model = StudentProgram
-
-
 class Query(ObjectType):
     students = List(StudentType, archived=Boolean(), year_archived=Int(), category=String())
     resident_address_histories = List(ResidencyAddressHistoryType, student=Int())
-    student_study_fields = List(StudentStudyFieldType)
 
     student = Field(StudentType, id=Int())
     resident_address_history = Field(ResidencyAddressHistoryType, id=Int())
-    student_study_field = Field(StudentStudyFieldType, id=Int())
 
     def resolve_students(self, info, **kwargs):
         archived = kwargs.get('archived', False)
