@@ -89,7 +89,7 @@ class OutboundStudentProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin)
     permission_classes = (IsAuthenticated, )
     queryset = OutboundStudentProgram.objects.all()
     serializer_class = OutboundStudentProgramSerializer
-    lookup_field = 'outbound_program_id'
+    lookup_url_kwargs = 'outbound_program_id'
     codename = 'crud_student'
 
     def get_serializer(self, *args, **kwargs):

@@ -21,20 +21,26 @@ class OutboundStudentProgramSerializer(ModelSerializer):
 
     def create(self, validated_data):
         terms = validated_data.pop('terms_duration')
-        outbound_student_program_instance = OutboundStudentProgram.objects.create(**validated_data)
+        requirements = validated_data.pop('application_requirement')
+
+        outbound_student_program = OutboundStudentProgram.objects.create(**validated_data)
 
         for term in terms:
-            outbound_student_program_instance.add(term)
+            outbound_student_program.terms_duration.add(term)
 
-        outbound_student_program_instance.save()
-        return outbound_student_program_instance
+        for requirement in requirements:
+            outbound_student_program.application_requirement.add(requirement)
 
+        outbound_student_program.save()
+        return outbound_student_program
 
     def update(self, instance, validated_data):
-        requirements = validated_data.pop('application_requirements')
+        print("this is getting called")
+        requirements = validated_data.pop('application_requirement')
 
         for requirement in requirements:
             pass
+        return instance
 
         # perform this mamaya
         # requirements = Requirement.objects.filter(program=validated_data['program'] or 'null')
@@ -51,6 +57,8 @@ class InboundStudentProgramSerializer(ModelSerializer):
 
         for term in terms:
             inbound_student_program_instance.terms_duration.add(term)
+
+
 
         inbound_student_program_instance.save()
         return inbound_student_program_instance
