@@ -134,3 +134,10 @@ class OutboundProgramSerializer(ModelSerializer):
         outbound_program.institution = institution
         outbound_program.save()
         return program
+
+
+class RequirementSerializer(ModelSerializer):
+    class Meta:
+        model = Requirement
+        fields = "__all__"
+

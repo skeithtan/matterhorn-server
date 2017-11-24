@@ -89,4 +89,3 @@ class StudentProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
         study_field = self.kwargs['study_field']
         return super().get_queryset().filter(student=student, study_field=study_field)
 
-

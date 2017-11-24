@@ -33,10 +33,9 @@ memorandum_urls = [
 
 program_urls = [
     url(r'(?P<pk>(\d+))/$', ProgramRetrieveUpdateDestroyView.as_view()),
-    url(r'(?P<pk>(\d+))/requirements/$', ProgramRetrieveUpdateDestroyView.as_view()),
     url(r'inbound/$', InboundProgramListCreateView.as_view()),
+    url(r'outbound/(?P<outbound_id>(\d+))/requirements/$', RequirementListCreateView.as_view()),
     url(r'outbound/$', OutboundProgramListCreateView.as_view()),
-
 ]
 
 academic_year_urls = [

@@ -138,3 +138,5 @@ class StudyField(SoftDeletionModel):
 class Requirement(SoftDeletionModel):
     name = CharField(max_length=64)
     program = ForeignKey(OutboundProgram, null=True)
+
+

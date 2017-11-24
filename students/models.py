@@ -90,3 +90,6 @@ class DeployedStudentProgram(SoftDeletionModel):
     default_units = PositiveIntegerField()
     date_expected_return = DateField(null=True)
     total_units_enrolled = PositiveIntegerField()
+
+
+
