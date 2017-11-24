@@ -70,11 +70,7 @@ class ProgramSerializer(ModelSerializer):
 class InboundProgramSerializer(ModelSerializer):
     class Meta:
         model = Program
-        inbound_program = None
         fields = "__all__"
-
-    def get_inbound_object(self):
-        return self.Meta.inbound_program
 
     def create(self, validated_data):
         terms = validated_data.pop('terms_available')
@@ -82,7 +78,7 @@ class InboundProgramSerializer(ModelSerializer):
         for term in terms:
             program.terms_available.add(term)
         program.save()
-        self.Meta.inbound_program = InboundProgram.objects.create(program=program)
+        InboundProgram.objects.create(program=program)
         return program
 
 
@@ -120,23 +116,21 @@ class InboundProgramSerializer(ModelSerializer):
 
 
 class OutboundProgramSerializer(ModelSerializer):
-    requirement_deadline = DateField()
-    institution = PrimaryKeyRelatedField(queryset=Institution.objects.all())
-
     class Meta:
         model = Program
         fields = "__all__"
 
-    def validate_extra_fields(self, value):
-        if self.requirement_deadline is None:
-            raise ValidationError("deadline is required")
-        elif self.insitution is None:
-            raise ValidationError
-
     def create(self, validated_data):
-        instance = Program.objects.create(**validated_data)
-        outbound_program = OutboundProgram.objects.create(program=instance)
-        outbound_program.institution = validated_data["institution"]
-        outbound_program.requirement_deadline = validated_data["requirement_deadline"]
+        request = self.context["request"]
+        terms = validated_data.pop('terms_available')
+        program = Program.objects.create(**validated_data)
+        for term in terms:
+            program.terms_available.add(term)
+        program.save()
+        outbound_program = OutboundProgram()
+        outbound_program.program = program
+        outbound_program.requirement_deadline = request.data.get('requirement_deadline')
+        institution = Institution.objects.get(pk=request.data.get('institution'))
+        outbound_program.institution = institution
         outbound_program.save()
-        return outbound_program
+        return program

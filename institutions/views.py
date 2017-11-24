@@ -79,7 +79,26 @@ class InboundProgramListCreateView(SharedReadOnlyMixin):
         headers = self.get_success_headers(serializer.data)
         data = serializer.data
         data["created_inbound"] = inbound_program.pk
-        print(data)
+        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
+
+class OutboundProgramListCreateView(SharedReadOnlyMixin):
+    permission_classes = (IsAuthenticated,)
+    queryset = Program.current
+    serializer_class = OutboundProgramSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        program = self.perform_create(serializer)
+        key = Program.objects.get(pk=program.pk)
+        outbound_program = OutboundProgram.objects.get(program=key)
+        headers = self.get_success_headers(serializer.data)
+        data = serializer.data
+        data["created_outbound"] = outbound_program.pk
         return Response(data, status=status.HTTP_201_CREATED, headers=headers)
 
     def perform_create(self, serializer):
