@@ -77,12 +77,7 @@ class InboundStudentProgram(SoftDeletionModel):
 class OutboundStudentProgram(SoftDeletionModel):
     program = ForeignKey(OutboundProgram)
     student_program = ForeignKey(StudentProgram)
-
-
-class StudentApplicationRequirement(SoftDeletionModel):
-    requirement = ForeignKey(Requirement)
-    student_program = ForeignKey(OutboundStudentProgram)
-    is_accomplished = BooleanField(default=False)
+    application_requirement = ManyToManyField(Requirement)
 
 
 class DeployedStudentProgram(SoftDeletionModel):

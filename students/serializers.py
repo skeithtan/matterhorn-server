@@ -32,12 +32,6 @@ class InboundStudentProgramSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class StudentApplicationRequirementSerializer(ModelSerializer):
-    class Meta:
-        model = StudentApplicationRequirement
-        fields = "__all__"
-
-
 class DeployedStudentProgramSerializer(ModelSerializer):
     class Meta:
         model = DeployedStudentProgram
