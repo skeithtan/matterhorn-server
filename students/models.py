@@ -76,7 +76,7 @@ class OutboundStudentProgram(SoftDeletionModel):
     study_field = ForeignKey(StudyField, null=True)
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(OutboundProgram)
-    application_requirement = ManyToManyField(Requirement)
+    application_requirement = ManyToManyField(Requirement, blank=True)
 
 
 class DeployedStudentProgram(SoftDeletionModel):
