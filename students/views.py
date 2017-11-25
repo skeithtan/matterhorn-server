@@ -101,7 +101,18 @@ class OutboundStudentProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin)
         return super().get_queryset().filter(id=student)
 
 
+class DeployedStudentProgramListCreateView(MasterGenericAPIViewMixin):
+    permission_classes = (IsAuthenticated, )
+    queryset = DeployedStudentProgram.objects.all()
+    serializer_class = DeployedStudentProgramSerializer
+    codename = 'crud_student'
 
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(DeployedStudentProgramListCreateView, self).get_serializer(*args, **kwargs)
+
+    def get_serializer_context(self):
+        return {'student': self.kwargs['pk']}
 
 
 

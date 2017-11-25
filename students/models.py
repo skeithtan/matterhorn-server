@@ -78,6 +78,16 @@ class OutboundStudentProgram(SoftDeletionModel):
     program = ForeignKey(OutboundProgram)
     application_requirement = ManyToManyField(Requirement, blank=True)
 
+    @staticmethod
+    def check_requirements(self):
+        requirements = Requirement.objects.filter(program=[self.program] or 'null')
+
+        for requirement in requirements:
+            if requirement not in self.application_requirement.all():
+                return False
+
+        return True
+
 
 class DeployedStudentProgram(SoftDeletionModel):
     student_program = ForeignKey(OutboundStudentProgram)

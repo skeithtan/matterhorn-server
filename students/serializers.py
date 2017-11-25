@@ -1,3 +1,6 @@
+from rest_framework.exceptions import ValidationError
+from rest_framework.fields import SerializerMethodField
+from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer
 from .models import *
 
@@ -55,8 +58,6 @@ class InboundStudentProgramSerializer(ModelSerializer):
         for term in terms:
             inbound_student_program_instance.terms_duration.add(term)
 
-
-
         inbound_student_program_instance.save()
         return inbound_student_program_instance
 
@@ -65,5 +66,26 @@ class DeployedStudentProgramSerializer(ModelSerializer):
     class Meta:
         model = DeployedStudentProgram
         fields = "__all__"
+
+    def create(self, validated_data):
+        validated_data['student_program'] = OutboundStudentProgram.objects.get(student=self.context['student'])
+        student_program = (validated_data['student_program'])
+
+        print(validated_data)
+
+        if student_program.check_requirements(self) is False:
+            print('lol1')
+            raise ValidationError("Not all requirements have been submitted by student!")
+        else:
+            print('lol')
+            deployed_student_instance = DeployedStudentProgram.objects.create(**validated_data)
+            deployed_student_instance.save()
+            return deployed_student_instance
+
+
+
+
+
+
 
 
