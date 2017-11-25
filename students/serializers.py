@@ -68,13 +68,13 @@ class DeployedStudentProgramSerializer(ModelSerializer):
         fields = "__all__"
 
     @staticmethod
-    def is_requirements_complete(outbound_program):
-        program = outbound_program.program
+    def is_requirements_complete(outbound_student_program):
+        program = outbound_student_program.program
         requirements = Requirement.objects.filter(Q(program=program) | Q(program=None))
 
         print(requirements)
         for requirement in requirements:
-            if requirement not in outbound_program.application_requirement.all():
+            if requirement not in outbound_student_program.application_requirement.all():
                 return False
 
         return True
@@ -82,14 +82,14 @@ class DeployedStudentProgramSerializer(ModelSerializer):
     def create(self, validated_data):
         print(self.context["student"])
 
-        validated_data["student_program"] = OutboundStudentProgram.objects.get(student=self.context['student'])
-        outbound_program = validated_data["student_program"]
+        outbound_student_program = OutboundStudentProgram.objects.get(student=self.context['student'])
 
-        if not self.is_requirements_complete(outbound_program):
+        if not self.is_requirements_complete(outbound_student_program):
             raise ValidationError("Not all requirements have been submitted by student!")
 
+        validated_data["student_program"] = outbound_student_program
         deployed_student = DeployedStudentProgram.objects.create(**validated_data)
-        deployed_student.student_program = outbound_program
-        print(deployed_student)
+        deployed_student.student_program = outbound_student_program
         deployed_student.save()
+        
         return deployed_student
