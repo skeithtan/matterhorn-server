@@ -5,6 +5,7 @@ from rest_framework.serializers import ModelSerializer
 from .models import *
 from django.db.models import Q
 
+
 class StudentSerializer(ModelSerializer):
     class Meta:
         model = Student
@@ -67,29 +68,20 @@ class DeployedStudentProgramSerializer(ModelSerializer):
         model = DeployedStudentProgram
         fields = "__all__"
 
-    @staticmethod
-    def is_requirements_complete(outbound_student_program):
-        program = outbound_student_program.program
-        requirements = Requirement.objects.filter(Q(program=program) | Q(program=None))
-
-        print(requirements)
-        for requirement in requirements:
-            if requirement not in outbound_student_program.application_requirement.all():
-                return False
-
-        return True
-
     def create(self, validated_data):
         print(self.context["student"])
 
         outbound_student_program = OutboundStudentProgram.objects.get(student=self.context['student'])
 
-        if not self.is_requirements_complete(outbound_student_program):
+        if not outbound_student_program.is_requirements_complete:
             raise ValidationError("Not all requirements have been submitted by student!")
 
         validated_data["student_program"] = outbound_student_program
         deployed_student = DeployedStudentProgram.objects.create(**validated_data)
         deployed_student.student_program = outbound_student_program
         deployed_student.save()
-        
+
         return deployed_student
+
+
+

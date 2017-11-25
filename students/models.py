@@ -1,4 +1,6 @@
 from django.db.models import Model, BooleanField
+from django.db.models import Q
+
 from core.models import *
 from institutions.models import *
 
@@ -77,6 +79,18 @@ class OutboundStudentProgram(SoftDeletionModel):
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(OutboundProgram)
     application_requirement = ManyToManyField(Requirement, blank=True)
+
+    @property
+    def is_requirements_complete(self):
+        program = self.program
+        requirements = Requirement.objects.filter(Q(program=program) | Q(program=None))
+
+        print(requirements)
+        for requirement in requirements:
+            if requirement not in self.application_requirement.all():
+                return False
+
+        return True
 
 
 class DeployedStudentProgram(SoftDeletionModel):
