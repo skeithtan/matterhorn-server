@@ -27,10 +27,16 @@ class StudentType(DjangoObjectType):
     class Meta:
         model = Student
 
+# TEMPORARY -Hidey
+class OutboundStudentProgramType(DjangoObjectType):
+    class Meta:
+        model = OutboundStudentProgram
+
 
 class Query(ObjectType):
     students = List(StudentType, archived=Boolean(), year_archived=Int(), category=String())
     resident_address_histories = List(ResidencyAddressHistoryType, student=Int())
+    outbound_student_programs = List(OutboundStudentProgramType)
 
     student = Field(StudentType, id=Int())
     resident_address_history = Field(ResidencyAddressHistoryType, id=Int())
@@ -62,3 +68,6 @@ class Query(ObjectType):
 
     def resolve_student_study_field(self, info, **kwargs):
         return StudentProgram.objects.get(pk=kwargs.get('id'))
+
+    def resolve_outbound_student_programs(self, info, **kwargs):
+        return OutboundStudentProgram.objects.all()
