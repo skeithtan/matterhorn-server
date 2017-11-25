@@ -3,7 +3,7 @@ from rest_framework.fields import SerializerMethodField
 from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer
 from .models import *
-
+from django.db.models import Q
 
 class StudentSerializer(ModelSerializer):
     class Meta:
@@ -67,25 +67,29 @@ class DeployedStudentProgramSerializer(ModelSerializer):
         model = DeployedStudentProgram
         fields = "__all__"
 
+    @staticmethod
+    def is_requirements_complete(outbound_program):
+        program = outbound_program.program
+        requirements = Requirement.objects.filter(Q(program=program) | Q(program=None))
+
+        print(requirements)
+        for requirement in requirements:
+            if requirement not in outbound_program.application_requirement.all():
+                return False
+
+        return True
+
     def create(self, validated_data):
-        validated_data['student_program'] = OutboundStudentProgram.objects.get(student=self.context['student'])
-        student_program = (validated_data['student_program'])
+        print(self.context["student"])
 
-        print(validated_data)
+        validated_data["student_program"] = OutboundStudentProgram.objects.get(student=self.context['student'])
+        outbound_program = validated_data["student_program"]
 
-        if student_program.check_requirements(self) is False:
-            print('lol1')
+        if not self.is_requirements_complete(outbound_program):
             raise ValidationError("Not all requirements have been submitted by student!")
-        else:
-            print('lol')
-            deployed_student_instance = DeployedStudentProgram.objects.create(**validated_data)
-            deployed_student_instance.save()
-            return deployed_student_instance
 
-
-
-
-
-
-
-
+        deployed_student = DeployedStudentProgram.objects.create(**validated_data)
+        deployed_student.student_program = outbound_program
+        print(deployed_student)
+        deployed_student.save()
+        return deployed_student
