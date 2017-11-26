@@ -1,6 +1,5 @@
 from graphene_django.types import DjangoObjectType
 from .models import *
-import graphene
 from graphene import (
     ObjectType,
     List,
@@ -95,6 +94,11 @@ class InboundProgramType(DjangoObjectType, Program):
 
 
 class OutboundProgramType(DjangoObjectType, Program):
+    requirements = List(String)
+
+    def resolve_requirements(self, info):
+        return [requirement.name for requirement in self.requirement_set.all()]
+
     class Meta:
         model = OutboundProgram
 
