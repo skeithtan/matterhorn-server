@@ -78,7 +78,7 @@ class OutboundStudentProgram(SoftDeletionModel):
     study_field = ForeignKey(StudyField, null=True)
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(OutboundProgram)
-    application_requirement = ManyToManyField(Requirement, blank=True)
+    application_requirements = ManyToManyField(Requirement, blank=True)
 
     @property
     def is_requirements_complete(self):
@@ -87,7 +87,7 @@ class OutboundStudentProgram(SoftDeletionModel):
 
         print(requirements)
         for requirement in requirements:
-            if requirement not in self.application_requirement.all():
+            if requirement not in self.application_requirements.all():
                 return False
 
         return True
