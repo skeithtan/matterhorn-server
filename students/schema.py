@@ -28,8 +28,12 @@ class StudentType(DjangoObjectType):
         model = Student
 
 
-# TEMPORARY -Hidey
 class OutboundStudentProgramType(DjangoObjectType):
+    is_requirement_complete = Boolean()
+
+    def resolve_is_requirement_complete(self, info):
+        return self.is_requirement_complete
+
     class Meta:
         model = OutboundStudentProgram
 
