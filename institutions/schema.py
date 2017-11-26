@@ -93,11 +93,16 @@ class InboundProgramType(DjangoObjectType, Program):
         model = InboundProgram
 
 
+class RequirementType(DjangoObjectType):
+    class Meta:
+        model = Requirement
+
+
 class OutboundProgramType(DjangoObjectType, Program):
-    requirements = List(String)
+    requirements = List(RequirementType)
 
     def resolve_requirements(self, info):
-        return [requirement.name for requirement in self.requirement_set.all()]
+        return self.requirement_set.all()
 
     class Meta:
         model = OutboundProgram
