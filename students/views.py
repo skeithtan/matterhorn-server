@@ -35,6 +35,10 @@ class ResidencyAddressHistoryListCreateView(MasterGenericAPIViewMixin):
     lookup_field = 'student_id'
     codename = 'crud_student'
 
+    def perform_create(self, serializer):
+        student = Student.objects.get(pk=self.kwargs['student_id'])
+        serializer.save(student=student)
+
     def get_queryset(self):
         student = self.kwargs['student_id']
         return super().get_queryset().filter(student=student)
