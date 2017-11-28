@@ -29,9 +29,9 @@ class StudentType(DjangoObjectType):
 
 
 class OutboundStudentProgramType(DjangoObjectType):
-    is_requirement_complete = Boolean()
+    is_requirements_complete = Boolean()
 
-    def resolve_is_requirement_complete(self, info):
+    def resolve_is_requirements_complete(self, info):
         return self.is_requirement_complete
 
     class Meta:
