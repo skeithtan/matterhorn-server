@@ -4,10 +4,10 @@ from .archives import *
 from .restorations import *
 
 student_urls = [
-    url(r'(?P<pk>(\d+))/$', StudentRetrieveUpdateDestroyView.as_view()),
-    url(r'(?P<student_id>(\d+))/residency/$', ResidencyAddressHistoryListCreateView.as_view()),
     url(r'(?P<student_id>(\d+))/residency/(?P<pk>(\d+))/$',
         ResidencyAddressHistoryRetrieveUpdateDestroyView.as_view()),
+    url(r'(?P<pk>(\d+))/$', StudentRetrieveUpdateDestroyView.as_view()),
+    url(r'(?P<student_id>(\d+))/residency/$', ResidencyAddressHistoryListCreateView.as_view()),
     url(r'$', StudentListCreateView.as_view()),
 ]
 

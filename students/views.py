@@ -57,7 +57,7 @@ class ResidencyAddressHistoryRetrieveUpdateDestroyView(MasterGenericAPIViewMixin
 
     def get_queryset(self):
         student = self.kwargs['student_id']
-        residency = self.kwargs['residencyaddresshistory_id']
+        residency = self.kwargs['pk']
         return super().get_queryset().filter(student=student, id=residency)
 
 
