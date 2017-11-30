@@ -128,6 +128,7 @@ class Query(ObjectType):
 
     institution = Field(InstitutionType, id=Int())
     memorandum = Field(MemorandumType, id=Int())
+    outbound_program = Field(OutboundProgramType, id=Int())
     inbound_program = Field(InboundProgramType, id=Int())
 
     def resolve_academic_years(self, info, **kwargs):
@@ -183,6 +184,10 @@ class Query(ObjectType):
             outbound_programs = outbound_programs.filter(program__terms_available__number=term)
 
         return outbound_programs
+
+    def resolve_outbound_program(self, info, **kwargs):
+        id = kwargs.get('id')
+        return OutboundProgram.objects.get(pk=id)
 
     def resolve_inbound_programs(self, info, **kwargs):
         year = kwargs.get('year', False)
