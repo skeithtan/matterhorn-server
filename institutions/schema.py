@@ -98,17 +98,8 @@ class RequirementType(DjangoObjectType):
         model = Requirement
 
 
-class StudyFieldType(DjangoObjectType):
-    class Meta:
-        model = StudyField
-
-
 class OutboundProgramType(DjangoObjectType, Program):
     requirements = List(RequirementType)
-    study_fields = List(StudyField)
-
-    def resolve_study_fields(self, info):
-        return self.program.studyfield_set.all()
 
     def resolve_requirements(self, info):
         return self.requirement_set.all()
@@ -116,6 +107,10 @@ class OutboundProgramType(DjangoObjectType, Program):
     class Meta:
         model = OutboundProgram
 
+
+class StudyFieldType(DjangoObjectType):
+    class Meta:
+        model = StudyField
 
 
 class Query(ObjectType):
