@@ -82,7 +82,7 @@ class Program:
         return self.program.academic_year
 
     def resolve_terms_available(self, info):
-        return self.program.terms_available
+        return self.program.terms_available.all()
 
     def resolve_is_graduate(self, info):
         return self.program.is_graduate
