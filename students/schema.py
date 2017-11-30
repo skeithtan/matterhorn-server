@@ -32,7 +32,7 @@ class OutboundStudentProgramType(DjangoObjectType):
     is_requirements_complete = Boolean()
 
     def resolve_is_requirements_complete(self, info):
-        return self.is_requirement_complete
+        return self.is_requirements_complete
 
     class Meta:
         model = OutboundStudentProgram
