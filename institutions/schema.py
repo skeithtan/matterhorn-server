@@ -100,9 +100,13 @@ class RequirementType(DjangoObjectType):
 
 class OutboundProgramType(DjangoObjectType, Program):
     requirements = List(RequirementType)
+    study_fields = List(String)
 
     def resolve_requirements(self, info):
         return self.requirement_set.all()
+
+    def resolve_study_fields(self, info):
+        return [study_field.name for study_field in self.program.studyfield_set.all()]
 
     class Meta:
         model = OutboundProgram
