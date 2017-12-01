@@ -67,7 +67,6 @@ class ResidencyAddressHistory(SoftDeletionModel):
 
 class InboundStudentProgram(SoftDeletionModel):
     student = ForeignKey(Student)
-    study_field = ForeignKey(StudyField, null=True)
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(InboundProgram)
     total_units_enrolled = PositiveIntegerField()
@@ -75,7 +74,6 @@ class InboundStudentProgram(SoftDeletionModel):
 
 class OutboundStudentProgram(SoftDeletionModel):
     student = ForeignKey(Student)
-    study_field = ForeignKey(StudyField, null=True)
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(OutboundProgram)
     application_requirements = ManyToManyField(Requirement, blank=True)
