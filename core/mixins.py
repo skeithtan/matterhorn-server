@@ -9,37 +9,64 @@ class MasterGenericAPIViewMixin(ListCreateAPIView, RetrieveUpdateDestroyAPIView)
     codename = None
 
     def get(self, request, *args, **kwargs):
+        group = request.user.groups.first()
         permission = Permission.objects.get(codename=self.codename)
-        if permission not in request.user.user_permissions.all():
+
+        if group is None:
             return Response(status=403, data={
-                "error": "not authorized to add"
+                "error": "user does not belong to any permitted groups"
+            })
+
+        if permission not in group.permissions.all():
+            return Response(status=403, data={
+                "error": "not authorized to view"
             })
 
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        group = request.user.groups.first()
         permission = Permission.objects.get(codename=self.codename)
-        if permission not in request.user.user_permissions.all():
+
+        if group is None:
             return Response(status=403, data={
-                "error": "not authorized to add"
+                "error": "user does not belong to any permitted groups"
+            })
+
+        if permission not in group.permissions.all():
+            return Response(status=403, data={
+                "error": "not authorized to view"
             })
 
         return self.create(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
+        group = request.user.groups.first()
         permission = Permission.objects.get(codename=self.codename)
-        if permission not in request.user.user_permissions.all():
+
+        if group is None:
             return Response(status=403, data={
-                "error": "not authorized to edit"
+                "error": "user does not belong to any permitted groups"
+            })
+
+        if permission not in group.permissions.all():
+            return Response(status=403, data={
+                "error": "not authorized to view"
             })
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
+        group = request.user.groups.first()
         permission = Permission.objects.get(codename=self.codename)
 
-        if permission not in request.user.user_permissions.all():
+        if group is None:
             return Response(status=403, data={
-                "error": "not authorized to delete"
+                "error": "user does not belong to any permitted groups"
+            })
+
+        if permission not in group.permissions.all():
+            return Response(status=403, data={
+                "error": "not authorized to view"
             })
 
         instance = self.get_object()
@@ -50,8 +77,15 @@ class MasterGenericAPIViewMixin(ListCreateAPIView, RetrieveUpdateDestroyAPIView)
 class SharedReadOnlyMixin(MasterGenericAPIViewMixin):
     def get(self, request, *args, **kwargs):
         # override to allow users to get without crud permission
+        group = request.user.groups.first()
         permission = Permission.objects.get(codename='get_memorandum')
-        if permission not in request.user.user_permissions.all():
+
+        if group is None:
+            return Response(status=403, data={
+                "error": "user does not belong to any permitted groups"
+            })
+
+        if permission not in group.permissions.all():
             return Response(status=403, data={
                 "error": "not authorized to view"
             })
@@ -60,10 +94,16 @@ class SharedReadOnlyMixin(MasterGenericAPIViewMixin):
 
     def post(self, request, *args, **kwargs):
         # only users with crud permissions may post
+        group = request.user.groups.first()
+
         permission = Permission.objects.get(codename='crud_memorandum')
-        if permission not in request.user.user_permissions.all():
+        if group is None:
             return Response(status=403, data={
-                "error": "not authorized to add"
+                "error": "user does not belong to any permitted groups"
+            })
+        if permission not in group.permissions.all() or group is None:
+            return Response(status=403, data={
+                "error": "not authorized to view"
             })
 
         return self.create(request, *args, **kwargs)

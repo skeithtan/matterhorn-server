@@ -69,7 +69,6 @@ class DeployedStudentProgramSerializer(ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        print(self.context["student"])
 
         outbound_student_program = OutboundStudentProgram.objects.get(student=self.context['student'])
 
