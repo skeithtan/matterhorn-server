@@ -88,33 +88,34 @@ class Program:
         return self.program.is_graduate
 
 
+class InboundRequirementType(DjangoObjectType):
+    class Meta:
+        model = InboundRequirement
+
+
 class InboundProgramType(DjangoObjectType, Program):
+    requirements = List(InboundRequirementType)
+
+    def resolve_requirements(self, info):
+        return self.inboundrequirements_set.all()
+
     class Meta:
         model = InboundProgram
 
 
-class RequirementType(DjangoObjectType):
+class OutboundRequirementType(DjangoObjectType):
     class Meta:
-        model = Requirement
+        model = OutboundRequirement
 
 
 class OutboundProgramType(DjangoObjectType, Program):
-    requirements = List(RequirementType)
-    study_fields = List(String)
+    requirements = List(OutboundRequirementType)
 
     def resolve_requirements(self, info):
-        return self.requirement_set.all()
-
-    def resolve_study_fields(self, info):
-        return [study_field.name for study_field in self.program.studyfield_set.all()]
+        return self.outboundrequirement_set.all()
 
     class Meta:
         model = OutboundProgram
-
-
-class StudyFieldType(DjangoObjectType):
-    class Meta:
-        model = StudyField
 
 
 class Query(ObjectType):
