@@ -119,7 +119,18 @@ class DeployedStudentProgramListCreateView(MasterGenericAPIViewMixin):
         return {'student': self.kwargs['pk']}
 
 
+class AcceptedStudentProgramListCreateView(MasterGenericAPIViewMixin):
+    permission_classes = (IsAuthenticated,)
+    queryset = AcceptedStudentProgram.objects.all()
+    serializer_class = AcceptedStudentProgramSerializer
+    codename = 'crud_student'
 
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(AcceptedStudentProgramListCreateView, self).get_serializer(*args, **kwargs)
+
+    def get_serializer_context(self):
+        return {'student': self.kwargs['pk']}
 
 
 

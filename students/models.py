@@ -74,6 +74,19 @@ class InboundStudentProgram(SoftDeletionModel):
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(InboundProgram)
     inbound_courses = ManyToManyField(InboundCourse, blank=True)
+    application_requirements = ManyToManyField(InboundRequirement, blank=True)
+
+    @property
+    def is_requirements_complete(self):
+        program = self.program
+        requirements = InboundRequirement.objects.filter(Q(program=program) | Q(program=None))
+
+        print(requirements)
+        for requirement in requirements:
+            if requirement not in self.application_requirements.all():
+                return False
+
+        return True
 
 
 class AcceptedStudentProgram(SoftDeletionModel):

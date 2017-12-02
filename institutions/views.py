@@ -164,7 +164,7 @@ class OutboundRequirementListCreateView(MasterGenericAPIViewMixin):
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(RequirementListCreateView, self).get_serializer(*args, **kwargs)
+        return super(OutboundRequirementListCreateView, self).get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         program = self.kwargs['outbound_id']
