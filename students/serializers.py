@@ -54,10 +54,14 @@ class InboundStudentProgramSerializer(ModelSerializer):
 
     def create(self, validated_data):
         terms = validated_data.pop('terms_duration')
+        courses = validated_data.pop('inbound_courses')
         inbound_student_program_instance = InboundStudentProgram.objects.create(**validated_data)
 
         for term in terms:
             inbound_student_program_instance.terms_duration.add(term)
+
+        for course in courses:
+            inbound_student_program_instance.inbound_courses.add(course)
 
         inbound_student_program_instance.save()
         return inbound_student_program_instance
