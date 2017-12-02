@@ -124,19 +124,16 @@ class UnitReportView(APIView):
         # append inbound units
         for inbound in accepted_inbounds:
             for item in report_items:
-
                 if str(inbound.student_program.student.institution) == item.institution:
                     existing_report = ReportItem.exist(item.institution, report_items)
-                    print(inbound.total_units_enrolled)
                     report_item.inbound_units_enrolled += inbound.total_units_enrolled
 
                     if not existing_report:
-                        print("entered not existing")
                         report_items.append(report_item)
                     else:
-                        print("entered existing")
                         existing_report.inbound_units_enrolled = report_item.inbound_units_enrolled
 
+        # transform report items into json
         for item in report_items:
             data.append({
                 "institution": item.institution,
