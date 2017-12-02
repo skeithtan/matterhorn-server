@@ -65,10 +65,32 @@ class ResidencyAddressHistory(SoftDeletionModel):
     residence = CharField(max_length=64)
 
 
+class InboundCourse(SoftDeletionModel):
+    name = CharField(max_length=64)
+
+
 class InboundStudentProgram(SoftDeletionModel):
     student = ForeignKey(Student)
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(InboundProgram)
+    inbound_courses = ManyToManyField(InboundCourse, blank=True)
+    application_requirements = ManyToManyField(InboundRequirement, blank=True)
+
+    @property
+    def is_requirements_complete(self):
+        program = self.program
+        requirements = InboundRequirement.objects.filter(Q(program=program) | Q(program=None))
+
+        print(requirements)
+        for requirement in requirements:
+            if requirement not in self.application_requirements.all():
+                return False
+
+        return True
+
+
+class AcceptedStudentProgram(SoftDeletionModel):
+    student_program = ForeignKey(InboundStudentProgram)
     total_units_enrolled = PositiveIntegerField()
 
 
@@ -76,12 +98,12 @@ class OutboundStudentProgram(SoftDeletionModel):
     student = ForeignKey(Student)
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(OutboundProgram)
-    application_requirements = ManyToManyField(Requirement, blank=True)
+    application_requirements = ManyToManyField(OutboundRequirement, blank=True)
 
     @property
     def is_requirements_complete(self):
         program = self.program
-        requirements = Requirement.objects.filter(Q(program=program) | Q(program=None))
+        requirements = OutboundRequirement.objects.filter(Q(program=program) | Q(program=None))
 
         for requirement in requirements:
             if requirement not in self.application_requirements.all():

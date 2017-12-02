@@ -54,10 +54,14 @@ class InboundStudentProgramSerializer(ModelSerializer):
 
     def create(self, validated_data):
         terms = validated_data.pop('terms_duration')
+        courses = validated_data.pop('inbound_courses')
         inbound_student_program_instance = InboundStudentProgram.objects.create(**validated_data)
 
         for term in terms:
             inbound_student_program_instance.terms_duration.add(term)
+
+        for course in courses:
+            inbound_student_program_instance.inbound_courses.add(course)
 
         inbound_student_program_instance.save()
         return inbound_student_program_instance
@@ -81,4 +85,22 @@ class DeployedStudentProgramSerializer(ModelSerializer):
         return deployed_student
 
 
+class AcceptedStudentProgramSerializer(ModelSerializer):
+    class Meta:
+        model = AcceptedStudentProgram
+        field = "__all__"
+
+    def create(self, validated_data):
+
+        inbound_student_program = InboundStudentProgram.objects.get(student=self.context['student'])
+
+        if not inbound_student_program.is_requirements_complete:
+            raise ValidationError("Not all requirements have been submitted by student!")
+
+        validated_data["student_program"] = inbound_student_program
+        accepted_student = AcceptedStudentProgram.objects.create(**validated_data)
+        accepted_student.student_program = inbound_student_program
+        accepted_student.save()
+
+        return accepted_student
 

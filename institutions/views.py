@@ -155,16 +155,16 @@ class TermListCreateView(ListCreateAPIView):
     serializer_class = TermSerializer
 
 
-class RequirementListCreateView(MasterGenericAPIViewMixin):
+class OutboundRequirementListCreateView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
-    queryset = Requirement.objects.all()
-    serializer_class = RequirementSerializer
+    queryset = OutboundRequirement.objects.all()
+    serializer_class = OutboundRequirementSerializer
     lookup_url_kwarg = 'outbound_id'
     codename = 'crud_student'
 
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
-        return super(RequirementListCreateView, self).get_serializer(*args, **kwargs)
+        return super(OutboundRequirementListCreateView, self).get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         program = self.kwargs['outbound_id']

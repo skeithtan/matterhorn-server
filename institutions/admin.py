@@ -11,5 +11,6 @@ admin.site.register(AcademicYear)
 admin.site.register(Term)
 admin.site.register(InboundProgram)
 admin.site.register(OutboundProgram)
-admin.site.register(Requirement)
+admin.site.register(OutboundRequirement)
 admin.site.register(DeployedStudentProgram)
+
