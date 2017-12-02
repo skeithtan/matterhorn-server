@@ -8,6 +8,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from graphene_django.views import GraphQLView
+from institutions.models import *
+from students.models import *
 
 
 class PrivateGraphQLView(GraphQLView):
@@ -67,3 +69,44 @@ class ModelRestoreView(APIView):
         model.undelete()
         serializer = self.get_serializer_class()(model)
         return Response(serializer.data)
+
+
+class UnitReportView(APIView):
+    @staticmethod
+    def get(request):
+        if "academic_year" not in request.GET or "term" not in request.GET:
+            return Response(data={
+                "error": "Please specify AY and Term"
+            }, status=400)
+        data = []
+        academic_year = get_object_or_404(AcademicYear, pk=request.GET.get('academic_year'))
+        term = get_object_or_404(Term, pk=request.GET.get('term'))
+
+        # Outbound programs with AY and term
+        outbound_programs = [outbound_program for outbound_program
+                            in OutboundProgram.objects.all()
+                            if outbound_program.program.academic_year == academic_year
+                            and term in outbound_program.program.terms_available.all()]
+
+        inbound_programs = [inbound_program for inbound_program
+                             in InboundProgram.objects.all()
+                             if inbound_program.program.academic_year == academic_year
+                             and term in inbound_program.program.terms_available.all()]
+
+        # get all deployed programs with specific AY and Term
+        deployed_outbounds = [program for program
+                             in DeployedStudentProgram.objects.all()
+                             if program.student_program.program in outbound_programs]
+
+        # summarize per institution
+        for institution in Institution.objects.all():
+            units_sum = 0
+            for item in deployed_outbounds:
+                program_institution = item.student_program.program.institution
+                if program_institution == institution:
+                    units_sum += item.total_units_enrolled  # add all units of programs in institution
+                    data.append({
+                        "institution": institution.name,
+                        "outbound_units_enrolled": units_sum
+                    })
+        return Response(data=data, status=200)

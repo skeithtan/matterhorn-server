@@ -2,6 +2,6 @@ from django.conf.urls import url
 from .views import *
 
 
-urls = [
-
+report_urls = [
+    url(r'unit_reports/$', UnitReportView.as_view()),
 ]

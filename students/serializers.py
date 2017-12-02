@@ -69,9 +69,7 @@ class DeployedStudentProgramSerializer(ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-
         outbound_student_program = OutboundStudentProgram.objects.get(student=self.context['student'])
-
         if not outbound_student_program.is_requirements_complete:
             raise ValidationError("Not all requirements have been submitted by student!")
 

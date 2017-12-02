@@ -83,7 +83,6 @@ class OutboundStudentProgram(SoftDeletionModel):
         program = self.program
         requirements = Requirement.objects.filter(Q(program=program) | Q(program=None))
 
-        print(requirements)
         for requirement in requirements:
             if requirement not in self.application_requirements.all():
                 return False

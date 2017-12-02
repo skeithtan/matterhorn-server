@@ -131,7 +131,7 @@ class InboundProgram(SoftDeletionModel):
     program = ForeignKey(Program)
 
     def __str__(self):
-        return f"{self.institution.name} - {self.program.name}"
+        return f"{self.program.name}"
 
 
 class Requirement(SoftDeletionModel):

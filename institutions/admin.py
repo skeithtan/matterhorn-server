@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+from students.models import DeployedStudentProgram, OutboundStudentProgram
 from .models import *
 
 admin.site.register(Institution)
@@ -10,3 +12,4 @@ admin.site.register(Term)
 admin.site.register(InboundProgram)
 admin.site.register(OutboundProgram)
 admin.site.register(Requirement)
+admin.site.register(DeployedStudentProgram)
