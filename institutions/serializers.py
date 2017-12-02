@@ -136,8 +136,8 @@ class OutboundProgramSerializer(ModelSerializer):
         return program
 
 
-class RequirementSerializer(ModelSerializer):
+class OutboundRequirementSerializer(ModelSerializer):
     class Meta:
-        model = Requirement
+        model = OutboundRequirement
         fields = "__all__"
 

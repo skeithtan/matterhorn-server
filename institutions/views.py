@@ -155,10 +155,10 @@ class TermListCreateView(ListCreateAPIView):
     serializer_class = TermSerializer
 
 
-class RequirementListCreateView(MasterGenericAPIViewMixin):
+class OutboundRequirementListCreateView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
-    queryset = Requirement.objects.all()
-    serializer_class = RequirementSerializer
+    queryset = OutboundRequirement.objects.all()
+    serializer_class = OutboundRequirementSerializer
     lookup_url_kwarg = 'outbound_id'
     codename = 'crud_student'
 
