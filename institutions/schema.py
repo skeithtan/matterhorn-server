@@ -23,6 +23,10 @@ class InstitutionType(DjangoObjectType):
     moas = List(MemorandumType)
     latest_moa = Field(MemorandumType)
     latest_mou = Field(MemorandumType)
+    country = String()
+
+    def resolve_country(self, info):
+        return self.country.name
 
     def resolve_moas(self, info):
         return self.mous
