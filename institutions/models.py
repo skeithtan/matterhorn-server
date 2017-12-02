@@ -14,7 +14,6 @@ class Continent(Model):
         return self.name
 
 
-
 class Country(Model):
     name = CharField(max_length=64, primary_key=True)
     continent = ForeignKey(Continent)
@@ -134,8 +133,11 @@ class InboundProgram(SoftDeletionModel):
         return f"{self.institution.name} - {self.program.name}"
 
 
-class Requirement(SoftDeletionModel):
+class OutboundRequirement(SoftDeletionModel):
     name = CharField(max_length=64)
     program = ForeignKey(OutboundProgram, null=True)
 
 
+class InboundRequirement(SoftDeletionModel):
+    name = CharField(max_length=64)
+    program = ForeignKey(InboundProgram, null=True)
