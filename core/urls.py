@@ -3,5 +3,5 @@ from .views import *
 
 
 report_urls = [
-    url(r'unit_reports/$', UnitReportView.as_view()),
+    url(r'unit-reports/$', UnitReportView.as_view()),
 ]
