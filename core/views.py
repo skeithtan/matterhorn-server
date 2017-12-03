@@ -271,7 +271,14 @@ class ReportItem(object):
                     continue
         # append inbound
         for inbound in accepted_inbounds:
-            report_item = ReportItem()
+            existing_report_items = [item.institution for item in report_items]
+            institution = inbound.student_program.student.institution.name
+            # with inbound units but doesnt exist in report_items
+            if institution not in existing_report_items:
+                # create empty report
+                report_item = ReportItem()
+                report_item.institution = institution
+                report_items.append(report_item)
             for item in report_items:
                 if str(inbound.student_program.student.institution) == item.institution:
                     existing_report = ReportItem.exist(item.institution, report_items)
