@@ -118,6 +118,9 @@ class DeployedStudentProgram(SoftDeletionModel):
     date_expected_return = DateField(null=True)
     total_units_enrolled = PositiveIntegerField()
 
+    def __str__(self):
+        return f"Term {self.student_program.program.institution}"
+
 
 
 

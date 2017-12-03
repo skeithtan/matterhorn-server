@@ -97,48 +97,46 @@ class UnitReportView(APIView):
         deployed_outbounds = [program for program
                               in DeployedStudentProgram.objects.all()
                               if program.student_program.program in outbound_programs]
-
         accepted_inbounds = [program for program
                              in AcceptedStudentProgram.objects.all()
                              if program.student_program.program in inbound_programs]
 
         # summarize per institution and append outbound units
-        report_item = ReportItem()
         report_items = []
-        for institution in Institution.objects.all():
-            for item in deployed_outbounds:
+        for item in deployed_outbounds:
+            report_item = ReportItem()
+            for institution in Institution.objects.all():
                 program_institution = item.student_program.program.institution
                 if program_institution == institution:
                     report_item.institution = institution.name
                     report_item.outbound_units_enrolled += item.total_units_enrolled
-
                     existing_report = ReportItem.exist(institution.name, report_items)
                     if not existing_report:
                         report_items.append(report_item)
                     else:
-                        existing_report.outbound_units_enrolled = \
-                            report_item.outbound_units_enrolled
+                        existing_report.outbound_units_enrolled += item.total_units_enrolled
                 else:
-                    break
+                    continue
 
         # append inbound units
         for inbound in accepted_inbounds:
+            report_item = ReportItem()
             for item in report_items:
                 if str(inbound.student_program.student.institution) == item.institution:
                     existing_report = ReportItem.exist(item.institution, report_items)
                     report_item.inbound_units_enrolled += inbound.total_units_enrolled
-
                     if not existing_report:
                         report_items.append(report_item)
                     else:
-                        existing_report.inbound_units_enrolled = report_item.inbound_units_enrolled
-
+                        existing_report.inbound_units_enrolled += inbound.total_units_enrolled
         # transform report items into json
         for item in report_items:
+            deficit = item.outbound_units_enrolled - item.inbound_units_enrolled
             data.append({
                 "institution": item.institution,
                 "outbound_units_enrolled": item.outbound_units_enrolled,
-                "inbound_units_enrolled": item.inbound_units_enrolled
+                "inbound_units_enrolled": item.inbound_units_enrolled,
+                "+/-": deficit
             })
 
         return Response(data=data, status=200)
