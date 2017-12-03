@@ -40,6 +40,6 @@ urlpatterns = [
     url(r'^memorandums/', include(memorandum_urls)),
     url(r'^programs/', include(program_urls)),
     url(r'^academic-years', include(academic_year_urls)),
-    url(r'^reports', include(report_urls)),
+    url(r'^reports/', include(report_urls)),
 
 ]

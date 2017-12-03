@@ -82,6 +82,87 @@ class UnitReportView(APIView):
         academic_year = get_object_or_404(AcademicYear, pk=request.GET.get('academic-year'))
         term = get_object_or_404(Term, pk=request.GET.get('term'))
 
+        # get all inbound and outbounds with AY and Term
+        report_data = ReportItem.get_data(academic_year, term)
+        deployed_outbounds = report_data.get('deployed_outbounds')
+        accepted_inbounds = report_data.get('accepted_inbounds')
+
+        # process data to get all report items
+        report_items = ReportItem.process_data(deployed_outbounds,
+                                               accepted_inbounds,
+                                               "unit")
+        # transform report items into json
+        for item in report_items:
+            deficit = item.outbound_units_enrolled - item.inbound_units_enrolled
+            data.append({
+                "institution": item.institution,
+                "outbound_units_enrolled": item.outbound_units_enrolled,
+                "inbound_units_enrolled": item.inbound_units_enrolled,
+                "+/-": deficit
+            })
+
+        return Response(data=data, status=200)
+
+
+class StudentDistributionReportView(APIView):
+    @staticmethod
+    def get(request):
+        if "academic-year" not in request.GET or "term" not in request.GET:
+            return Response(data={
+                "error": "Please specify AY and Term"
+            }, status=400)
+        data = []
+        academic_year = get_object_or_404(AcademicYear, pk=request.GET.get('academic-year'))
+        term = get_object_or_404(Term, pk=request.GET.get('term'))
+
+        report_data = ReportItem.get_data(academic_year, term)
+        deployed_outbounds = report_data.get('deployed_outbounds')
+        accepted_inbounds = report_data.get('accepted_inbounds')
+
+        report_items = ReportItem.process_data(deployed_outbounds,
+                                               accepted_inbounds,
+                                               "student_distribution")
+
+        for item in report_items:
+            deficit = item.outbound_students_count - item.inbound_students_count
+            data.append({
+                "institution": item.institution,
+                "outbound_students_count": item.outbound_students_count,
+                "inbound_students_count": item.inbound_students_count,
+                "+/-": deficit
+            })
+
+        return Response(data=data, status=200)
+
+
+class ReportItem(object):
+    institution = None
+    outbound_units_enrolled = 0
+    inbound_units_enrolled = 0
+    outbound_students_count = 0
+    inbound_students_count = 0
+
+    def __init__(self,
+                 outbound_students_count=0,
+                 inbound_students_count=0,
+                 inbound_units_enrolled=0,
+                 outbound_units_enrolled=0,
+                 institution=None):
+        self.institution_name = institution
+        self.outbound_units_enrolled = outbound_units_enrolled
+        self.inbound_units_enrolled = inbound_units_enrolled
+        self.outbound_students_count = outbound_students_count
+        self.inbound_students_count = inbound_students_count
+
+    @staticmethod
+    def exist(institution, list):
+        for item in list:
+            if item.institution == institution:
+                return item
+        return False
+
+    @staticmethod
+    def get_data(academic_year, term):
         # Outbound programs with AY and term
         outbound_programs = [outbound_program for outbound_program
                              in OutboundProgram.objects.all()
@@ -101,7 +182,16 @@ class UnitReportView(APIView):
                              in AcceptedStudentProgram.objects.all()
                              if program.student_program.program in inbound_programs]
 
-        # summarize per institution and append outbound units
+        return {
+            'accepted_inbounds': accepted_inbounds,
+            'deployed_outbounds': deployed_outbounds,
+            'inbound_programs': inbound_programs,
+            'outbound_programs': outbound_programs
+        }
+
+    @staticmethod
+    def process_data(deployed_outbounds, accepted_inbounds,report_type):
+        # summarize per institution and append outbound
         report_items = []
         for item in deployed_outbounds:
             report_item = ReportItem()
@@ -109,52 +199,36 @@ class UnitReportView(APIView):
                 program_institution = item.student_program.program.institution
                 if program_institution == institution:
                     report_item.institution = institution.name
-                    report_item.outbound_units_enrolled += item.total_units_enrolled
+                    if report_type == "unit":
+                        report_item.outbound_units_enrolled += item.total_units_enrolled
+                    elif report_type == "student_distribution":
+                        report_item.outbound_students_count += 1
                     existing_report = ReportItem.exist(institution.name, report_items)
                     if not existing_report:
                         report_items.append(report_item)
                     else:
-                        existing_report.outbound_units_enrolled += item.total_units_enrolled
+                        if report_type == "unit":
+                            existing_report.outbound_units_enrolled += item.total_units_enrolled
+                        elif report_type == "student_distribution":
+                            existing_report.outbound_students_count += 1
                 else:
                     continue
-
-        # append inbound units
+        # append inbound
         for inbound in accepted_inbounds:
             report_item = ReportItem()
             for item in report_items:
                 if str(inbound.student_program.student.institution) == item.institution:
                     existing_report = ReportItem.exist(item.institution, report_items)
-                    report_item.inbound_units_enrolled += inbound.total_units_enrolled
+                    if report_type == "unit":
+                        report_item.inbound_units_enrolled += inbound.total_units_enrolled
+                    elif report_type == "student_distribution":
+                        report_item.inbound_students_count += 1
                     if not existing_report:
                         report_items.append(report_item)
                     else:
-                        existing_report.inbound_units_enrolled += inbound.total_units_enrolled
-        # transform report items into json
-        for item in report_items:
-            deficit = item.outbound_units_enrolled - item.inbound_units_enrolled
-            data.append({
-                "institution": item.institution,
-                "outbound_units_enrolled": item.outbound_units_enrolled,
-                "inbound_units_enrolled": item.inbound_units_enrolled,
-                "+/-": deficit
-            })
+                        if report_type == "unit":
+                            existing_report.inbound_units_enrolled += inbound.total_units_enrolled
+                        elif report_type == "student_distribution":
+                            existing_report.inbound_students_count += 1
 
-        return Response(data=data, status=200)
-
-
-class ReportItem(object):
-    institution = None
-    outbound_units_enrolled = 0
-    inbound_units_enrolled = 0
-
-    def __init__(self, inbound_units_enrolled=0, outbound_units_enrolled=0, institution=None):
-        self.institution_name = institution
-        self.outbound_units_enrolled = outbound_units_enrolled
-        self.inbound_units_enrolled = inbound_units_enrolled
-
-    @staticmethod
-    def exist(institution, list):
-        for item in list:
-            if item.institution == institution:
-                return item
-        return False
+        return report_items
