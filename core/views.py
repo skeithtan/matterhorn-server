@@ -74,12 +74,12 @@ class ModelRestoreView(APIView):
 class UnitReportView(APIView):
     @staticmethod
     def get(request):
-        if "academic_year" not in request.GET or "term" not in request.GET:
+        if "academic-year" not in request.GET or "term" not in request.GET:
             return Response(data={
                 "error": "Please specify AY and Term"
             }, status=400)
         data = []
-        academic_year = get_object_or_404(AcademicYear, pk=request.GET.get('academic_year'))
+        academic_year = get_object_or_404(AcademicYear, pk=request.GET.get('academic-year'))
         term = get_object_or_404(Term, pk=request.GET.get('term'))
 
         # Outbound programs with AY and term
