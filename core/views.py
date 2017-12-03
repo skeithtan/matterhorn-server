@@ -135,6 +135,62 @@ class StudentDistributionReportView(APIView):
         return Response(data=data, status=200)
 
 
+class InboundStatisticsReportView(APIView):
+    @staticmethod
+    def get(request):
+        if "academic-year" not in request.GET \
+                or "term" not in request.GET \
+                or "filter" not in request.GET:
+            return Response(data={
+                "error": "Please specify AY, Term, and filter method"
+            }, status=400)
+        data = []
+        academic_year = get_object_or_404(AcademicYear, pk=request.GET.get('academic-year'))
+        term = get_object_or_404(Term, pk=request.GET.get('term'))
+        report_data = ReportItem.get_data(academic_year, term)
+        accepted_inbounds = report_data.get('accepted_inbounds')
+
+        if request.GET.get('filter') == "college":
+            for key, college in COLLEGES:
+                data.append({
+                    'abbreviation': key,
+                    'college': college,
+                    'inbound_students': 0
+                })
+
+            for program in accepted_inbounds:
+                for key, college in COLLEGES:
+                    if program.student_program.student.college == key:
+                        report_item = [item for item in data if item["college"] == college][0]
+                        report_item["inbound_students"] += 1
+
+        elif request.GET.get('filter') == "country":
+            # for country in Country.objects.all():
+            #     data.append({
+            #         "country": country.name,
+            #         "inbound_students": 0
+            #     })
+            for program in accepted_inbounds:
+                for country in Country.objects.all():
+                    if program.student_program.student.institution.country.name == country.name:
+                            # if country doesnt exist in data
+                            if not [item for item in data if item["country"] == country.name]:
+                                data.append({
+                                    "country": country.name,
+                                    "inbound_students": 1
+                                })
+                            else:
+                                item = [item for item in data if item["country"] == country.name][0]
+                                item["inbound_students"] += 1
+
+        else:
+            return Response(data={
+                "error": "Please choose between 'college' or 'country'"
+            }, status=400)
+
+        return Response(data=data, status=200)
+
+
 class ReportItem(object):
     institution = None
     outbound_units_enrolled = 0
@@ -190,7 +246,7 @@ class ReportItem(object):
         }
 
     @staticmethod
-    def process_data(deployed_outbounds, accepted_inbounds,report_type):
+    def process_data(deployed_outbounds, accepted_inbounds, report_type):
         # summarize per institution and append outbound
         report_items = []
         for item in deployed_outbounds:
