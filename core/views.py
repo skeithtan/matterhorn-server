@@ -279,6 +279,7 @@ class ReportItem(object):
                 report_item = ReportItem()
                 report_item.institution = institution
                 report_items.append(report_item)
+            report_item = ReportItem()
             for item in report_items:
                 if str(inbound.student_program.student.institution) == item.institution:
                     existing_report = ReportItem.exist(item.institution, report_items)
