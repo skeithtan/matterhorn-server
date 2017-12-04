@@ -228,7 +228,9 @@ class OutboundUnitsReportView(APIView):
                     else:
                         item = [item for item in data if item["institution"] == institution.name][0]
                         item["default_units"] += program.default_units
-                        item["total_units"] += program.default_units
+                        print(item["total_units"])
+                        item["total_units"] += program.total_units_enrolled
+                        print(f"{institution.name} and {item['total_units']}")
                         item["students"] += 1
 
         return Response(data=data, status=200)
