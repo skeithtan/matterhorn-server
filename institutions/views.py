@@ -159,13 +159,12 @@ class OutboundRequirementListCreateView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
     queryset = OutboundRequirement.objects.all()
     serializer_class = OutboundRequirementSerializer
-    lookup_url_kwarg = 'outbound_id'
     codename = 'crud_student'
 
-    def get_serializer(self, *args, **kwargs):
-        kwargs['partial'] = True
-        return super(OutboundRequirementListCreateView, self).get_serializer(*args, **kwargs)
 
-    def get_queryset(self):
-        program = self.kwargs['outbound_id']
-        return super().get_queryset().filter(pk=program)
+class InboundRequirementListCreateView(MasterGenericAPIViewMixin):
+    permission_classes = (IsAuthenticated,)
+    queryset = InboundRequirement.objects.all()
+    serializer_class = InboundRequirementSerializer
+    codename = 'crud_student'
+
