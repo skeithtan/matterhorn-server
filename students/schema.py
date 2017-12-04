@@ -39,6 +39,11 @@ class OutboundStudentProgramType(DjangoObjectType):
 
 
 class InboundStudentProgramType(DjangoObjectType):
+    is_requirements_complete = Boolean()
+
+    def resolve_is_requirements_complete(self, info):
+        return self.is_requirements_complete
+
     class Meta:
         model = InboundStudentProgram
 
