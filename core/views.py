@@ -214,39 +214,43 @@ class OutboundUnitsReportView(APIView):
         academic_year = get_object_or_404(AcademicYear, pk=request.GET.get('academic-year'))
         term = get_object_or_404(Term, pk=request.GET.get('term'))
         report_data = ReportItem.get_data(academic_year, term)
-        accepted_inbounds = report_data.get('accepted_inbounds')
+        deployed_outbounds = report_data.get('deployed_outbounds')
 
         if request.GET.get('filter') == "college":
             for key, college in COLLEGES:
                 data.append({
                     'abbreviation': key,
                     'college': college,
-                    'undergrad_students': 0,
-                    'graduate_students': 0
+                    'students': 0,
+                    'default_units': 0,
+                    'total_units': 0
                 })
 
-            for program in accepted_inbounds:
+            for program in deployed_outbounds:
                 for key, college in COLLEGES:
                     if program.student_program.student.college == key:
                         report_item = [item for item in data if item["college"] == college][0]
-                        if not program.student_program.student.is_graduate:
-                            report_item["undergrad_students"] += 1
-                        else:
-                            report_item["graduate_students"] += 1
+                        report_item['default_units'] += program.default_units
+                        report_item['total_units'] += program.total_units_enrolled
+                        report_item['students'] +=1
 
         elif request.GET.get('filter') == "country":
-            for program in accepted_inbounds:
+            for program in deployed_outbounds:
                 for country in Country.objects.all():
                     if program.student_program.student.institution.country.name == country.name:
                         # if country doesnt exist in data
                         if not [item for item in data if item["country"] == country.name]:
                             data.append({
                                 "country": country.name,
-                                "inbound_students": 1
+                                "students": 1,
+                                "default_units": program.default_units,
+                                "total_units": program.total_units_enrolled
                             })
                         else:
                             item = [item for item in data if item["country"] == country.name][0]
-                            item["inbound_students"] += 1
+                            item["default_units"] += program.default_units
+                            item["total_units"] += program.default_units
+                            item["students"] += 1
 
         else:
             return Response(data={
