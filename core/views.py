@@ -204,11 +204,9 @@ class InboundStatisticsReportView(APIView):
 class OutboundUnitsReportView(APIView):
     @staticmethod
     def get(request):
-        if "academic-year" not in request.GET \
-                or "term" not in request.GET \
-                or "filter" not in request.GET:
+        if "academic-year" not in request.GET or "term" not in request.GET:
             return Response(data={
-                "error": "Please specify AY, Term, and filter method"
+                "error": "Please specify AY and Term"
             }, status=400)
         data = []
         academic_year = get_object_or_404(AcademicYear, pk=request.GET.get('academic-year'))
@@ -216,46 +214,22 @@ class OutboundUnitsReportView(APIView):
         report_data = ReportItem.get_data(academic_year, term)
         deployed_outbounds = report_data.get('deployed_outbounds')
 
-        if request.GET.get('filter') == "college":
-            for key, college in COLLEGES:
-                data.append({
-                    'abbreviation': key,
-                    'college': college,
-                    'students': 0,
-                    'default_units': 0,
-                    'total_units': 0
-                })
-
-            for program in deployed_outbounds:
-                for key, college in COLLEGES:
-                    if program.student_program.student.college == key:
-                        report_item = [item for item in data if item["college"] == college][0]
-                        report_item['default_units'] += program.default_units
-                        report_item['total_units'] += program.total_units_enrolled
-                        report_item['students'] +=1
-
-        elif request.GET.get('filter') == "country":
-            for program in deployed_outbounds:
-                for country in Country.objects.all():
-                    if program.student_program.student.institution.country.name == country.name:
-                        # if country doesnt exist in data
-                        if not [item for item in data if item["country"] == country.name]:
-                            data.append({
-                                "country": country.name,
-                                "students": 1,
-                                "default_units": program.default_units,
-                                "total_units": program.total_units_enrolled
-                            })
-                        else:
-                            item = [item for item in data if item["country"] == country.name][0]
-                            item["default_units"] += program.default_units
-                            item["total_units"] += program.default_units
-                            item["students"] += 1
-
-        else:
-            return Response(data={
-                "error": "Please choose between 'college' or 'country'"
-            }, status=400)
+        for program in deployed_outbounds:
+            for institution in Institution.objects.all():
+                if program.student_program.student.institution == institution:
+                    # if country doesnt exist in data
+                    if not [item for item in data if item["institution"] == institution.name]:
+                        data.append({
+                            "institution": institution.name,
+                            "students": 1,
+                            "default_units": program.default_units,
+                            "total_units": program.total_units_enrolled
+                        })
+                    else:
+                        item = [item for item in data if item["institution"] == institution.name][0]
+                        item["default_units"] += program.default_units
+                        item["total_units"] += program.default_units
+                        item["students"] += 1
 
         return Response(data=data, status=200)
 
