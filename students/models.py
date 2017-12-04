@@ -1,4 +1,4 @@
-from django.db.models import Model, BooleanField
+from django.db.models import Model, BooleanField, OneToOneField
 from django.db.models import Q
 
 from core.models import *
@@ -44,6 +44,10 @@ class Student(SoftDeletionModel):
     is_graduate = BooleanField(default=False)
 
     @property
+    def full_name(self):
+        return f"{self.first_name} {self.middle_name} {self.family_name}"
+
+    @property
     def residencies(self):
         return self.residencyaddresshistory_set.filter(archived_at__isnull=True).order_by('-date_effective')
 
@@ -70,11 +74,14 @@ class InboundCourse(SoftDeletionModel):
 
 
 class InboundStudentProgram(SoftDeletionModel):
-    student = ForeignKey(Student)
+    student = OneToOneField(Student)
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(InboundProgram)
     inbound_courses = ManyToManyField(InboundCourse, blank=True)
     application_requirements = ManyToManyField(InboundRequirement, blank=True)
+
+    def __str__(self):
+        return f"{self.student.full_name} - {self.program.program.name}"
 
     @property
     def is_requirements_complete(self):
@@ -94,11 +101,14 @@ class AcceptedStudentProgram(SoftDeletionModel):
     total_units_enrolled = PositiveIntegerField()
 
 
-class OutboundStudentProgram(SoftDeletionModel):
-    student = ForeignKey(Student)
+class OutboundStudentProgram(Model):
+    student = OneToOneField(Student)
     terms_duration = ManyToManyField(Term)
     program = ForeignKey(OutboundProgram)
     application_requirements = ManyToManyField(OutboundRequirement, blank=True)
+
+    def __str__(self):
+        return f"{self.student.full_name} - {self.program.program.name}"
 
     @property
     def is_requirements_complete(self):
