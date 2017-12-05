@@ -141,3 +141,9 @@ class OutboundRequirementSerializer(ModelSerializer):
         model = OutboundRequirement
         fields = "__all__"
 
+
+class InboundRequirementSerializer(ModelSerializer):
+    class Meta:
+        model = InboundRequirement
+        fields = "__all__"
+

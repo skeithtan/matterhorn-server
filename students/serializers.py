@@ -25,7 +25,7 @@ class OutboundStudentProgramSerializer(ModelSerializer):
 
     def create(self, validated_data):
         terms = validated_data.pop('terms_duration')
-        requirements = validated_data.pop('application_requirement')
+        requirements = validated_data.pop('application_requirements')
 
         outbound_student_program = OutboundStudentProgram.objects.create(**validated_data)
 
@@ -39,10 +39,9 @@ class OutboundStudentProgramSerializer(ModelSerializer):
         return outbound_student_program
 
     def update(self, instance, validated_data):
-
-        instance.application_requirement.clear()
-        for requirement in validated_data['application_requirement']:
-            instance.application_requirement.add(requirement)
+        instance.application_requirements.clear()
+        for requirement in validated_data['application_requirements']:
+            instance.application_requirements.add(requirement)
         instance.save()
         return instance
 
@@ -54,17 +53,24 @@ class InboundStudentProgramSerializer(ModelSerializer):
 
     def create(self, validated_data):
         terms = validated_data.pop('terms_duration')
-        courses = validated_data.pop('inbound_courses')
-        inbound_student_program_instance = InboundStudentProgram.objects.create(**validated_data)
+        requirements = validated_data.pop('application_requirements')
+        inbound_student_program = InboundStudentProgram.objects.create(**validated_data)
 
         for term in terms:
-            inbound_student_program_instance.terms_duration.add(term)
+                inbound_student_program.terms_duration.add(term)
+        for requirement in requirements:
+            inbound_student_program.application_requirements.add(requirement)
 
-        for course in courses:
-            inbound_student_program_instance.inbound_courses.add(course)
+            inbound_student_program.save()
+        return inbound_student_program
 
-        inbound_student_program_instance.save()
-        return inbound_student_program_instance
+    def update(self, instance, validated_data):
+        instance.application_requirements.clear()
+        for requirement in validated_data['application_requirements']:
+            instance.application_requirements.add(requirement)
+        print(instance)
+        instance.save()
+        return instance
 
 
 class DeployedStudentProgramSerializer(ModelSerializer):
@@ -74,6 +80,7 @@ class DeployedStudentProgramSerializer(ModelSerializer):
 
     def create(self, validated_data):
         outbound_student_program = OutboundStudentProgram.objects.get(student=self.context['student'])
+        print(f"{outbound_student_program.student.pk} and {outbound_student_program.program}")
         if not outbound_student_program.is_requirements_complete:
             raise ValidationError("Not all requirements have been submitted by student!")
 
@@ -88,18 +95,21 @@ class DeployedStudentProgramSerializer(ModelSerializer):
 class AcceptedStudentProgramSerializer(ModelSerializer):
     class Meta:
         model = AcceptedStudentProgram
-        field = "__all__"
+        fields = "__all__"
 
     def create(self, validated_data):
 
         inbound_student_program = InboundStudentProgram.objects.get(student=self.context['student'])
-
+        courses = validated_data.pop('inbound_courses')
         if not inbound_student_program.is_requirements_complete:
             raise ValidationError("Not all requirements have been submitted by student!")
 
         validated_data["student_program"] = inbound_student_program
         accepted_student = AcceptedStudentProgram.objects.create(**validated_data)
         accepted_student.student_program = inbound_student_program
+
+        for course in courses:
+            accepted_student.inbound_courses.add(course)
         accepted_student.save()
 
         return accepted_student
