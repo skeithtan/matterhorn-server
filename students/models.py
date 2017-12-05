@@ -79,6 +79,15 @@ class InboundStudentProgram(SoftDeletionModel):
     program = ForeignKey(InboundProgram)
     application_requirements = ManyToManyField(InboundRequirement, blank=True)
 
+    @staticmethod
+    def accepted():
+        return [accepted.student_program for accepted in AcceptedStudentProgram.objects.all()]
+
+    @staticmethod
+    def applicants():
+        return [inbound for inbound in InboundStudentProgram.objects.all() if
+                inbound not in InboundStudentProgram.accepted()]
+
     def __str__(self):
         return f"{self.student.full_name} - {self.program.program.name}"
 
@@ -106,6 +115,15 @@ class OutboundStudentProgram(Model):
     program = ForeignKey(OutboundProgram)
     application_requirements = ManyToManyField(OutboundRequirement, blank=True)
 
+    @staticmethod
+    def deployed():
+        return [deployed.student_program for deployed in DeployedStudentProgram.current.all()]
+
+    @staticmethod
+    def applicants():
+        return [outbound for outbound in OutboundStudentProgram.objects.all() if
+                outbound not in OutboundStudentProgram.deployed()]
+
     def __str__(self):
         return f"{self.student.full_name} - {self.program.program.name}"
 
@@ -129,8 +147,4 @@ class DeployedStudentProgram(SoftDeletionModel):
     total_units_enrolled = PositiveIntegerField()
 
     def __str__(self):
-        return f"Term {self.student_program.program.institution}"
-
-
-
-
+        return f"{self.student_program.student.first_name} - {self.student_program.program.program.name}"
