@@ -6,6 +6,10 @@ from graphene import (
     Field,
     Int,
     String, Boolean)
+from students.schema import InboundStudentProgramType, OutboundStudentProgramType
+
+from students.models import AcceptedStudentProgram, DeployedStudentProgram
+
 
 
 class MemorandumType(DjangoObjectType):
@@ -99,6 +103,11 @@ class InboundRequirementType(DjangoObjectType):
 
 class InboundProgramType(DjangoObjectType, Program):
     requirements = List(InboundRequirementType)
+    inbound_student_programs = List(InboundStudentProgramType)
+
+    def resolve_inbound_student_programs(self, info):
+        return [student_program.student_program for student_program in AcceptedStudentProgram.objects.all() if
+                    student_program.student_program.program == self]
 
     def resolve_requirements(self, info):
         return self.inboundrequirements_set.all()
@@ -114,6 +123,11 @@ class OutboundRequirementType(DjangoObjectType):
 
 class OutboundProgramType(DjangoObjectType, Program):
     requirements = List(OutboundRequirementType)
+    outbound_student_programs = List(OutboundStudentProgramType)
+
+    def resolve_outbound_student_programs(self, info):
+        return [student_program.student_program for student_program in DeployedStudentProgram.objects.all() if
+                student_program.student_program.program == self]
 
     def resolve_requirements(self, info):
         return self.outboundrequirement_set.all()

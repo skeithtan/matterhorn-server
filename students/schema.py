@@ -47,7 +47,7 @@ class InboundStudentProgramType(DjangoObjectType):
     requirements = List(Int)
 
     def resolve_requirements(self, info):
-        return [requirement.id for requirement in self.application_requirements.all()]
+        return InboundStudentProgram.accepted().filter()
 
     def resolve_is_requirements_complete(self, info):
         return self.is_requirements_complete
