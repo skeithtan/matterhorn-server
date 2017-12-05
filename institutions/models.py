@@ -133,9 +133,9 @@ class InboundProgram(SoftDeletionModel):
         return f"{self.program.name}"
 
 
-class OutboundRequirement(SoftDeletionModel):
+class OutboundRequirement(Model):
     name = CharField(max_length=64)
 
 
-class InboundRequirement(SoftDeletionModel):
+class InboundRequirement(Model):
     name = CharField(max_length=64)

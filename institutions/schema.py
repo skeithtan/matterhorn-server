@@ -130,6 +130,8 @@ class Query(ObjectType):
     terms = List(TermType, year=Int())
     outbound_programs = List(OutboundProgramType, institution=Int(), year=Int(), term=Int())
     inbound_programs = List(InboundProgramType, year=Int(), term=Int())
+    outbound_requirements = List(OutboundProgramType)
+    inbound_requirements = List(InboundRequirementType)
 
     institution = Field(InstitutionType, id=Int())
     memorandum = Field(MemorandumType, id=Int())
@@ -211,3 +213,9 @@ class Query(ObjectType):
     def resolve_inbound_program(self, info, **kwargs):
         id = kwargs.get('id')
         return InboundProgram.objects.get(pk=id)
+
+    def resolve_inbound_requirements(self, info, **kwargs):
+        return InboundRequirement.objects.all()
+
+    def reolve_outbound_requirement(self, info, **kwargs):
+        return OutboundRequirement.objects.all()
