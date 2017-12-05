@@ -135,7 +135,7 @@ class StudentDistributionReportView(APIView):
         return Response(data=data, status=200)
 
 
-class InboundStatisticsReportView(APIView):
+class GeneralStatisticsReportView(APIView):
     @staticmethod
     def get(request):
         if "academic-year" not in request.GET \
@@ -149,14 +149,17 @@ class InboundStatisticsReportView(APIView):
         term = get_object_or_404(Term, pk=request.GET.get('term'))
         report_data = ReportItem.get_data(academic_year, term)
         accepted_inbounds = report_data.get('accepted_inbounds')
+        deployed_outbounds = report_data.get('deployed_outbounds')
 
         if request.GET.get('filter') == "college":
             for key, college in COLLEGES:
                 data.append({
                     'abbreviation': key,
                     'college': college,
-                    'undergrad_students': 0,
-                    'graduate_students': 0
+                    'inbound_undergrad_students': 0,
+                    'inbound_graduate_students': 0,
+                    'outbound_undergrad_students': 0,
+                    'outbound_graduate_students': 0,
                 })
 
             for program in accepted_inbounds:
@@ -164,9 +167,17 @@ class InboundStatisticsReportView(APIView):
                     if program.student_program.student.college == key:
                         report_item = [item for item in data if item["college"] == college][0]
                         if not program.student_program.student.is_graduate:
-                            report_item["undergrad_students"] += 1
+                            report_item["inbound_undergrad_students"] += 1
                         else:
-                            report_item["graduate_students"] += 1
+                            report_item["inbound_graduate_students"] += 1
+            for program in deployed_outbounds:
+                for key, college in COLLEGES:
+                    if program.student_program.student.college == key:
+                        report_item = [item for item in data if item["college"] == college][0]
+                        if not program.student_program.student.is_graduate:
+                            report_item["outbound_undergrad_students"] += 1
+                        else:
+                            report_item["outbound_graduate_students"] += 1
 
         elif request.GET.get('filter') == "country":
             for program in accepted_inbounds:
@@ -177,21 +188,55 @@ class InboundStatisticsReportView(APIView):
                             if not program.student_program.student.is_graduate:
                                 data.append({
                                     "country": country.name,
-                                    "undergrad_students": 1,
-                                    "graduate_students": 0
+                                    'inbound_undergrad_students': 1,
+                                    'inbound_graduate_students': 0,
+                                    'outbound_undergrad_students': 0,
+                                    'outbound_graduate_students': 0,
                                 })
                             else:
                                 data.append({
                                     "country": country.name,
-                                    "undergrad_students": 0,
-                                    "graduate_students": 1
+                                    'inbound_undergrad_students': 0,
+                                    'inbound_graduate_students': 1,
+                                    'outbound_undergrad_students': 0,
+                                    'outbound_graduate_students': 0,
                                 })
                         else:
                             item = [item for item in data if item["country"] == country.name][0]
                             if not program.student_program.student.is_graduate:
-                                item["undergrad_students"] += 1
+                                item["inbound_undergrad_students"] += 1
                             else:
-                                item["graduate_students"] += 1
+                                item["inbound_graduate_students"] += 1
+
+                                # outbound
+            for program in deployed_outbounds:
+                for country in Country.objects.all():
+                    if program.student_program.student.institution.country.name == country.name:
+                        # if country doesnt exist in data
+                        if not [item for item in data if item["country"] == country.name]:
+                            if not program.student_program.student.is_graduate:
+                                data.append({
+                                    "country": country.name,
+                                    'inbound_undergrad_students': 0,
+                                    'inbound_graduate_students': 0,
+                                    'outbound_undergrad_students': 1,
+                                    'outbound_graduate_students': 0,
+                                })
+                            else:
+                                data.append({
+                                    "country": country.name,
+                                    'inbound_undergrad_students': 0,
+                                    'inbound_graduate_students': 0,
+                                    'outbound_undergrad_students': 0,
+                                    'outbound_graduate_students': 1,
+                                })
+                        else:
+                            item = [item for item in data if item["country"] == country.name][0]
+                            if not program.student_program.student.is_graduate:
+                                item["outbound_undergrad_students"] += 1
+                            else:
+                                item["outbound_graduate_students"] += 1
+
 
         else:
             return Response(data={
