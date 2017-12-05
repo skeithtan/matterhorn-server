@@ -217,5 +217,5 @@ class Query(ObjectType):
     def resolve_inbound_requirements(self, info, **kwargs):
         return InboundRequirement.objects.all()
 
-    def reolve_outbound_requirement(self, info, **kwargs):
+    def resolve_outbound_requirements(self, info, **kwargs):
         return OutboundRequirement.objects.all()
