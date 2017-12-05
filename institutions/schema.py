@@ -130,7 +130,7 @@ class Query(ObjectType):
     terms = List(TermType, year=Int())
     outbound_programs = List(OutboundProgramType, institution=Int(), year=Int(), term=Int())
     inbound_programs = List(InboundProgramType, year=Int(), term=Int())
-    outbound_requirements = List(OutboundProgramType)
+    outbound_requirements = List(OutboundRequirementType)
     inbound_requirements = List(InboundRequirementType)
 
     institution = Field(InstitutionType, id=Int())
