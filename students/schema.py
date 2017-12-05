@@ -32,7 +32,7 @@ class OutboundStudentProgramType(DjangoObjectType):
     is_requirements_complete = Boolean()
     requirements = List(Int)
 
-    def resolve_requirements(self):
+    def resolve_requirements(self, info):
         return [requirement.id for requirement in self.application_requirements.all()]
 
     def resolve_is_requirements_complete(self, info):
@@ -46,7 +46,7 @@ class InboundStudentProgramType(DjangoObjectType):
     is_requirements_complete = Boolean()
     requirements = List(Int)
 
-    def resolve_requirements(self):
+    def resolve_requirements(self, info):
         return [requirement.id for requirement in self.application_requirements.all()]
 
     def resolve_is_requirements_complete(self, info):
@@ -61,6 +61,9 @@ class Query(ObjectType):
     resident_address_histories = List(ResidencyAddressHistoryType, student=Int())
     outbound_student_programs = List(OutboundStudentProgramType, deployed=Boolean())
     inbound_student_programs = List(InboundStudentProgramType, accepted=Boolean())
+
+    outbound_student_program = Field(OutboundStudentProgramType, id=Int())
+    inbound_student_program = Field(InboundStudentProgramType, id=Int())
 
     student = Field(StudentType, id=Int())
     resident_address_history = Field(ResidencyAddressHistoryType, id=Int())
@@ -94,3 +97,11 @@ class Query(ObjectType):
     def resolve_inbound_student_programs(self, info, **kwargs):
         accepted = kwargs.get('accepted', False)
         return InboundStudentProgram.accepted() if accepted else InboundStudentProgram.applicants()
+
+    def resolve_outbound_student_program(self, info, **kwargs):
+        id = kwargs.get('id')
+        return OutboundStudentProgram.objects.get(id=id)
+
+    def resolve_inbound_student_program(self, info, **kwargs):
+        id = kwargs.get('id')
+        return InboundStudentProgram.objects.get(id=id)
