@@ -11,7 +11,6 @@ from students.schema import InboundStudentProgramType, OutboundStudentProgramTyp
 from students.models import AcceptedStudentProgram, DeployedStudentProgram
 
 
-
 class MemorandumType(DjangoObjectType):
     linkages = List(String)
 
@@ -107,7 +106,7 @@ class InboundProgramType(DjangoObjectType, Program):
 
     def resolve_inbound_student_programs(self, info):
         return [student_program.student_program for student_program in AcceptedStudentProgram.objects.all() if
-                    student_program.student_program.program == self]
+                student_program.student_program.program == self]
 
     def resolve_requirements(self, info):
         return self.inboundrequirements_set.all()
