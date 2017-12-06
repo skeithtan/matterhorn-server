@@ -119,7 +119,6 @@ class Program(SoftDeletionModel):
 
 class OutboundProgram(SoftDeletionModel):
     program = ForeignKey(Program)
-    requirement_deadline = DateField()
     institution = ForeignKey(Institution)
 
     def __str__(self):
