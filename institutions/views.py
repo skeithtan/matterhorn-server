@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
-from core.mixins import MasterGenericAPIViewMixin, SharedReadOnlyMixin
+from core.mixins import MasterGenericAPIViewMixin, SharedReadOnlyMixin, RetrieveUpdateDestroyAPIView
 from institutions.serializers import *
 from institutions.models import *
 from django.contrib.auth.models import Permission
@@ -162,9 +162,20 @@ class OutboundRequirementListCreateView(MasterGenericAPIViewMixin):
     codename = 'crud_student'
 
 
+class OutboundRequirementRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = OutboundRequirement.objects.all()
+    serializer_class = OutboundRequirementSerializer
+
+
 class InboundRequirementListCreateView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated,)
     queryset = InboundRequirement.objects.all()
     serializer_class = InboundRequirementSerializer
     codename = 'crud_student'
 
+
+class InboundRequirementRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = InboundRequirement.objects.all()
+    serializer_class = InboundRequirementSerializer
