@@ -50,10 +50,15 @@ class SignInView(APIView):
             token = Token.objects.create(user=user)
 
         print(token.user, user)
+        try:
+            user_type = user.groups.all()[0].name
+        except:
+            user_type = 'Not Set'
 
         return Response(data={
             "token": token.key,
-            "username": username
+            "username": username,
+            "user_type": user_type
         }, status=200)
 
 
