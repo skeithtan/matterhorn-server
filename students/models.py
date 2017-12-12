@@ -79,14 +79,17 @@ class InboundStudentProgram(SoftDeletionModel):
     program = ForeignKey(InboundProgram)
     application_requirements = ManyToManyField(InboundRequirement, blank=True)
 
+    def delete(self, using=None, keep_parents=False):
+        self.student.delete()
+
     @staticmethod
     def accepted():
         return [accepted.student_program for accepted in AcceptedStudentProgram.objects.all()]
 
     @staticmethod
     def applicants():
-        return [inbound for inbound in InboundStudentProgram.objects.all() if
-                inbound not in InboundStudentProgram.accepted()]
+        return [inbound for inbound in InboundStudentProgram.current.all() if
+                inbound not in InboundStudentProgram.accepted() and inbound.student.archived_at is None]
 
     def __str__(self):
         return f"{self.student.full_name} - {self.program.program.name}"
@@ -115,6 +118,9 @@ class OutboundStudentProgram(Model):
     program = ForeignKey(OutboundProgram)
     application_requirements = ManyToManyField(OutboundRequirement, blank=True)
 
+    def delete(self, using=None, keep_parents=False):
+        self.student.delete()
+
     @staticmethod
     def deployed():
         return [deployed.student_program for deployed in DeployedStudentProgram.current.all()]
@@ -122,7 +128,7 @@ class OutboundStudentProgram(Model):
     @staticmethod
     def applicants():
         return [outbound for outbound in OutboundStudentProgram.objects.all() if
-                outbound not in OutboundStudentProgram.deployed()]
+                outbound not in OutboundStudentProgram.deployed() and outbound.student.archived_at is None]
 
     def __str__(self):
         return f"{self.student.full_name} - {self.program.program.name}"

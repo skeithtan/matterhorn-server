@@ -49,7 +49,6 @@ class SignInView(APIView):
         else:
             token = Token.objects.create(user=user)
 
-        print(token.user, user)
         try:
             user_type = user.groups.all()[0].name
         except:

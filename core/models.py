@@ -1,4 +1,5 @@
 from django.db.models import Model, DateTimeField, Manager, QuerySet, CharField
+from django.db.models.deletion import Collector
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -69,6 +70,8 @@ class SoftDeletionModel(Model):
 
     def hard_delete(self):
         super(SoftDeletionModel, self).delete()
+
+    delete.alters_data = True
 
     def undelete(self):
         self.archived_at = None

@@ -1,3 +1,5 @@
+from requests import Response
+from rest_framework import status
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
 
@@ -83,6 +85,13 @@ class InboundStudentProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin):
         student = self.kwargs['pk']
         return super().get_queryset().filter(id=student)
 
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.modified_delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
 
 class OutboundStudentProgramListCreateView(MasterGenericAPIViewMixin):
     permission_classes = (IsAuthenticated, )
@@ -105,6 +114,11 @@ class OutboundStudentProgramRetrieveUpdateDestroyView(MasterGenericAPIViewMixin)
     def get_queryset(self):
         student = self.kwargs['pk']
         return super().get_queryset().filter(id=student)
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.modified_delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class DeployedStudentProgramListCreateView(MasterGenericAPIViewMixin):
